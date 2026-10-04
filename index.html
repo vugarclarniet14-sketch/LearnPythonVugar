@@ -18,8 +18,8 @@
 </head>
 <body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-300" onload="brython()">
 
-    <!-- ⚙️ AYARLAR VƏ PROFİL MENYUSU (Yuxarı Sağ Künc) -->
-    <div class="fixed top-4 right-4 z-50 flex items-center gap-3">
+    <!-- ⚙️️ YUXARI SAĞ KÜNC: PROFİL VƏ AYARLAR DÜYMƏSİ -->
+    <div class="fixed top-4 right-4 z-40 flex items-center gap-3">
         
         <!-- İstifadəçi Profili və Şəkil Dəyişmə Hissəsi -->
         <div id="user-profile-badge" class="hidden items-center gap-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-1.5 rounded-2xl shadow-sm">
@@ -31,17 +31,25 @@
             <span id="user-display-name" onclick="editName()" class="text-xs font-semibold max-w-[100px] truncate cursor-pointer hover:underline" title="Adı dəyişmək üçün kliklə">İstifadəçi</span>
         </div>
 
-        <button onclick="toggleSettingsMenu()" class="p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-base shadow-sm cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+        <button onclick="toggleSettingsDrawer(true)" class="p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-base shadow-sm cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700 transition">
             ⚙️
         </button>
+    </div>
 
-        <div id="settings-dropdown" class="hidden absolute right-0 top-12 w-56 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-xl p-4 flex flex-col gap-3">
-            <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400">Tənzimləmələr</h3>
-            
+    <!-- YAN TƏRƏFDƏN AÇILAN AYARLAR PANELİ (DRAWER) -->
+    <div id="settings-backdrop" onclick="toggleSettingsDrawer(false)" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 hidden transition-opacity duration-300"></div>
+    
+    <div id="settings-drawer" class="fixed top-0 right-0 h-full w-80 bg-white dark:bg-slate-800 border-l border-slate-200 dark:border-slate-700 shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col p-6">
+        <div class="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-700 mb-6">
+            <h3 class="text-base font-bold flex items-center gap-2">⚙️ Tənzimləmələr</h3>
+            <button onclick="toggleSettingsDrawer(false)" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition">✕</button>
+        </div>
+
+        <div class="flex flex-col gap-6 flex-1">
             <!-- Dil Seçimi -->
-            <div class="flex flex-col gap-1">
-                <label class="text-xs font-medium text-slate-600 dark:text-slate-300">Dil / Language</label>
-                <select id="customLanguageSelect" onchange="changeLanguage(this.value)" class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm shadow-sm cursor-pointer focus:outline-none">
+            <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-medium text-slate-500 dark:text-slate-400">Dil / Language</label>
+                <select id="customLanguageSelect" onchange="changeLanguage(this.value)" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm shadow-sm cursor-pointer focus:outline-none">
                     <option value="">🌐 Select Language</option>
                     <option value="en-UK">🇬🇧 English (UK)</option>
                     <option value="en-US">🇺🇸 English (US)</option>
@@ -56,15 +64,17 @@
             </div>
 
             <!-- Tema (Dark/Light Mode) -->
-            <div class="flex flex-col gap-1">
-                <label class="text-xs font-medium text-slate-600 dark:text-slate-300">Görünüş</label>
-                <button onclick="toggleDarkMode()" class="w-full flex items-center justify-between px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm shadow-sm cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+            <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-medium text-slate-500 dark:text-slate-400">Görünüş Rejimi</label>
+                <button onclick="toggleDarkMode()" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm shadow-sm cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700/50 transition">
                     <span id="theme-label">Qaranlıq Rejim</span>
                     <span>🌓</span>
                 </button>
             </div>
+        </div>
 
-            <button onclick="handleLogout()" class="w-full text-left px-3 py-2 text-xs font-semibold text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 rounded-lg transition cursor-pointer">Çıxış Et 🚪</button>
+        <div class="pt-4 border-t border-slate-200 dark:border-slate-700">
+            <button onclick="handleLogout()" class="w-full text-center px-4 py-2.5 text-xs font-semibold text-rose-500 bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/30 dark:hover:bg-rose-900/50 rounded-xl transition cursor-pointer">Hesabdan Çıxış Et 🚪</button>
         </div>
     </div>
 
@@ -72,7 +82,7 @@
     <div id="google_translate_element" style="display: none;"></div>
 
     <!-- HEADER / NAVBAR -->
-    <header class="border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur sticky top-0 z-40 px-6 py-4 flex justify-between items-center">
+    <header class="border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur sticky top-0 z-30 px-6 py-4 flex justify-between items-center">
         <div class="flex items-center gap-3">
             <h1 class="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">PythonPro</h1>
             <span id="progress-text" class="text-xs bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 px-2.5 py-1 rounded-full font-medium">İrəliləyiş: 0%</span>
@@ -127,7 +137,7 @@
         </section>
     </main>
 
-    <!-- AUTHENTICATION OVERLAY (Giriş Qapısı - Gmail və Şifrə ilə) -->
+    <!-- AUTHENTICATION OVERLAY (Yalnız ilk dəfə giriş üçündür) -->
     <div id="auth-overlay" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-white dark:bg-slate-800 p-8 rounded-2xl max-w-md w-full border border-slate-200 dark:border-slate-700 shadow-2xl text-center">
             <h2 class="text-2xl font-bold mb-2">PythonPro</h2>
@@ -165,19 +175,18 @@
     </script>
 
     <script>
-        // Ayarlar menyusunu aç/bağla
-        function toggleSettingsMenu() {
-            const dropdown = document.getElementById('settings-dropdown');
-            dropdown.classList.toggle('hidden');
-        }
-
-        window.addEventListener('click', function(e) {
-            const settingsBtn = document.querySelector('button[onclick="toggleSettingsMenu()"]');
-            const dropdown = document.getElementById('settings-dropdown');
-            if (!settingsBtn.contains(e.target) && !dropdown.contains(e.target)) {
-                dropdown.classList.add('hidden');
+        // Yan panelin (Drawer) açılıb-bağlanması
+        function toggleSettingsDrawer(open) {
+            const drawer = document.getElementById('settings-drawer');
+            const backdrop = document.getElementById('settings-backdrop');
+            if (open) {
+                backdrop.classList.remove('hidden');
+                setTimeout(() => drawer.classList.remove('translate-x-full'), 10);
+            } else {
+                drawer.classList.add('translate-x-full');
+                setTimeout(() => backdrop.classList.add('hidden'), 300);
             }
-        });
+        }
 
         // Dark / Light Mode Toggle
         function toggleDarkMode() {
@@ -288,7 +297,6 @@
                 return;
             }
             
-            // Gmail adını avtomatik olaraq profil adı kimi götürürük
             const userName = email; 
             const avatarUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(email)}`;
             
@@ -342,7 +350,7 @@
             location.reload();
         }
 
-        // Səhifə hər açıldıqda Giriş Pəncərəsi (Sign In) çıxır
+        // Səhifə hər açıldıqda yoxlanılır: əgər əvvəlcədən daxil olubsa, girişi yenidən soruşmur
         window.addEventListener('DOMContentLoaded', () => {
             const isLoggedIn = localStorage.getItem('is_logged_in');
             if (isLoggedIn === 'true') {
