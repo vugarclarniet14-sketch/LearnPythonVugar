@@ -18,25 +18,43 @@
 </head>
 <body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-300" onload="brython()">
 
-    <!-- 🌐 DİL SEÇİMİ MENYUSU (Yuxarı Sağ Künc) -->
-    <div class="fixed top-4 right-4 z-50 flex items-center gap-2">
-        <select id="customLanguageSelect" onchange="changeLanguage(this.value)" class="px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm shadow-sm cursor-pointer focus:outline-none">
-            <option value="">🌐 Language</option>
-            <option value="en-UK">🇬🇧 English (UK)</option>
-            <option value="en-US">🇺🇸 English (US)</option>
-            <option value="tr">🇹🇷 Türkçe</option>
-            <option value="ru">🇷🇺 Русский</option>
-            <option value="fr">🇫🇷 Français</option>
-            <option value="es">🇪🇸 Español</option>
-            <option value="de">🇩🇪 Deutsch</option>
-            <option value="zh-CN">🇨🇳 中文</option>
-            <option value="ar">🇸🇦 العربية</option>
-        </select>
-        
-        <!-- Dark/Light Mode Toggle -->
-        <button onclick="toggleDarkMode()" class="p-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm shadow-sm cursor-pointer">
-            🌓
+    <!-- ⚙️ AYARLAR MENYUSU (Yuxarı Sağ Künc) -->
+    <div class="fixed top-4 right-4 z-50 relative">
+        <!-- Ayarlar Düyməsi (⚙️) -->
+        <button onclick="toggleSettingsMenu()" class="p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-base shadow-sm cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+            ⚙️
         </button>
+
+        <!-- Açılan Ayarlar Paneli -->
+        <div id="settings-dropdown" class="hidden absolute right-0 mt-2 w-56 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-xl p-4 flex flex-col gap-3">
+            <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400">Tənzimləmələr</h3>
+            
+            <!-- Dil Seçimi -->
+            <div class="flex flex-col gap-1">
+                <label class="text-xs font-medium text-slate-600 dark:text-slate-300">Dil / Language</label>
+                <select id="customLanguageSelect" onchange="changeLanguage(this.value)" class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm shadow-sm cursor-pointer focus:outline-none">
+                    <option value="">🌐 Select Language</option>
+                    <option value="en-UK">🇬🇧 English (UK)</option>
+                    <option value="en-US">🇺🇸 English (US)</option>
+                    <option value="tr">🇹🇷 Türkçe</option>
+                    <option value="ru">🇷🇺 Русский</option>
+                    <option value="fr">🇫🇷 Français</option>
+                    <option value="es">🇪🇸 Español</option>
+                    <option value="de">🇩🇪 Deutsch</option>
+                    <option value="zh-CN">🇨🇳 中文</option>
+                    <option value="ar">🇸🇦 العربية</option>
+                </select>
+            </div>
+
+            <!-- Tema (Dark/Light Mode) -->
+            <div class="flex flex-col gap-1">
+                <label class="text-xs font-medium text-slate-600 dark:text-slate-300">Görünüş</label>
+                <button onclick="toggleDarkMode()" class="w-full flex items-center justify-between px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm shadow-sm cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                    <span id="theme-label">Qaranlıq Rejim</span>
+                    <span>🌓</span>
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- Gizli Google Translate Elementi -->
@@ -118,7 +136,6 @@
             output_element = document["output"]
             output_element.text = ""
             
-            # Python print funksiyasını brauzer ekranına yönləndiririk
             class OutputWriter:
                 def write(self, text):
                     output_element.text += text
@@ -134,23 +151,42 @@
     </script>
 
     <script>
+        // Ayarlar menyusunu aç/bağla
+        function toggleSettingsMenu() {
+            const dropdown = document.getElementById('settings-dropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
+        // Ekranın hər hansı yerinə kliklədikdə menyunu bağlamaq üçün
+        window.addEventListener('click', function(e) {
+            const settingsBtn = document.querySelector('button[onclick="toggleSettingsMenu()"]');
+            const dropdown = document.getElementById('settings-dropdown');
+            if (!settingsBtn.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.classList.add('hidden');
+            }
+        });
+
         // Dark / Light Mode Toggle
         function toggleDarkMode() {
             const html = document.documentElement;
+            const themeLabel = document.getElementById('theme-label');
             if (html.classList.contains('dark')) {
                 html.classList.remove('dark');
                 localStorage.setItem('theme', 'light');
+                themeLabel.innerText = 'Qaranlıq Rejim';
             } else {
                 html.classList.add('dark');
                 localStorage.setItem('theme', 'dark');
+                themeLabel.innerText = 'İşıqlı Rejim';
             }
         }
 
         if (localStorage.getItem('theme') === 'dark') {
             document.documentElement.classList.add('dark');
+            document.getElementById('theme-label').innerText = 'İşıqlı Rejim';
         }
 
-        // 20 Dərs Verilənlər Bazası (Nümunə)
+        // 20 Dərs Verilənlər Bazası
         const lessons = Array.from({ length: 20 }, (_, i) => ({
             id: i + 1,
             title: `Dərs ${i + 1}: Python Əsasları`,
@@ -187,7 +223,6 @@
             document.getElementById('lesson-title').innerText = lesson.title;
             document.getElementById('lesson-content').innerText = lesson.content;
             
-            // Quiz
             const quizContainer = document.getElementById('quiz-container');
             quizContainer.classList.remove('hidden');
             document.getElementById('quiz-question').innerText = lesson.quiz.question;
