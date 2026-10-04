@@ -115,7 +115,7 @@
         </section>
     </main>
 
-    <!-- AUTHENTICATION OVERLAY (Giriş Qapısı - Ad daxil etməklə) -->
+    <!-- AUTHENTICATION OVERLAY (Giriş Qapısı - Həmişə ilk açılışda gəlir) -->
     <div id="auth-overlay" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-white dark:bg-slate-800 p-8 rounded-2xl max-w-md w-full border border-slate-200 dark:border-slate-700 shadow-2xl text-center">
             <h2 class="text-2xl font-bold mb-2">PythonPro-ya Xoş Gəlmisiniz</h2>
@@ -272,43 +272,18 @@
             document.getElementById('auth-status').innerText = `${userName} (Aktiv)`;
             
             localStorage.setItem('user_name', userName);
-            localStorage.setItem('is_logged_in', 'true');
             
             renderLessons();
             selectLesson(1);
         }
 
-        function checkAuthStatus() {
-            if (localStorage.getItem('is_logged_in') === 'true') {
-                document.getElementById('auth-overlay').style.display = 'none';
-                const savedName = localStorage.getItem('user_name') || 'İstifadəçi';
-                document.getElementById('auth-status').innerText = `${savedName} (Aktiv)`;
-                renderLessons();
-                selectLesson(1);
-            }
-        }
-
-        // Google Translate & Language Change Logic
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({
-                pageLanguage: 'az',
-                includedLanguages: 'en,tr,ru,fr,es,de,zh-CN,ar',
-                autoDisplay: false
-            }, 'google_translate_element');
-        }
-
-        function changeLanguage(langCode) {
-            if (!langCode) return;
-            var targetLang = langCode.startsWith('en') ? 'en' : langCode;
-            var selectElement = document.querySelector('.goog-te-combo');
-            if (selectElement) {
-                selectElement.value = targetLang;
-                selectElement.dispatchEvent(new Event('change'));
-            }
-        }
-
+        // Hər dəfə səhifə açılanda Giriş pəncərəsi məcburi çıxır
         window.addEventListener('DOMContentLoaded', () => {
-            checkAuthStatus();
+            const overlay = document.getElementById('auth-overlay');
+            overlay.style.display = 'flex';
+            document.getElementById('auth-status').innerText = "Giriş gözlənilir...";
+            renderLessons();
+            selectLesson(1);
         });
     </script>
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
