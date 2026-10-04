@@ -18,13 +18,24 @@
 </head>
 <body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-300" onload="brython()">
 
-    <!-- ⚙️ AYARLAR MENYUSU (Yuxarı Sağ Künc) -->
-    <div class="fixed top-4 right-4 z-50">
+    <!-- ⚙️️ AYARLAR VƏ PROFİL MENYUSU (Yuxarı Sağ Künc) -->
+    <div class="fixed top-4 right-4 z-50 flex items-center gap-3">
+        
+        <!-- İstifadəçi Profili və Şəkil Dəyişmə Hissəsi -->
+        <div id="user-profile-badge" class="hidden items-center gap-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-1.5 rounded-2xl shadow-sm">
+            <label for="avatar-input" class="cursor-pointer relative group" title="Profil şəklini dəyiş">
+                <img id="user-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Default" alt="Avatar" class="w-8 h-8 rounded-full object-cover border border-blue-500">
+                <div class="absolute inset-0 bg-black/40 rounded-full opacity-0 group-hover:opacity-100 flex items-center justify-center text-[10px] text-white transition">📷</div>
+            </label>
+            <input type="file" id="avatar-input" accept="image/*" class="hidden" onchange="updateAvatar(event)">
+            <span id="user-display-name" class="text-xs font-semibold max-w-[100px] truncate">İstifadəçi</span>
+        </div>
+
         <button onclick="toggleSettingsMenu()" class="p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-base shadow-sm cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700 transition">
             ⚙️
         </button>
 
-        <div id="settings-dropdown" class="hidden absolute right-0 mt-2 w-56 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-xl p-4 flex flex-col gap-3">
+        <div id="settings-dropdown" class="hidden absolute right-0 top-12 w-56 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-xl p-4 flex flex-col gap-3">
             <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400">Tənzimləmələr</h3>
             
             <!-- Dil Seçimi -->
@@ -52,6 +63,8 @@
                     <span>🌓</span>
                 </button>
             </div>
+
+            <button onclick="handleLogout()" class="w-full text-left px-3 py-2 text-xs font-semibold text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 rounded-lg transition cursor-pointer">Çıxış Et 🚪</button>
         </div>
     </div>
 
@@ -64,7 +77,6 @@
             <h1 class="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">PythonPro</h1>
             <span id="progress-text" class="text-xs bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 px-2.5 py-1 rounded-full font-medium">İrəliləyiş: 0%</span>
         </div>
-        <div id="auth-status" class="text-sm font-medium text-slate-500">Giriş gözlənilir...</div>
     </header>
 
     <!-- MAIN CONTAINER -->
@@ -74,7 +86,7 @@
         <section class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col h-[600px]">
             <h2 class="font-semibold text-lg mb-4">Dərslər (20 Dərs)</h2>
             <div id="lesson-list" class="overflow-y-auto flex-1 space-y-2 pr-2">
-                <!-- Dərs elementləri JavaScript vasitəsilə buraya yüklənəcək -->
+                <!-- Dərs elementləri -->
             </div>
         </section>
 
@@ -119,9 +131,22 @@
     <div id="auth-overlay" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-white dark:bg-slate-800 p-8 rounded-2xl max-w-md w-full border border-slate-200 dark:border-slate-700 shadow-2xl text-center">
             <h2 class="text-2xl font-bold mb-2">PythonPro-ya Xoş Gəlmisiniz</h2>
-            <p class="text-slate-500 dark:text-slate-400 text-sm mb-6">Dərslərə başlamaq üçün adınızı daxil edin:</p>
-            <input type="text" id="username-input" placeholder="Məsələn: Vüqar, Əli..." class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm mb-4 focus:outline-none">
-            <button onclick="handleLogin()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl transition cursor-pointer shadow-md">Daxil Ol</button>
+            <p class="text-slate-500 dark:text-slate-400 text-sm mb-6">Dərslərə başlamaq üçün giriş edin və ya adınızı daxil edin:</p>
+            
+            <!-- Google Sign-In Düyməsi -->
+            <button onclick="handleGoogleLogin()" class="w-full flex items-center justify-center gap-3 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 font-medium py-3 rounded-xl transition cursor-pointer shadow-sm hover:bg-slate-50 mb-4 text-sm">
+                <svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c-.07-.7-.63-1.27-1.345-1.27H12v4.56h6.58c-.29 1.52-1.55 4.14-4.58 4.14-2.76 0-5-2.24-5-5s2.24-5 5-5c1.32 0 2.49.49 3.39 1.3l3.41-3.41C19.98 6.42 16.24 5 12 5 6.48 5 2 9.48 2 15s4.48 10 10 10c5.79 0 9.63-4.07 9.63-9.82 0-.31-.03-.62-.07-.91z"/></svg>
+                Google ilə Giriş Et (Sign In)
+            </button>
+
+            <div class="relative flex py-2 items-center">
+                <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
+                <span class="flex-shrink mx-4 text-xs text-slate-400 uppercase">və ya adla</span>
+                <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
+            </div>
+
+            <input type="text" id="username-input" placeholder="Adınızı daxil edin (Məs: Vüqar)" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm my-4 focus:outline-none">
+            <button onclick="handleManualLogin()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl transition cursor-pointer shadow-md">Daxil Ol</button>
         </div>
     </div>
 
@@ -264,24 +289,66 @@
             document.getElementById('progress-text').innerText = `İrəliləyiş: ${percent}%`;
         }
 
-        function handleLogin() {
+        function handleGoogleLogin() {
+            // Google ilə giriş simulyasiyası (e-poçt və ad)
+            const googleAccounts = [
+                { name: "vugar.mammadov@gmail.com", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=VugarGmail" },
+                { name: "python.student@gmail.com", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Student" }
+            ];
+            const acc = googleAccounts[Math.floor(Math.random() * googleAccounts.length)];
+            completeLogin(acc.name, acc.avatar);
+        }
+
+        function handleManualLogin() {
             const inputVal = document.getElementById('username-input').value.trim();
             const userName = inputVal ? inputVal : 'İstifadəçi';
-            
+            const avatarUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(userName)}`;
+            completeLogin(userName, avatarUrl);
+        }
+
+        function completeLogin(name, avatar) {
             document.getElementById('auth-overlay').style.display = 'none';
-            document.getElementById('auth-status').innerText = `${userName} (Aktiv)`;
+            document.getElementById('user-profile-badge').classList.remove('hidden');
+            document.getElementById('user-profile-badge').classList.add('flex');
             
-            localStorage.setItem('user_name', userName);
+            document.getElementById('user-display-name').innerText = name;
+            document.getElementById('user-avatar').src = avatar;
+            
+            localStorage.setItem('user_name', name);
+            localStorage.setItem('user_avatar', avatar);
+            localStorage.setItem('is_logged_in', 'true');
             
             renderLessons();
             selectLesson(1);
         }
 
-        // Hər dəfə səhifə açılanda Giriş pəncərəsi məcburi çıxır
+        // İstifadəçi öz kompüterindən profil şəkli seçdikdə
+        function updateAvatar(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const base64Image = e.target.result;
+                    document.getElementById('user-avatar').src = base64Image;
+                    localStorage.setItem('user_avatar', base64Image);
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('is_logged_in');
+            localStorage.removeItem('user_name');
+            localStorage.removeItem('user_avatar');
+            location.reload();
+        }
+
+        // Səhifə hər dəfə yenilənəndə əvvəlcə Giriş Pəncərəsi (Sign In) çıxır
         window.addEventListener('DOMContentLoaded', () => {
             const overlay = document.getElementById('auth-overlay');
             overlay.style.display = 'flex';
-            document.getElementById('auth-status').innerText = "Giriş gözlənilir...";
+            document.getElementById('user-profile-badge').classList.remove('flex');
+            document.getElementById('user-profile-badge').classList.add('hidden');
             renderLessons();
             selectLesson(1);
         });
