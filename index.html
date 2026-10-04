@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="az" class="dark">
 <head>
@@ -32,8 +33,9 @@
 
             <!-- User Auth Status -->
             <div id="auth-section">
-                <button onclick="openAuthModal()" class="bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs transition">
-                    <i class="fa-solid fa-user mr-1.5"></i> Giriş / Qeydiyyat
+                <button id="auth-btn" onclick="openAuthModal()" class="bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold px-4 py-2 rounded-lg text-xs transition flex items-center space-x-2">
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                    <span id="auth-btn-text">Giriş / Qeydiyyat</span>
                 </button>
             </div>
 
@@ -48,94 +50,117 @@
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-4 p-4 max-w-7xl mx-auto w-full">
+    <!-- Main Content Container with Auth Lock -->
+    <div class="relative flex-1 flex flex-col">
         
-        <!-- Sidebar / Lesson List -->
-        <aside class="lg:col-span-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 flex flex-col max-h-[85vh] overflow-y-auto">
-            <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Dərs Proqramı (20 Dərs)</h2>
-            <nav id="lesson-list" class="space-y-1.5 flex-1">
-                <!-- Lessons injected by JS -->
-            </nav>
-            <div class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-800">
-                <div class="flex justify-between text-xs text-slate-500 dark:text-slate-400 mb-1">
-                    <span>Ümumi İrəliləyiş</span>
-                    <span id="progress-percent">5%</span>
+        <!-- Auth Lock Overlay (Giriş edilməyibsə üzərini örtür) -->
+        <div id="lock-overlay" class="absolute inset-0 z-40 bg-slate-950/60 backdrop-blur-md flex flex-col items-center justify-center text-center p-6 transition-all duration-300">
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-8 rounded-2xl max-w-md shadow-2xl flex flex-col items-center">
+                <div class="w-16 h-16 bg-yellow-500/10 text-yellow-500 rounded-full flex items-center justify-center mb-4 text-2xl border border-yellow-500/20">
+                    <i class="fa-solid fa-lock"></i>
                 </div>
-                <div class="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-2">
-                    <div id="progress-bar" class="bg-yellow-500 h-2 rounded-full transition-all duration-300" style="width: 5%"></div>
-                </div>
-            </div>
-        </aside>
-
-        <!-- Lesson View -->
-        <section class="lg:col-span-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 flex flex-col justify-between overflow-y-auto max-h-[85vh]">
-            <div>
-                <span id="lesson-badge" class="inline-block bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 text-xs font-semibold px-2.5 py-1 rounded-md mb-3 border border-yellow-500/20">Dərs 1</span>
-                <h1 id="lesson-title" class="text-2xl font-bold mb-3 text-slate-800 dark:text-slate-50">Giriş və Print</h1>
-                <p id="lesson-desc" class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-4">
-                    Python-da ekrana hər hansı mətn çıxarmaq üçün print() funksiyasından istifadə olunur.
+                <h3 class="text-xl font-bold text-slate-900 dark:text-slate-100 mb-2">Dərs Sisteminə Keçid Məhduddur</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mb-6 leading-relaxed">
+                    Dərsləri keçmək, tapşırıqları həll etmək və kodlarınızı yadda saxlamaq üçün hesabınıza daxil olun və ya pulsuz qeydiyyatdan keçin.
                 </p>
-                
-                <div class="bg-slate-100 dark:bg-slate-950 p-3 rounded-lg border border-slate-200 dark:border-slate-800 mb-6">
-                    <code id="lesson-code-example" class="text-xs font-mono text-yellow-600 dark:text-yellow-300">print("Salam!")</code>
-                </div>
+                <button onclick="openAuthModal()" class="w-full bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold py-3 rounded-xl text-sm transition flex items-center justify-center space-x-2 shadow-lg shadow-yellow-500/20">
+                    <i class="fa-solid fa-user-plus"></i>
+                    <span>Daxil Ol / Qeydiyyatdan Keç</span>
+                </button>
+            </div>
+        </div>
 
-                <!-- Quiz Section -->
-                <div class="border-t border-slate-200 dark:border-slate-800 pt-4">
-                    <h3 class="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-3">Suala Cavab Ver:</h3>
-                    <p id="quiz-question" class="text-xs text-slate-500 dark:text-slate-400 mb-3">Düzgün Python kodunu seçin:</p>
-                    <div id="quiz-options" class="space-y-2">
-                        <!-- Options injected by JS -->
+        <!-- Main Content -->
+        <main id="main-content" class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-4 p-4 max-w-7xl mx-auto w-full pointer-events-none select-none">
+            
+            <!-- Sidebar / Lesson List -->
+            <aside class="lg:col-span-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 flex flex-col max-h-[85vh] overflow-y-auto">
+                <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Dərs Proqramı (20 Dərs)</h2>
+                <nav id="lesson-list" class="space-y-1.5 flex-1">
+                    <!-- Lessons injected by JS -->
+                </nav>
+                <div class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+                    <div class="flex justify-between text-xs text-slate-500 dark:text-slate-400 mb-1">
+                        <span>Ümumi İrəliləyiş</span>
+                        <span id="progress-percent">5%</span>
                     </div>
-                    <p id="quiz-feedback" class="text-xs mt-2 hidden"></p>
+                    <div class="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-2">
+                        <div id="progress-bar" class="bg-yellow-500 h-2 rounded-full transition-all duration-300" style="width: 5%"></div>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </aside>
 
-        <!-- Code Editor & Terminal -->
-        <section class="lg:col-span-5 flex flex-col space-y-4 max-h-[85vh]">
-            <!-- Code Editor -->
-            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 flex-1 flex flex-col">
-                <div class="flex justify-between items-center mb-3">
-                    <span class="text-xs font-mono text-slate-500 dark:text-slate-400"><i class="fa-solid fa-code text-blue-500 mr-2"></i>main.py</span>
-                    <button id="run-btn" onclick="runPython()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-4 py-2 rounded-lg flex items-center space-x-2 transition">
-                        <i class="fa-solid fa-play"></i>
-                        <span>Kodu İcra Et</span>
-                    </button>
+            <!-- Lesson View -->
+            <section class="lg:col-span-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 flex flex-col justify-between overflow-y-auto max-h-[85vh]">
+                <div>
+                    <span id="lesson-badge" class="inline-block bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 text-xs font-semibold px-2.5 py-1 rounded-md mb-3 border border-yellow-500/20">Dərs 1</span>
+                    <h1 id="lesson-title" class="text-2xl font-bold mb-3 text-slate-800 dark:text-slate-50">Giriş və Print</h1>
+                    <p id="lesson-desc" class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-4">
+                        Python-da ekrana hər hansı mətn çıxarmaq üçün print() funksiyasından istifadə olunur.
+                    </p>
+                    
+                    <div class="bg-slate-100 dark:bg-slate-950 p-3 rounded-lg border border-slate-200 dark:border-slate-800 mb-6">
+                        <code id="lesson-code-example" class="text-xs font-mono text-yellow-600 dark:text-yellow-300">print("Salam!")</code>
+                    </div>
+
+                    <!-- Quiz Section -->
+                    <div class="border-t border-slate-200 dark:border-slate-800 pt-4">
+                        <h3 class="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-3">Suala Cavab Ver:</h3>
+                        <p id="quiz-question" class="text-xs text-slate-500 dark:text-slate-400 mb-3">Düzgün Python kodunu seçin:</p>
+                        <div id="quiz-options" class="space-y-2">
+                            <!-- Options injected by JS -->
+                        </div>
+                        <p id="quiz-feedback" class="text-xs mt-2 hidden"></p>
+                    </div>
                 </div>
-                <textarea id="code-editor" class="w-full flex-1 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-mono text-sm p-3 rounded-lg border border-slate-200 dark:border-slate-800 focus:outline-none focus:border-yellow-500 resize-none min-h-[180px]" spellcheck="false"># Öz kodunu bura yaz:
+            </section>
+
+            <!-- Code Editor & Terminal -->
+            <section class="lg:col-span-5 flex flex-col space-y-4 max-h-[85vh]">
+                <!-- Code Editor -->
+                <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 flex-1 flex flex-col">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="text-xs font-mono text-slate-500 dark:text-slate-400"><i class="fa-solid fa-code text-blue-500 mr-2"></i>main.py</span>
+                        <button id="run-btn" onclick="runPython()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-4 py-2 rounded-lg flex items-center space-x-2 transition">
+                            <i class="fa-solid fa-play"></i>
+                            <span>Kodu İcra Et</span>
+                        </button>
+                    </div>
+                    <textarea id="code-editor" class="w-full flex-1 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-mono text-sm p-3 rounded-lg border border-slate-200 dark:border-slate-800 focus:outline-none focus:border-yellow-500 resize-none min-h-[180px]" spellcheck="false"># Öz kodunu bura yaz:
 print("Salam, Python Öyrən platforması!")</textarea>
-            </div>
-
-            <!-- Terminal Output -->
-            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 h-48 flex flex-col">
-                <div class="text-xs font-mono text-slate-500 dark:text-slate-400 mb-2 flex items-center">
-                    <i class="fa-solid fa-terminal mr-2 text-slate-400"></i>Terminal Çıxışı:
                 </div>
-                <div id="terminal" class="bg-slate-50 dark:bg-slate-950 flex-1 p-3 rounded-lg border border-slate-200 dark:border-slate-800 font-mono text-xs text-emerald-600 dark:text-emerald-400 overflow-y-auto whitespace-pre-wrap">İcra etmək üçün "Kodu İcra Et" düyməsinə bas...</div>
-            </div>
-        </section>
 
-    </main>
+                <!-- Terminal Output -->
+                <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 h-48 flex flex-col">
+                    <div class="text-xs font-mono text-slate-500 dark:text-slate-400 mb-2 flex items-center">
+                        <i class="fa-solid fa-terminal mr-2 text-slate-400"></i>Terminal Çıxışı:
+                    </div>
+                    <div id="terminal" class="bg-slate-50 dark:bg-slate-950 flex-1 p-3 rounded-lg border border-slate-200 dark:border-slate-800 font-mono text-xs text-emerald-600 dark:text-emerald-400 overflow-y-auto whitespace-pre-wrap">İcra etmək üçün "Kodu İcra Et" düyməsinə bas...</div>
+                </div>
+            </section>
+
+        </main>
+    </div>
 
     <!-- Auth Modal -->
-    <div id="auth-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-50">
+    <div id="auth-modal" class="fixed inset-0 bg-black/60 backdrop-blur-md hidden items-center justify-center z-50">
         <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-2xl w-full max-w-md relative shadow-2xl">
             <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
                 <i class="fa-solid fa-xmark text-lg"></i>
             </button>
-            <h2 class="text-xl font-bold mb-4 text-slate-900 dark:text-slate-100">Hesaba Giriş / Qeydiyyat</h2>
+            <h2 class="text-xl font-bold mb-1 text-slate-900 dark:text-slate-100">Xoş Gelmisiniz!</h2>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-6">Dərslərə başlamaq üçün e-poçtunuzla daxil olun.</p>
+            
             <form id="auth-form" onsubmit="handleAuth(event)" class="space-y-4">
                 <div>
                     <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">E-poçt Ünvanı</label>
-                    <input type="email" id="auth-email" required class="w-full bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-yellow-500">
+                    <input type="email" id="auth-email" placeholder="nümunə@mail.com" required class="w-full bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-yellow-500">
                 </div>
                 <div>
                     <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Şifrə</label>
-                    <input type="password" id="auth-password" required class="w-full bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-yellow-500">
+                    <input type="password" id="auth-password" placeholder="••••••••" required class="w-full bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-yellow-500">
                 </div>
-                <button type="submit" class="w-full bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold py-2 rounded-lg text-sm transition">Daxil Ol / Qeydiyyatdan Keç</button>
+                <button type="submit" class="w-full bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold py-2.5 rounded-lg text-sm transition">Daxil Ol / Qeydiyyatdan Keç</button>
             </form>
         </div>
     </div>
@@ -163,7 +188,37 @@ document["run-btn"].bind("click", run_code)
     </script>
 
     <script>
-        // Dark / Light Mode Toggle Logic
+        let isLoggedIn = false;
+
+        function checkAuthStatus() {
+            const savedUser = localStorage.getItem('logged_in_user');
+            const lockOverlay = document.getElementById('lock-overlay');
+            const mainContent = document.getElementById('main-content');
+            const authBtnText = document.getElementById('auth-btn-text');
+
+            if (savedUser) {
+                isLoggedIn = true;
+                lockOverlay.classList.add('hidden');
+                mainContent.classList.remove('pointer-events-none', 'select-none');
+                authBtnText.innerText = savedUser.split('@')[0];
+            } else {
+                isLoggedIn = false;
+                lockOverlay.classList.remove('hidden');
+                mainContent.classList.add('pointer-events-none', 'select-none');
+                authBtnText.innerText = "Giriş / Qeydiyyat";
+            }
+        }
+
+        function handleAuth(e) {
+            e.preventDefault();
+            const email = document.getElementById('auth-email').value;
+            if (email) {
+                localStorage.setItem('logged_in_user', email);
+                closeAuthModal();
+                checkAuthStatus();
+            }
+        }
+
         function toggleTheme() {
             const html = document.documentElement;
             const icon = document.getElementById('theme-icon');
@@ -183,7 +238,6 @@ document["run-btn"].bind("click", run_code)
             document.getElementById('theme-icon').className = 'fa-solid fa-sun text-yellow-500';
         }
 
-        // Auth Modal Handlers
         function openAuthModal() {
             document.getElementById('auth-modal').classList.remove('hidden');
             document.getElementById('auth-modal').classList.add('flex');
@@ -196,7 +250,7 @@ document["run-btn"].bind("click", run_code)
         const lessons = [
             { id: 1, title: "1. Giriş və Print", desc: "Python-da ekrana yazı çıxarmaq üçün print() istifadə olunur.", example: 'print("Salam")', defaultCode: 'print("Salam, Dünya!")', question: "Hansı düzgün print yazılışıdır?", options: ['print("Salam")', 'echo "Salam"', 'printf("Salam")'], correct: 0 },
             { id: 2, title: "2. Dəyişənlər", desc: "Dəyişən məlumatı yaddaşda saxlamaq üçündür.", example: 'x = 10\nprint(x)', defaultCode: 'ad = "Vüqar"\nprint(ad)', question: "Mənimsətmə hansı işarə ilə edilir?", options: ['==', '=', '->'], correct: 1 },
-            { id: 3, title: "3. Məlumat Tipləri", desc: "int (tam ədəd), float (onluq kəsr), str (mətn), bool (mənbiq).", example: 'x = 5\ny = 3.14', defaultCode: 'a = 10\nb = 2.5\nprint(type(a))', question: "10.5 hansı tipdir?", options: ['int', 'str', 'float'], correct: 2 },
+            { id: 3, title: "3. Məlumat Tipləri", desc: "int (tam ədəd), float (onluq kəsr), str (mətn), bool (məntiq).", example: 'x = 5\ny = 3.14', defaultCode: 'a = 10\nb = 2.5\nprint(type(a))', question: "10.5 hansı tipdir?", options: ['int', 'str', 'float'], correct: 2 },
             { id: 4, title: "4. Riyazi Əməllər", desc: "+, -, *, /, // (tam bölmə), % (qalıq).", example: 'a = 10 % 3\nprint(a)', defaultCode: 'x = 15 // 4\nprint(x)', question: "7 % 3 nəticəsi nədir?", options: ['1', '2', '2.33'], correct: 0 },
             { id: 5, title: "5. Mətnlər (Strings)", desc: "Mətnlər dırnaq arasında yazılır. Metodlar: upper(), lower(), len().", example: 's = "python"\nprint(s.upper())', defaultCode: 'metn = "Python Öyrən"\nprint(len(metn))', question: "Mətnin uzunluğunu necə tapırıq?", options: ['length()', 'len()', 'size()'], correct: 1 },
             { id: 6, title: "6. İstifadəçidən Daxil Etmə (input)", desc: "İstifadəçidən məlumat almaq üçün input() istifadə olunur.", example: 'ad = input("Adın nədir?")', defaultCode: 'ad = "Vüqar"\nprint("Salam,", ad)', question: "input() standart olaraq hansı tipi qaytarır?", options: ['int', 'str', 'bool'], correct: 1 },
@@ -237,7 +291,6 @@ document["run-btn"].bind("click", run_code)
             document.getElementById('lesson-desc').innerText = lesson.desc;
             document.getElementById('lesson-code-example').innerText = lesson.example;
             
-            // Restore user code if saved in LocalStorage, else load default
             const savedCode = localStorage.getItem(`user_code_${id}`);
             document.getElementById('code-editor').value = savedCode ? savedCode : lesson.defaultCode;
             
@@ -259,7 +312,6 @@ document["run-btn"].bind("click", run_code)
             renderLessons();
         }
 
-        // Auto-save user code on typing
         document.getElementById('code-editor').addEventListener('input', (e) => {
             localStorage.setItem(`user_code_${currentLessonId}`, e.target.value);
         });
@@ -278,6 +330,7 @@ document["run-btn"].bind("click", run_code)
             }
         }
 
+        checkAuthStatus();
         selectLesson(1);
     </script>
 </body>
