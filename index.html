@@ -19,13 +19,11 @@
 <body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-300" onload="brython()">
 
     <!-- ⚙️ AYARLAR MENYUSU (Yuxarı Sağ Künc) -->
-    <div class="fixed top-4 right-4 z-50 relative">
-        <!-- Ayarlar Düyməsi (⚙️) -->
+    <div class="fixed top-4 right-4 z-50">
         <button onclick="toggleSettingsMenu()" class="p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-base shadow-sm cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700 transition">
             ⚙️
         </button>
 
-        <!-- Açılan Ayarlar Paneli -->
         <div id="settings-dropdown" class="hidden absolute right-0 mt-2 w-56 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-xl p-4 flex flex-col gap-3">
             <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400">Tənzimləmələr</h3>
             
@@ -66,7 +64,7 @@
             <h1 class="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">PythonPro</h1>
             <span id="progress-text" class="text-xs bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 px-2.5 py-1 rounded-full font-medium">İrəliləyiş: 0%</span>
         </div>
-        <div id="auth-status" class="text-sm font-medium">Gözlənilir...</div>
+        <div id="auth-status" class="text-sm font-medium text-slate-500">Giriş gözlənilir...</div>
     </header>
 
     <!-- MAIN CONTAINER -->
@@ -117,12 +115,13 @@
         </section>
     </main>
 
-    <!-- AUTHENTICATION OVERLAY (Giriş Qapısı) -->
+    <!-- AUTHENTICATION OVERLAY (Giriş Qapısı - Ad daxil etməklə) -->
     <div id="auth-overlay" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-white dark:bg-slate-800 p-8 rounded-2xl max-w-md w-full border border-slate-200 dark:border-slate-700 shadow-2xl text-center">
             <h2 class="text-2xl font-bold mb-2">PythonPro-ya Xoş Gəlmisiniz</h2>
-            <p class="text-slate-500 dark:text-slate-400 text-sm mb-6">Dərslərə başlamaq və irəliləyişinizi yadda saxlamaq üçün daxil olun.</p>
-            <button onclick="fakeLogin()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl transition cursor-pointer shadow-md">Google ilə Daxil Ol</button>
+            <p class="text-slate-500 dark:text-slate-400 text-sm mb-6">Dərslərə başlamaq üçün adınızı daxil edin:</p>
+            <input type="text" id="username-input" placeholder="Məsələn: Vüqar, Əli..." class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm mb-4 focus:outline-none">
+            <button onclick="handleLogin()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl transition cursor-pointer shadow-md">Daxil Ol</button>
         </div>
     </div>
 
@@ -157,7 +156,6 @@
             dropdown.classList.toggle('hidden');
         }
 
-        // Ekranın hər hansı yerinə kliklədikdə menyunu bağlamaq üçün
         window.addEventListener('click', function(e) {
             const settingsBtn = document.querySelector('button[onclick="toggleSettingsMenu()"]');
             const dropdown = document.getElementById('settings-dropdown');
@@ -203,13 +201,14 @@
 
         function renderLessons() {
             const listEl = document.getElementById('lesson-list');
+            if (!listEl) return;
             listEl.innerHTML = '';
             
             lessons.forEach(lesson => {
                 const isCompleted = completedLessons.includes(lesson.id);
                 const btn = document.createElement('button');
                 btn.className = `w-full text-left p-3 rounded-xl text-sm font-medium transition flex justify-between items-center cursor-pointer ${currentLessonId === lesson.id ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 border border-blue-200 dark:border-blue-800' : 'hover:bg-slate-100 dark:hover:bg-slate-700/50'}`;
-                btn.innerHTML = `<span>${lesson.title}</span> ${isCompleted ? '✅' : '🔒'}`;
+                btn.innerHTML = `<span>${lesson.title}</span> ${isCompleted ? '✅' : '📖'}`;
                 btn.onclick = () => selectLesson(lesson.id);
                 listEl.appendChild(btn);
             });
@@ -220,6 +219,8 @@
         function selectLesson(id) {
             currentLessonId = id;
             const lesson = lessons.find(l => l.id === id);
+            if (!lesson) return;
+            
             document.getElementById('lesson-title').innerText = lesson.title;
             document.getElementById('lesson-content').innerText = lesson.content;
             
@@ -263,16 +264,27 @@
             document.getElementById('progress-text').innerText = `İrəliləyiş: ${percent}%`;
         }
 
-        function fakeLogin() {
+        function handleLogin() {
+            const inputVal = document.getElementById('username-input').value.trim();
+            const userName = inputVal ? inputVal : 'İstifadəçi';
+            
             document.getElementById('auth-overlay').style.display = 'none';
-            document.getElementById('auth-status').innerText = 'Vüqar (Aktiv)';
+            document.getElementById('auth-status').innerText = `${userName} (Aktiv)`;
+            
+            localStorage.setItem('user_name', userName);
             localStorage.setItem('is_logged_in', 'true');
+            
+            renderLessons();
+            selectLesson(1);
         }
 
         function checkAuthStatus() {
             if (localStorage.getItem('is_logged_in') === 'true') {
                 document.getElementById('auth-overlay').style.display = 'none';
-                document.getElementById('auth-status').innerText = 'Vüqar (Aktiv)';
+                const savedName = localStorage.getItem('user_name') || 'İstifadəçi';
+                document.getElementById('auth-status').innerText = `${savedName} (Aktiv)`;
+                renderLessons();
+                selectLesson(1);
             }
         }
 
@@ -295,8 +307,9 @@
             }
         }
 
-        checkAuthStatus();
-        selectLesson(1);
+        window.addEventListener('DOMContentLoaded', () => {
+            checkAuthStatus();
+        });
     </script>
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
