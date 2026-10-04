@@ -18,7 +18,7 @@
 </head>
 <body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-300" onload="brython()">
 
-    <!-- ⚙️️ AYARLAR VƏ PROFİL MENYUSU (Yuxarı Sağ Künc) -->
+    <!-- ⚙️ AYARLAR VƏ PROFİL MENYUSU (Yuxarı Sağ Künc) -->
     <div class="fixed top-4 right-4 z-50 flex items-center gap-3">
         
         <!-- İstifadəçi Profili və Şəkil Dəyişmə Hissəsi -->
@@ -28,7 +28,7 @@
                 <div class="absolute inset-0 bg-black/40 rounded-full opacity-0 group-hover:opacity-100 flex items-center justify-center text-[10px] text-white transition">📷</div>
             </label>
             <input type="file" id="avatar-input" accept="image/*" class="hidden" onchange="updateAvatar(event)">
-            <span id="user-display-name" class="text-xs font-semibold max-w-[100px] truncate">İstifadəçi</span>
+            <span id="user-display-name" onclick="editName()" class="text-xs font-semibold max-w-[100px] truncate cursor-pointer hover:underline" title="Adı dəyişmək üçün kliklə">İstifadəçi</span>
         </div>
 
         <button onclick="toggleSettingsMenu()" class="p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-base shadow-sm cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700 transition">
@@ -127,26 +127,16 @@
         </section>
     </main>
 
-    <!-- AUTHENTICATION OVERLAY (Giriş Qapısı - Həmişə ilk açılışda gəlir) -->
+    <!-- AUTHENTICATION OVERLAY (Giriş Qapısı - Gmail və Şifrə ilə) -->
     <div id="auth-overlay" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-white dark:bg-slate-800 p-8 rounded-2xl max-w-md w-full border border-slate-200 dark:border-slate-700 shadow-2xl text-center">
-            <h2 class="text-2xl font-bold mb-2">PythonPro-ya Xoş Gəlmisiniz</h2>
-            <p class="text-slate-500 dark:text-slate-400 text-sm mb-6">Dərslərə başlamaq üçün giriş edin və ya adınızı daxil edin:</p>
+            <h2 class="text-2xl font-bold mb-2">PythonPro</h2>
+            <p class="text-slate-500 dark:text-slate-400 text-sm mb-6">Dərslərə başlamaq üçün e-poçt (Gmail) və şifrənizi daxil edin:</p>
             
-            <!-- Google Sign-In Düyməsi -->
-            <button onclick="handleGoogleLogin()" class="w-full flex items-center justify-center gap-3 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 font-medium py-3 rounded-xl transition cursor-pointer shadow-sm hover:bg-slate-50 mb-4 text-sm">
-                <svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c-.07-.7-.63-1.27-1.345-1.27H12v4.56h6.58c-.29 1.52-1.55 4.14-4.58 4.14-2.76 0-5-2.24-5-5s2.24-5 5-5c1.32 0 2.49.49 3.39 1.3l3.41-3.41C19.98 6.42 16.24 5 12 5 6.48 5 2 9.48 2 15s4.48 10 10 10c5.79 0 9.63-4.07 9.63-9.82 0-.31-.03-.62-.07-.91z"/></svg>
-                Google ilə Giriş Et (Sign In)
-            </button>
-
-            <div class="relative flex py-2 items-center">
-                <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
-                <span class="flex-shrink mx-4 text-xs text-slate-400 uppercase">və ya adla</span>
-                <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
-            </div>
-
-            <input type="text" id="username-input" placeholder="Adınızı daxil edin (Məs: Vüqar)" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm my-4 focus:outline-none">
-            <button onclick="handleManualLogin()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl transition cursor-pointer shadow-md">Daxil Ol</button>
+            <input type="email" id="email-input" placeholder="E-poçt ünvanınız (Məs: user@gmail.com)" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm mb-3 focus:outline-none">
+            <input type="password" id="password-input" placeholder="Şifrəniz" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm mb-5 focus:outline-none">
+            
+            <button onclick="handleEmailLogin()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl transition cursor-pointer shadow-md">Daxil Ol (Sign In)</button>
         </div>
     </div>
 
@@ -289,20 +279,19 @@
             document.getElementById('progress-text').innerText = `İrəliləyiş: ${percent}%`;
         }
 
-        function handleGoogleLogin() {
-            // Google ilə giriş simulyasiyası (e-poçt və ad)
-            const googleAccounts = [
-                { name: "vugar.mammadov@gmail.com", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=VugarGmail" },
-                { name: "python.student@gmail.com", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Student" }
-            ];
-            const acc = googleAccounts[Math.floor(Math.random() * googleAccounts.length)];
-            completeLogin(acc.name, acc.avatar);
-        }
-
-        function handleManualLogin() {
-            const inputVal = document.getElementById('username-input').value.trim();
-            const userName = inputVal ? inputVal : 'İstifadəçi';
-            const avatarUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(userName)}`;
+        function handleEmailLogin() {
+            const email = document.getElementById('email-input').value.trim();
+            const password = document.getElementById('password-input').value.trim();
+            
+            if (!email || !password) {
+                alert("Zəhmət olmasa e-poçt və şifrənizi daxil edin!");
+                return;
+            }
+            
+            // Gmail adını avtomatik olaraq profil adı kimi götürürük
+            const userName = email; 
+            const avatarUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(email)}`;
+            
             completeLogin(userName, avatarUrl);
         }
 
@@ -322,7 +311,17 @@
             selectLesson(1);
         }
 
-        // İstifadəçi öz kompüterindən profil şəkli seçdikdə
+        // İstədikdə adı dəyişmək üçün
+        function editName() {
+            const newName = prompt("Yeni adınızı daxil edin:", document.getElementById('user-display-name').innerText);
+            if (newName && newName.trim() !== "") {
+                const trimmed = newName.trim();
+                document.getElementById('user-display-name').innerText = trimmed;
+                localStorage.setItem('user_name', trimmed);
+            }
+        }
+
+        // İstifadəçi kompüterindən yeni şəkil seçdikdə
         function updateAvatar(event) {
             const file = event.target.files[0];
             if (file) {
@@ -343,14 +342,22 @@
             location.reload();
         }
 
-        // Səhifə hər dəfə yenilənəndə əvvəlcə Giriş Pəncərəsi (Sign In) çıxır
+        // Səhifə hər açıldıqda Giriş Pəncərəsi (Sign In) çıxır
         window.addEventListener('DOMContentLoaded', () => {
-            const overlay = document.getElementById('auth-overlay');
-            overlay.style.display = 'flex';
-            document.getElementById('user-profile-badge').classList.remove('flex');
-            document.getElementById('user-profile-badge').classList.add('hidden');
-            renderLessons();
-            selectLesson(1);
+            const isLoggedIn = localStorage.getItem('is_logged_in');
+            if (isLoggedIn === 'true') {
+                document.getElementById('auth-overlay').style.display = 'none';
+                document.getElementById('user-profile-badge').classList.remove('hidden');
+                document.getElementById('user-profile-badge').classList.add('flex');
+                
+                document.getElementById('user-display-name').innerText = localStorage.getItem('user_name') || 'İstifadəçi';
+                document.getElementById('user-avatar').src = localStorage.getItem('user_avatar') || 'https://api.dicebear.com/7.x/avataaars/svg?seed=Default';
+                
+                renderLessons();
+                selectLesson(1);
+            } else {
+                document.getElementById('auth-overlay').style.display = 'flex';
+            }
         });
     </script>
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
