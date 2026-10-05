@@ -1,90 +1,93 @@
 
-const toggleBtn = document.getElementById('theme-toggle');
-
-// 1. Səhifə yüklənəndə əvvəlki seçimi və ya sistem rejimini yoxlayırıq
-const savedTheme = localStorage.getItem('theme');
-const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-if (savedTheme) {
-  document.documentElement.setAttribute('data-theme', savedTheme);
-} else if (systemPrefersDark) {
-  document.documentElement.setAttribute('data-theme', dark);
-}
-
-// 2. Düyməyə basıldıqda rejimi dəyişirik
-toggleBtn.addEventListener('click', () => {
-  const currentTheme = document.documentElement.getAttribute('data-theme');
-  let newTheme = 'light';
-
-  if (currentTheme !== 'dark') {
-    newTheme = 'dark';
-  }
-
-  document.documentElement.Aha, başa düşdüm! Əgər **Dark Mode** tətbiqin və ya saytın daxilində kodla yazılmalıdırsa (məsələn, öz hazırladığın veb-saytda və ya Python / HTML / CSS / JavaScript layihəndə), bunu ən sadə və effektiv şəkildə JavaScript və CSS ilə həyata keçirə bilərsən.
-
-Aşağıda istənilən veb-sayta əlavə edə biləcəyin hazır kod nümunəsidir:
-
-### 1. HTML və CSS (Dəyişənlərlə)
-
-Əvvəlcə CSS-də rejimlər üçün rəng dəyişənlərini `body.dark-mode` sinfinə təyin edirik:
-
-```html
 <!DOCTYPE html>
 <html lang="az">
 <head>
   <meta charset="UTF-8">
+  <title>Mənim Saytım - Dark Mode</title>
   <style>
-    /* Standart (Açıq) rejim */
+    /* 1. Standart (Açıq) Rənglər */
+    :root {
+      --bg-color: #ffffff;
+      --text-color: #121212;
+      --card-bg: #f4f4f9;
+      --btn-bg: #007bff;
+      --btn-text: #ffffff;
+    }
+
+    /* 2. Qaranlıq (Dark Mode) Rənglər */
+    [data-theme="dark"] {
+      --bg-color: #121212;
+      --text-color: #f1f1f1;
+      --card-bg: #1e1e1e;
+      --btn-bg: #bb86fc;
+      --btn-text: #000000;
+    }
+
+    /* Səhifə Stlləri */
     body {
-      background-color: #ffffff;
-      color: #121212;
+      background-color: var(--bg-color);
+      color: var(--text-color);
       font-family: Arial, sans-serif;
-      transition: background-color 0.3s, color 0.3s;
+      margin: 0;
+      padding: 40px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .card {
+      background-color: var(--card-bg);
       padding: 20px;
+      border-radius: 10px;
+      max-width: 400px;
+      margin-top: 20px;
     }
 
-    /* Qaranlıq rejim */
-    body.dark-mode {
-      background-color: #121212;
-      color: #ffffff;
-    }
-
-    /* Düymə stili */
-    .theme-btn {
-      padding: 10px 20px;
-      cursor: pointer;
+    /* Dark Mode Düyməsi */
+    .toggle-btn {
+      background-color: var(--btn-bg);
+      color: var(--btn-text);
       border: none;
-      border-radius: 5px;
-      background-color: #007bff;
-      color: white;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
       font-size: 16px;
     }
   </style>
 </head>
 <body>
 
-  <h1>Dark Mode Testi</h1>
-  <p>Düyməyə basaraq rejim dəyişdirin.</p>
-  
-  <button class="theme-btn" onclick="toggleDarkMode()">Mövzunu Dəyiş</button>
+  <button class="toggle-btn" id="theme-toggle">🌙 Qaranlıq Rejim</button>
+
+  <div class="card">
+    <h2>Xoş gəlmisiniz!</h2>
+    <p>Bu, mənim saytımdakı Dark Mode testi üçündür.</p>
+  </div>
 
   <script>
-    // Səhifə yüklənəndə əvvəlki seçimi yaddaşdan oxumaq
-    if (localStorage.getItem('theme') === 'dark') {
-      document.body.classList.add('dark-mode');
+    const toggleBtn = document.getElementById('theme-toggle');
+
+    // Səhifə yüklənəndə əvvəlki seçimi yoxlayırıq
+    const currentTheme = localStorage.getItem('theme');
+
+    if (currentTheme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      toggleBtn.textContent = '☀️ Açıq Rejim';
     }
 
-    function toggleDarkMode() {
-      // dark-mode sinfini əlavə edir və ya silir
-      document.body.classList.toggle('dark-mode');
-      
-      // Seçimi yaddaşda (localStorage) saxlamaq
-      if (document.body.classList.contains('dark-mode')) {
-        localStorage.setItem('theme', 'dark');
-      } else {
+    // Düyməyə basıldıqda rejimi dəyişirik
+    toggleBtn.addEventListener('click', () => {
+      let theme = document.documentElement.getAttribute('data-theme');
+
+      if (theme === 'dark') {
+        document.documentElement.removeAttribute('data-theme');
         localStorage.setItem('theme', 'light');
+        toggleBtn.textContent = '🌙 Qaranlıq Rejim';
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+        toggleBtn.textContent = '☀️ Açıq Rejim';
       }
-    }
+    });
   </script>
 
 </body>
