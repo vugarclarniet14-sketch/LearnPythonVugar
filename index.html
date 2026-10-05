@@ -8,12 +8,45 @@
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    
-    <!-- Brython (Python Interpreter) -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3.11.0/brython.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3.11.0/brython_stdlib.js"></script>
 </head>
-<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-300" onload="brython()">
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-300 relative">
+
+    <!-- 🌟 İLK AÇILANDA GƏLƏN QİYMƏTLƏNDİRMƏ PƏNCƏRƏSİ (MODAL) -->
+    <div id="welcome-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 w-full max-w-md p-6 rounded-3xl shadow-2xl flex flex-col items-center text-center animate-fade-in">
+            
+            <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 rounded-2xl flex items-center justify-center text-3xl mb-4 shadow-inner">
+                👋
+            </div>
+            
+            <h2 class="text-xl font-bold mb-1">Xoş Gəlmisiniz!</h2>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-6">Dərsə başlamazdan əvvəl zəhmət olmasa adınızı daxil edin və saytımızı qiymətləndirin.</p>
+
+            <div class="w-full flex flex-col gap-4 mb-6">
+                <!-- Ad Daxil Etmə -->
+                <div class="text-left">
+                    <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">Adınız</label>
+                    <input type="text" id="modal-user-name" placeholder="Məs: Vüqar" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium">
+                </div>
+
+                <!-- Ulduz Seçimi -->
+                <div class="text-left">
+                    <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">Qiymətləndirmə</label>
+                    <div class="flex items-center justify-center gap-2 text-3xl cursor-pointer p-2 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700" id="modal-star-rating">
+                        <span onclick="setModalRating(1)" class="modal-star text-slate-300 hover:text-yellow-400 transition">★</span>
+                        <span onclick="setModalRating(2)" class="modal-star text-slate-300 hover:text-yellow-400 transition">★</span>
+                        <span onclick="setModalRating(3)" class="modal-star text-slate-300 hover:text-yellow-400 transition">★</span>
+                        <span onclick="setModalRating(4)" class="modal-star text-slate-300 hover:text-yellow-400 transition">★</span>
+                        <span onclick="setModalRating(5)" class="modal-star text-slate-300 hover:text-yellow-400 transition">★</span>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="submitModalAndStart()" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-3 rounded-xl text-sm transition cursor-pointer shadow-lg shadow-blue-500/25">
+                Daxil Ol və Başla 🚀
+            </button>
+        </div>
+    </div>
 
     <!-- ⚙ YUXARI SAĞ KÜNC: MENYU VƏ 1 SAATLIQ VAXT SAYĞACI -->
     <div class="fixed top-4 right-4 z-40 flex items-center gap-3">
@@ -29,7 +62,7 @@
         </button>
     </div>
 
-    <!-- YAN TƏRƏFDƏN AÇILAN PANEL (DRAWER) -->
+    <!-- YAN TƏRƏFDƏN AÇILAN PANEL (DRAWER / SETTINGS) -->
     <div id="settings-backdrop" onclick="toggleSettingsDrawer(false)" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 hidden transition-opacity duration-300"></div>
     
     <div id="settings-drawer" class="fixed top-0 right-0 h-full w-80 bg-white dark:bg-slate-800 border-l border-slate-200 dark:border-slate-700 shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col p-6">
@@ -49,7 +82,6 @@
                 
                 <div class="w-full flex flex-col items-center">
                     <span id="drawer-user-display-name" onclick="editName()" class="text-sm font-bold cursor-pointer hover:underline text-blue-600 dark:text-blue-400" title="Adı dəyişmək üçün kliklə">Vüqar</span>
-                    <span class="text-[11px] text-slate-400 truncate w-full" id="drawer-user-email">vuqar@gmail.com</span>
                 </div>
 
                 <!-- Avatar Seçimi -->
@@ -60,27 +92,11 @@
                         <button onclick="changeAvatarPreset('Lion')" class="p-1 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs cursor-pointer">🦁 Şir</button>
                         <button onclick="changeAvatarPreset('Tiger')" class="p-1 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs cursor-pointer">🐯 Pələng</button>
                         <button onclick="changeAvatarPreset('Wolf')" class="p-1 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs cursor-pointer">🐺 Canavar</button>
-                        <button onclick="changeAvatarPreset('Unicorn')" class="p-1 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs cursor-pointer">🦄 Unicorn</button>
-                        <button onclick="changeAvatarPreset('Horse')" class="p-1 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs cursor-pointer">🐴 At</button>
-                        <button onclick="changeAvatarPreset('Fox')" class="p-1 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs cursor-pointer">🦊 Tülkü</button>
-                        <button onclick="changeAvatarPreset('Boy')" class="p-1 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs cursor-pointer">👦 Oğlan</button>
-                        <button onclick="changeAvatarPreset('Girl')" class="p-1 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs cursor-pointer col-span-2">👧 Qız</button>
                     </div>
                 </div>
             </div>
 
             <div class="border-t border-slate-200 dark:border-slate-700"></div>
-
-            <!-- Dil Seçimi -->
-            <div class="flex flex-col gap-1.5">
-                <label class="text-xs font-semibold uppercase tracking-wider text-slate-400">Dil / Language</label>
-                <select id="customLanguageSelect" onchange="alert('Dil dəyişdirildi: ' + this.value)" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm shadow-sm cursor-pointer focus:outline-none">
-                    <option value="az">🇦🇿 Azərbaycan dili</option>
-                    <option value="en">🇬🇧 English</option>
-                    <option value="tr">🇹🇷 Türkçe</option>
-                    <option value="ru">🇷🇺 Русский</option>
-                </select>
-            </div>
 
             <!-- Tema (Dark/Light Mode) -->
             <div class="flex flex-col gap-1.5">
@@ -105,12 +121,12 @@
     <main class="flex-1 max-w-7xl w-full mx-auto p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
         
         <!-- Sola: Dərslərin Siyahısı -->
-        <section class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col h-[600px]">
+        <section class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col h-[650px]">
             <h2 class="font-semibold text-lg mb-4">Dərslər (20 Dərs)</h2>
             <div id="lesson-list" class="overflow-y-auto flex-1 space-y-2 pr-2"></div>
         </section>
 
-        <!-- Sağca: Dərs Məzmunu və Kod Editoru -->
+        <!-- Sağca: Dərs Məzmunu, Editor və Admin Panel -->
         <section class="md:col-span-2 flex flex-col gap-6">
             
             <!-- Dərs Məzmunu -->
@@ -118,7 +134,7 @@
                 <h2 id="lesson-title" class="text-xl font-bold mb-3">Dərs seçin</h2>
                 <div id="lesson-content" class="text-slate-600 dark:text-slate-300 mb-4 text-sm leading-relaxed space-y-2"></div>
                 
-                <!-- Quiz Hissəsi (15 Sual) -->
+                <!-- Quiz Hissəsi -->
                 <div id="quiz-container" class="mt-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 hidden">
                     <div class="flex justify-between items-center mb-3">
                         <span id="quiz-counter" class="text-xs font-bold text-blue-600 dark:text-blue-400">Sual 1 / 15</span>
@@ -131,55 +147,103 @@
 
             <!-- Python Kod Editoru -->
             <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col">
-                <h3 class="font-semibold text-sm mb-2">İnteraktiv Kod Editoru</h3>
-                <textarea id="code-editor" class="w-full h-36 font-mono text-sm p-3 rounded-xl bg-slate-900 text-emerald-400 border border-slate-700 focus:outline-none resize-none" placeholder="print('Salam Python!')"></textarea>
+                <h3 class="font-semibold text-sm mb-2">İnteraktiv Simulyator</h3>
+                <textarea id="code-editor" class="w-full h-28 font-mono text-sm p-3 rounded-xl bg-slate-900 text-emerald-400 border border-slate-700 focus:outline-none resize-none" placeholder="print('Salam Python!')"></textarea>
                 
                 <div class="flex justify-between items-center mt-3">
-                    <button onclick="runPythonCode()" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2 rounded-xl text-sm transition cursor-pointer shadow-sm">Kodu İşlət  ▶</button>
-                    <span class="text-xs text-slate-400">Python 3 (Brython)</span>
+                    <button onclick="runJSCode()" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2 rounded-xl text-sm transition cursor-pointer shadow-sm">Kodu İşlət ▶</button>
                 </div>
 
                 <div class="mt-3">
                     <h4 class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Nəticə (Output):</h4>
-                    <pre id="output" class="p-3 rounded-xl bg-slate-900 text-slate-200 font-mono text-xs min-h-[50px] overflow-x-auto"></pre>
+                    <pre id="output" class="p-3 rounded-xl bg-slate-900 text-slate-200 font-mono text-xs min-h-[40px] overflow-x-auto"></pre>
+                </div>
+            </div>
+
+            <!-- 📊 ADMIN PANELİ (SİZİN ÜÇÜN - GƏLƏN ULDUZLARI GÖRMƏK) -->
+            <div class="bg-slate-900 text-slate-100 p-6 rounded-2xl border border-slate-800 shadow-sm">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-bold text-base text-yellow-400 flex items-center gap-2">👑 Admin Paneli: Qeydə Alınan Ulduzlar</h3>
+                    <span id="avg-rating" class="text-xs font-bold bg-yellow-400/20 text-yellow-400 px-3 py-1 rounded-full">Orta Bal: 0.0 / 5</span>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-800 text-slate-400">
+                                <th class="py-2">Ad</th>
+                                <th class="py-2">Verdiyi Ulduz</th>
+                                <th class="py-2">Tarix</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ratings-table-body">
+                            <!-- Bura dinamik dolacaq -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
         </section>
     </main>
 
-    <!-- JAVASCRIPT MƏNTİQİ (Brython üçün) -->
-    <script type="text/python">
-        import sys
-        from browser import document, window
-
-        def runPythonCode(ev):
-            code = document["code-editor"].value
-            output_element = document["output"]
-            output_element.text = ""
-            
-            class OutputWriter:
-                def write(self, text):
-                    output_element.text += text
-            
-            sys.stdout = OutputWriter()
-            
-            try:
-                exec(code, {})
-            except Exception as e:
-                output_element.text = f"Xəta: {e}"
-
-        window.runPythonCode = runPythonCode
-    </script>
-
-    <!-- ÜMUMİ JAVASCRIPT SKRİPTLƏRİ -->
+    <!-- JAVASCRIPT MƏNTİQİ -->
     <script>
+        // 1. MODALDA ULDUZ SEÇİMİ VƏ GİRİŞ
+        let modalSelectedRating = 0;
+
+        function setModalRating(stars) {
+            modalSelectedRating = stars;
+            const starElements = document.querySelectorAll('#modal-star-rating .modal-star');
+            starElements.forEach((star, index) => {
+                if (index < stars) {
+                    star.classList.remove('text-slate-300');
+                    star.classList.add('text-yellow-400');
+                } else {
+                    star.classList.remove('text-yellow-400');
+                    star.classList.add('text-slate-300');
+                }
+            });
+        }
+
+        function submitModalAndStart() {
+            const nameInput = document.getElementById('modal-user-name').value.trim();
+            if (!nameInput) {
+                alert("Lütfən adınızı daxil edin!");
+                return;
+            }
+            if (modalSelectedRating === 0) {
+                alert("Lütfən sayta neçə ulduz verdiyinizi seçin!");
+                return;
+            }
+
+            // Məlumatı saxlayırıq
+            const existingRatings = JSON.parse(localStorage.getItem('site_ratings') || '[]');
+            const newRating = {
+                name: nameInput,
+                stars: modalSelectedRating,
+                date: new Date().toLocaleDateString('az-AZ') + " " + new Date().toLocaleTimeString('az-AZ', {hour: '2-digit', minute:'2-digit'})
+            };
+
+            existingRatings.push(newRating);
+            localStorage.setItem('site_ratings', JSON.stringify(existingRatings));
+
+            // Profildə adı yeniləyirik
+            document.getElementById('drawer-user-display-name').innerText = nameInput;
+
+            // Modalı bağlayırıq və sayta keçirik
+            document.getElementById('welcome-modal').classList.add('hidden');
+
+            // Admin panelini yeniləyirik və vaxtı başladırıq
+            renderAdminRatings();
+            startTimer();
+        }
+
+        // 2. VAXT SAYĞACI
         let totalSeconds = 3600;
         let timerInterval = null;
 
         function startTimer() {
-            if (timerInterval) clearInterval(timerInterval);
-
+            if (timerInterval) return;
             timerInterval = setInterval(() => {
                 if (totalSeconds <= 0) {
                     clearInterval(timerInterval);
@@ -193,12 +257,7 @@
             }, 1000);
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            startTimer();
-            renderLessons();
-            selectLesson(1);
-        });
-
+        // 3. SETTINGS PANELİ
         function toggleSettingsDrawer(open) {
             const drawer = document.getElementById('settings-drawer');
             const backdrop = document.getElementById('settings-backdrop');
@@ -216,33 +275,38 @@
             const themeLabel = document.getElementById('theme-label');
             if (html.classList.contains('dark')) {
                 html.classList.remove('dark');
-                localStorage.setItem('theme', 'light');
                 themeLabel.innerText = 'Qaranlıq Rejim';
             } else {
                 html.classList.add('dark');
-                localStorage.setItem('theme', 'dark');
                 themeLabel.innerText = 'İşıqlı Rejim';
             }
         }
 
+        function changeAvatarPreset(type) {
+            document.getElementById('drawer-user-avatar').src = `https://api.dicebear.com/7.x/bottts/svg?seed=${type}`;
+        }
+
+        function editName() {
+            const currentName = document.getElementById('drawer-user-display-name').innerText;
+            const newName = prompt("Yeni adınızı daxil edin:", currentName);
+            if (newName && newName.trim() !== "") {
+                document.getElementById('drawer-user-display-name').innerText = newName.trim();
+            }
+        }
+
+        // 4. DƏRSLƏR VƏ QUİZ MƏNTİQİ
         const lessons = Array.from({ length: 20 }, (_, i) => {
             const num = i + 1;
-            const sentences = Array.from({ length: 20 }, (_, s) => 
-                `Bu, Python proqramlaşdırma dilinin ${num}-cü dərs hissəsinin ${s + 1}-ci əsas cümləsidir ki, burada mühüm məntiqi anlayış izah olunur.`
-            );
-            
-            const quizQuestions = Array.from({ length: 15 }, (_, q) => ({
-                question: `Dərs ${num} - Sual ${q + 1}: Python dilində bu bölmə ilə bağlı doğru ifadə hansıdır?`,
-                options: ["Doğru sintaksis budur", "Səhv əmr formatıdır", "Heç biri doğru deyil", "Mötərizə tələb olunmur"],
-                correct: 0
-            }));
-
             return {
                 id: num,
-                title: `Dərs ${num}: Python-da İrəli səviyyə ${num}`,
-                content: sentences.join(" "),
-                quizList: quizQuestions
-            });
+                title: `Dərs ${num}: Python Əsasları ${num}`,
+                content: `Bu, Python proqramlaşdırma dilinin ${num}-cü dərs hissəsidir. Burada mühüm məntiqi anlayışlar izah olunur.`,
+                quizList: Array.from({ length: 15 }, (_, q) => ({
+                    question: `Dərs ${num} - Sual ${q + 1}: Python dilində bu əmr nə işə yarayır?`,
+                    options: ["Doğru sintaksisdir", "Səhv əmr formatıdır", "Məlumatı ekrana çıxarır", "Mötərizə tələb olunmur"],
+                    correct: 2
+                }))
+            };
         });
 
         let currentLessonId = 1;
@@ -251,7 +315,6 @@
 
         function renderLessons() {
             const listEl = document.getElementById('lesson-list');
-            if (!listEl) return;
             listEl.innerHTML = '';
             
             lessons.forEach(lesson => {
@@ -309,14 +372,14 @@
                         currentQuizIndex++;
                         renderQuizQuestion(lesson);
                     } else {
-                        fb.innerText = "🎉 Təbriklər! Bu dərsin bütün 15 sualını uğurla tamamladınız.";
+                        fb.innerText = "🎉 Təbriklər! Bütün 15 sualı tamamladınız.";
                         if (!completedLessons.includes(currentLessonId)) {
                             completedLessons.push(currentLessonId);
                             localStorage.setItem('completed_lessons', JSON.stringify(completedLessons));
                         }
                         renderLessons();
                     }
-                }, 1000);
+                }, 800);
             } else {
                 fb.className = "mt-3 text-sm font-semibold text-rose-500";
                 fb.innerText = "✖ Səhvdir, yenidən cəhd edin.";
@@ -328,21 +391,59 @@
             document.getElementById('progress-text').innerText = `İrəliləyiş: ${percent}%`;
         }
 
-        function changeAvatarPreset(type) {
-            let avatarUrl = `https://api.dicebear.com/7.x/bottts/svg?seed=${type}`;
-            if (type === 'Boy') avatarUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=Felix`;
-            else if (type === 'Girl') avatarUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka`;
-
-            document.getElementById('drawer-user-avatar').src = avatarUrl;
-        }
-
-        function editName() {
-            const currentName = document.getElementById('drawer-user-display-name').innerText;
-            const newName = prompt("Yeni adınızı daxil edin:", currentName);
-            if (newName && newName.trim() !== "") {
-                document.getElementById('drawer-user-display-name').innerText = newName.trim();
+        function runJSCode() {
+            const code = document.getElementById('code-editor').value;
+            const output = document.getElementById('output');
+            try {
+                let logs = [];
+                const originalLog = console.log;
+                console.log = function(...args) {
+                    logs.push(args.join(' '));
+                    originalLog.apply(console, args);
+                };
+                eval(code);
+                console.log = originalLog;
+                output.innerText = logs.length > 0 ? logs.join('\n') : "Kod uğurla icra olundu!";
+            } catch (err) {
+                output.innerText = "Xəta: " + err.message;
             }
         }
+
+        // 5. ADMIN PANELİ (ULDUZLARI GÖSTƏRMƏK)
+        function renderAdminRatings() {
+            const ratings = JSON.parse(localStorage.getItem('site_ratings') || '[]');
+            const tbody = document.getElementById('ratings-table-body');
+            tbody.innerHTML = '';
+
+            if (ratings.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="3" class="py-3 text-slate-500">Hələ heç kim ulduz verməyib.</td></tr>`;
+                document.getElementById('avg-rating').innerText = `Orta Bal: 0.0 / 5`;
+                return;
+            }
+
+            let totalStars = 0;
+            [...ratings].reverse().forEach(r => {
+                totalStars += r.stars;
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-slate-800/50";
+                tr.innerHTML = `
+                    <td class="py-2 font-medium text-slate-200">${r.name}</td>
+                    <td class="py-2 text-yellow-400">${'★'.repeat(r.stars)}${'☆'.repeat(5 - r.stars)} (${r.stars})</td>
+                    <td class="py-2 text-slate-500">${r.date}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            const avg = (totalStars / ratings.length).toFixed(1);
+            document.getElementById('avg-rating').innerText = `Orta Bal: ${avg} / 5 (${ratings.length} səs)`;
+        }
+
+        // SƏHFƏ YÜKLƏNƏNDƏ
+        document.addEventListener('DOMContentLoaded', () => {
+            renderLessons();
+            selectLesson(1);
+            renderAdminRatings();
+        });
     </script>
 </body>
 </html>
