@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="az" class="light">
 <head>
@@ -7,12 +8,14 @@
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Canvas Confetti (Fişəng Effekti üçün Kitabxana) -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 </head>
 <body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-300 relative">
 
     <!-- 🌟 İLK GİRİŞDƏ GƏLƏN QİYMƏTLƏNDİRMƏ PƏNCƏRƏSİ (MODAL) -->
     <div id="welcome-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 w-full max-w-md p-6 rounded-3xl shadow-2xl flex flex-col items-center text-center animate-fade-in">
+        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 w-full max-w-md p-6 rounded-3xl shadow-2xl flex flex-col items-center text-center animate-fade-in text-slate-800 dark:text-slate-100">
             
             <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 rounded-2xl flex items-center justify-center text-3xl mb-4 shadow-inner">
                 👋
@@ -25,7 +28,7 @@
                 <!-- Ad Daxil Etmə -->
                 <div class="text-left">
                     <label id="lbl-name" class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">Adınız</label>
-                    <input type="text" id="modal-user-name" placeholder="Məs: Vüqar" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium">
+                    <input type="text" id="modal-user-name" placeholder="Məs: Vüqar" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium">
                 </div>
 
                 <!-- Ulduz Seçimi -->
@@ -47,14 +50,28 @@
         </div>
     </div>
 
+    <!-- 🎆 DƏRS BİTƏNDƏ AÇILAN FİŞƏNG / TƏBRİK MODALI -->
+    <div id="finish-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 w-full max-w-md p-6 rounded-3xl shadow-2xl flex flex-col items-center text-center animate-bounce-in text-slate-800 dark:text-slate-100">
+            <div class="text-6xl mb-3">🎆🎉🎆</div>
+            <h2 id="finish-title" class="text-2xl font-black text-blue-600 dark:text-blue-400 mb-2">Təbriklər!</h2>
+            <p id="finish-desc" class="text-sm text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
+                1 saatlıq dərsi uğurla başa vurdunuz! Sizinlə fəxr edirik!
+            </p>
+            <button onclick="closeFinishModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-sm cursor-pointer shadow-lg shadow-blue-500/30 transition">
+                Super! Əla İş 👏
+            </button>
+        </div>
+    </div>
+
     <!-- ⚙ YUXARI SAĞ KÜNC: MENYU VƏ 1 SAATLIQ VAXT SAYĞACI -->
     <div class="fixed top-4 right-4 z-40 flex items-center gap-3">
-        <div id="timer-badge" class="flex items-center gap-1.5 bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900 px-3 py-2 rounded-xl text-rose-600 dark:text-rose-400 font-mono text-xs font-bold shadow-sm">
+        <div id="timer-badge" class="flex items-center gap-1.5 bg-white dark:bg-slate-800 border border-rose-200 dark:border-rose-900/60 px-3.5 py-2 rounded-xl text-rose-600 dark:text-rose-400 font-mono text-xs font-bold shadow-md">
             <span>⏳</span>
             <span id="time-left">60:00</span>
         </div>
 
-        <button onclick="toggleSettingsDrawer(true)" class="p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-base shadow-sm cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700 transition flex items-center gap-2">
+        <button onclick="toggleSettingsDrawer(true)" class="p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 text-base shadow-md cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700 transition flex items-center gap-2">
             <span>⚙️</span>
             <span id="btn-menu-label" class="text-xs font-semibold hidden sm:inline">Menyu</span>
         </button>
@@ -63,7 +80,7 @@
     <!-- YAN TƏRƏFDƏN AÇILAN PANEL (DRAWER / SETTINGS) -->
     <div id="settings-backdrop" onclick="toggleSettingsDrawer(false)" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 hidden transition-opacity duration-300"></div>
     
-    <div id="settings-drawer" class="fixed top-0 right-0 h-full w-80 bg-white dark:bg-slate-800 border-l border-slate-200 dark:border-slate-700 shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col p-6">
+    <div id="settings-drawer" class="fixed top-0 right-0 h-full w-80 bg-white dark:bg-slate-800 border-l border-slate-200 dark:border-slate-700 shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col p-6 text-slate-800 dark:text-slate-100">
         
         <!-- Panel Başlığı -->
         <div class="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-700 mb-6">
@@ -87,14 +104,14 @@
                     <span id="profile-role" class="text-[11px] font-medium text-slate-400">Tələbə / Öyrənən</span>
                 </div>
 
-                <!-- Avatar Seçimi -->
+                <!-- Avatar Seçimi (Tam Düzəldildi) -->
                 <div class="w-full mt-2 pt-3 border-t border-slate-200 dark:border-slate-700">
                     <label id="lbl-choose-avatar" class="text-[11px] font-semibold text-slate-400 uppercase block mb-2">Profil Avatarı Seç</label>
                     <div class="grid grid-cols-4 gap-2">
-                        <button onclick="changeAvatarPreset('Panda')" class="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs cursor-pointer hover:scale-105 transition">🐼</button>
-                        <button onclick="changeAvatarPreset('Lion')" class="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs cursor-pointer hover:scale-105 transition">🦁</button>
-                        <button onclick="changeAvatarPreset('Tiger')" class="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs cursor-pointer hover:scale-105 transition">🐯</button>
-                        <button onclick="changeAvatarPreset('Wolf')" class="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs cursor-pointer hover:scale-105 transition">🐺</button>
+                        <button onclick="changeAvatarPreset('Panda')" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-lg cursor-pointer hover:scale-110 transition flex items-center justify-center">🐼</button>
+                        <button onclick="changeAvatarPreset('Lion')" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-lg cursor-pointer hover:scale-110 transition flex items-center justify-center">🦁</button>
+                        <button onclick="changeAvatarPreset('Tiger')" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-lg cursor-pointer hover:scale-110 transition flex items-center justify-center">🐯</button>
+                        <button onclick="changeAvatarPreset('Wolf')" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-lg cursor-pointer hover:scale-110 transition flex items-center justify-center">🐺</button>
                     </div>
                 </div>
             </div>
@@ -102,18 +119,18 @@
             <!-- Dil Seçimi -->
             <div class="flex flex-col gap-1.5">
                 <label id="lbl-language" class="text-xs font-semibold uppercase tracking-wider text-slate-400">Dil / Language</label>
-                <select id="language-select" onchange="changeLanguage(this.value)" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm font-medium focus:outline-none cursor-pointer">
+                <select id="language-select" onchange="changeLanguage(this.value)" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 text-sm font-medium focus:outline-none cursor-pointer">
                     <option value="az">🇦🇿 Azərbaycan dili</option>
                     <option value="en">🇬🇧 English</option>
                 </select>
             </div>
 
-            <!-- Tema (Dark/Light Mode) -->
+            <!-- Tema (Dark/Light Mode Düzəldildi) -->
             <div class="flex flex-col gap-1.5">
                 <label id="lbl-theme" class="text-xs font-semibold uppercase tracking-wider text-slate-400">Görünüş Rejimi</label>
-                <button onclick="toggleDarkMode()" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm shadow-sm cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700/50 transition">
+                <button onclick="toggleDarkMode()" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 text-sm shadow-sm cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700/50 transition">
                     <span id="theme-label">Qaranlıq Rejim</span>
-                    <span>🌓</span>
+                    <span id="theme-icon">🌙</span>
                 </button>
             </div>
 
@@ -141,7 +158,7 @@
         
         <!-- Sola: Dərslərin Siyahısı -->
         <section class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col h-[650px]">
-            <h2 id="lessons-header" class="font-semibold text-lg mb-4">Dərslər (20 Dərs)</h2>
+            <h2 id="lessons-header" class="font-semibold text-lg mb-4 text-slate-800 dark:text-slate-100">Dərslər (20 Dərs)</h2>
             <div id="lesson-list" class="overflow-y-auto flex-1 space-y-2 pr-2"></div>
         </section>
 
@@ -149,7 +166,7 @@
         <section class="md:col-span-2 flex flex-col gap-6">
             
             <!-- Dərs Məzmunu -->
-            <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+            <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm text-slate-800 dark:text-slate-100">
                 <h2 id="lesson-title" class="text-xl font-bold mb-3">Dərs seçin</h2>
                 <div id="lesson-content" class="text-slate-600 dark:text-slate-300 mb-4 text-sm leading-relaxed space-y-2"></div>
                 
@@ -158,14 +175,14 @@
                     <div class="flex justify-between items-center mb-3">
                         <span id="quiz-counter" class="text-xs font-bold text-blue-600 dark:text-blue-400">Sual 1 / 15</span>
                     </div>
-                    <p id="quiz-question" class="font-medium text-sm mb-3"></p>
+                    <p id="quiz-question" class="font-medium text-sm mb-3 text-slate-800 dark:text-slate-100"></p>
                     <div id="quiz-options" class="space-y-2"></div>
                     <div id="quiz-feedback" class="mt-3 text-sm font-semibold hidden"></div>
                 </div>
             </div>
 
             <!-- Python Kod Editoru -->
-            <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col">
+            <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col text-slate-800 dark:text-slate-100">
                 <h3 id="editor-header" class="font-semibold text-sm mb-2">İnteraktiv Simulyator</h3>
                 <textarea id="code-editor" class="w-full h-28 font-mono text-sm p-3 rounded-xl bg-slate-900 text-emerald-400 border border-slate-700 focus:outline-none resize-none" placeholder="print('Salam Python!')"></textarea>
                 
@@ -261,6 +278,42 @@
             }
         };
 
+        // ☀️ / 🌙 DARK MODE SİSTEMİ (DÜZƏLDİLDİ)
+        function initTheme() {
+            const savedTheme = localStorage.getItem('site_theme') || 'light';
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+            updateThemeUI();
+        }
+
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('site_theme', 'light');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('site_theme', 'dark');
+            }
+            updateThemeUI();
+        }
+
+        function updateThemeUI() {
+            const isDark = document.documentElement.classList.contains('dark');
+            const themeLabel = document.getElementById('theme-label');
+            const themeIcon = document.getElementById('theme-icon');
+            const t = translations[currentLang];
+
+            if (themeLabel && themeIcon) {
+                themeLabel.innerText = isDark ? t.themeLight : t.themeDark;
+                themeIcon.innerText = isDark ? '☀️' : '🌙';
+            }
+        }
+
+        // 🌐 DİL DƏYİŞMƏ
         function applyLanguage(lang) {
             currentLang = lang;
             localStorage.setItem('site_lang', lang);
@@ -288,6 +341,7 @@
             document.getElementById('profile-role').innerText = t.role;
             document.getElementById('language-select').value = lang;
 
+            updateThemeUI();
             updateProgress();
         }
 
@@ -298,6 +352,10 @@
         // 1. İLK GİRİŞ YOXLAMASI (LOCAL STORAGE)
         function checkFirstVisit() {
             const savedUser = localStorage.getItem('user_name');
+            const savedAvatar = localStorage.getItem('user_avatar') || 'Panda';
+            
+            changeAvatarPreset(savedAvatar);
+
             if (!savedUser) {
                 document.getElementById('welcome-modal').classList.remove('hidden');
             } else {
@@ -355,8 +413,8 @@
             }
         }
 
-        // 2. VAXT SAYĞACI
-        let totalSeconds = 3600;
+        // 2. 1 SAATLIQ VAXT SAYĞACI VƏ FİŞƏNG ŞOUSU 🎆
+        let totalSeconds = 3600; // 1 Saat = 3600 Saniyə
         let timerInterval = null;
 
         function startTimer() {
@@ -364,7 +422,8 @@
             timerInterval = setInterval(() => {
                 if (totalSeconds <= 0) {
                     clearInterval(timerInterval);
-                    alert(currentLang === 'az' ? "Vaxtınız bitdi!" : "Time is up!");
+                    triggerFireworks(); // 🎆 Fişəngləri partlat!
+                    document.getElementById('finish-modal').classList.remove('hidden');
                     return;
                 }
                 totalSeconds--;
@@ -374,7 +433,36 @@
             }, 1000);
         }
 
-        // 3. SETTINGS & PROFILE
+        // 🎆 Fişəng Effekti (Fireworks / Confetti Function)
+        function triggerFireworks() {
+            const duration = 5 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                const particleCount = 50 * (timeLeft / duration);
+
+                // Sol və sağ tərəflərdən fişənglər
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+        }
+
+        function closeFinishModal() {
+            document.getElementById('finish-modal').classList.add('hidden');
+        }
+
+        // 3. SETTINGS & PROFILE & AVATARS
         function toggleSettingsDrawer(open) {
             const drawer = document.getElementById('settings-drawer');
             const backdrop = document.getElementById('settings-backdrop');
@@ -387,22 +475,11 @@
             }
         }
 
-        function toggleDarkMode() {
-            const html = document.documentElement;
-            const themeLabel = document.getElementById('theme-label');
-            const t = translations[currentLang];
-
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                themeLabel.innerText = t.themeDark;
-            } else {
-                html.classList.add('dark');
-                themeLabel.innerText = t.themeLight;
-            }
-        }
-
+        // 🖼 Şəkillər/Avatarlar Tam Düzəldildi
         function changeAvatarPreset(type) {
-            document.getElementById('drawer-user-avatar').src = `https://api.dicebear.com/7.x/bottts/svg?seed=${type}`;
+            const avatarImg = document.getElementById('drawer-user-avatar');
+            avatarImg.src = `https://api.dicebear.com/7.x/bottts/svg?seed=${type}`;
+            localStorage.setItem('user_avatar', type);
         }
 
         function editName() {
@@ -415,7 +492,7 @@
             }
         }
 
-        // 4. DƏRSLƏR MƏNTİQİ
+        // 4. DƏRSLƏR VƏ QUİZ MƏNTİQİ
         const lesson1Sentences = [
             "1. Python dünyada ən çox istifadə olunan və öyrənilməsi ən asan proqramlaşdırma dillərindən biridir.",
             "2. Bu dil 1991-ci ildə Qvido van Rossum tərəfindən təqdim edilmişdir.",
@@ -449,7 +526,7 @@
                     ${lesson1Sentences.map(sentence => `<p class="text-xs md:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">${sentence}</p>`).join('')}
                 </div>`;
             } else {
-                contentText = `<p>Bu, Python proqramlaşdırma dilinin ${num}-cü dərs hissəsidir. Burada mühüm məntiqi anlayışlar izah olunur.</p>`;
+                contentText = `<p class="text-slate-700 dark:text-slate-300">Bu, Python proqramlaşdırma dilinin ${num}-cü dərs hissəsidir. Bu bölmədə Python haqqında təcrübi misallar həll edəcəksiniz.</p>`;
             }
 
             return {
@@ -475,7 +552,7 @@
             lessons.forEach(lesson => {
                 const isCompleted = completedLessons.includes(lesson.id);
                 const btn = document.createElement('button');
-                btn.className = `w-full text-left p-3 rounded-xl text-sm font-medium transition flex justify-between items-center cursor-pointer ${currentLessonId === lesson.id ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 border border-blue-200 dark:border-blue-800' : 'hover:bg-slate-100 dark:hover:bg-slate-700/50'}`;
+                btn.className = `w-full text-left p-3 rounded-xl text-sm font-medium transition flex justify-between items-center cursor-pointer ${currentLessonId === lesson.id ? 'bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800' : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700/50'}`;
                 btn.innerHTML = `<span>${lesson.title}</span> ${isCompleted ? '✅' : '📖'}`;
                 btn.onclick = () => { selectLesson(lesson.id); currentQuizIndex = 0; };
                 listEl.appendChild(btn);
@@ -507,7 +584,7 @@
             optionsEl.innerHTML = '';
             q.options.forEach((opt, idx) => {
                 const optBtn = document.createElement('button');
-                optBtn.className = 'w-full text-left px-3 py-2 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm hover:bg-blue-50 dark:hover:bg-slate-700 cursor-pointer transition';
+                optBtn.className = 'w-full text-left px-3 py-2 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 text-sm hover:bg-blue-50 dark:hover:bg-slate-700 cursor-pointer transition';
                 optBtn.innerText = opt;
                 optBtn.onclick = () => checkQuiz(idx, q.correct, lesson);
                 optionsEl.appendChild(optBtn);
@@ -595,6 +672,7 @@
 
         // SƏHFƏ YÜKLƏNƏNDƏ
         document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
             applyLanguage(currentLang);
             checkFirstVisit();
             renderLessons();
