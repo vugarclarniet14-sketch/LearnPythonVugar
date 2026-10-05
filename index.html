@@ -36,14 +36,13 @@
                 👋
             </div>
             
-            <h2 id="modal-title" class="text-xl font-bold mb-1">Xoş Gəlmisiniz!</h2>
-            <p id="modal-desc" class="text-xs text-slate-500 mb-4">Dərsə başlamazdan əvvəl zəhmət olmasa adınızı daxil edin və saytımızı qiymətləndirin.</p>
-
-            <!-- 🔒 Təhlükəsizlik Bildirişi -->
-            <div class="w-full mb-5 py-2 px-3 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center justify-center gap-2 text-emerald-700 text-xs font-semibold">
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-600 text-xs font-bold mb-3 shadow-2xs">
                 <span>🔒</span>
-                <span id="security-badge-text">Təhlükəsizdir və SSL ilə qorunur</span>
+                <span id="badge-secure">Təhlükəsizdir</span>
             </div>
+
+            <h2 id="modal-title" class="text-xl font-bold mb-1">Xoş Gəlmisiniz!</h2>
+            <p id="modal-desc" class="text-xs text-slate-500 mb-6">Dərsə başlamazdan əvvəl zəhmət olmasa adınızı daxil edin və saytımızı qiymətləndirin.</p>
 
             <div class="w-full flex flex-col gap-4 mb-6">
                 <div class="text-left">
@@ -75,7 +74,7 @@
             <div class="text-6xl mb-3">🎆🎉🎆</div>
             <h2 id="finish-title" class="text-2xl font-black text-blue-600 mb-2">Təbriklər!</h2>
             <p id="finish-desc" class="text-sm text-slate-600 mb-6 leading-relaxed">
-                1 saatlıq dərsi uğurla başa vurdunuz! Sizinlə fəxr edirik!
+                6 aylıq hədəfi uğurla başa vurdunuz! Sizinlə fəxr edirik!
             </p>
             <button onclick="closeFinishModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-sm cursor-pointer shadow-lg shadow-blue-500/30 transition">
                 Super! Əla İş 👏
@@ -83,11 +82,14 @@
         </div>
     </div>
 
-    <!-- ⚙ YUXARI SAĞ KÜNC -->
+    <!-- ⚙ YUXARI SAĞ KÜNC: TAYMER VƏ MENYU -->
     <div class="fixed top-4 right-4 z-40 flex items-center gap-3">
-        <div id="timer-badge" class="flex items-center gap-1.5 bg-white border border-rose-200 px-3.5 py-2 rounded-xl text-rose-600 font-mono text-xs font-bold shadow-md">
-            <span>⏳</span>
-            <span id="time-left">60:00</span>
+        <div id="timer-badge" class="flex flex-col items-end bg-white border border-rose-200 px-3 py-1.5 rounded-xl text-rose-600 font-mono shadow-md">
+            <div class="flex items-center gap-1.5 text-xs font-bold">
+                <span>⏳</span>
+                <span id="time-left">180:00:00</span>
+            </div>
+            <span id="timer-subtext" class="text-[9px] font-sans font-semibold text-rose-400 tracking-tight">Bu müddətə bitir</span>
         </div>
 
         <button onclick="toggleSettingsDrawer(true)" class="p-2.5 rounded-xl border border-slate-300 bg-white text-slate-800 text-base shadow-md cursor-pointer hover:bg-slate-100 transition flex items-center gap-2">
@@ -157,12 +159,15 @@
         </div>
     </div>
 
-    <!-- HEADER / NAVBAR (PythonPro | Vüqar) -->
+    <!-- HEADER / NAVBAR -->
     <header class="border-b border-slate-200 bg-white/80 backdrop-blur sticky top-0 z-30 px-6 py-4 flex justify-between items-center shadow-xs">
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-4">
             <h1 class="text-2xl font-black bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">PythonPro</h1>
-            <span class="text-xs font-bold text-slate-400 hidden sm:inline">|</span>
-            <span class="text-xs font-bold bg-slate-100 text-slate-700 px-3 py-1 rounded-full border border-slate-200">👨‍💻 Vüqar</span>
+            <!-- 👑 VÜQAR YAZISI OLAN YER -->
+            <div class="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-xl bg-blue-50 border border-blue-100 text-blue-700 text-xs font-bold shadow-2xs">
+                <span>💻</span>
+                <span>Tələbə: <span id="nav-vuqar-name" class="underline">Vüqar</span></span>
+            </div>
             <span id="progress-text" class="text-xs bg-blue-100 text-blue-700 font-bold px-3 py-1 rounded-full border border-blue-200">İrəliləyiş: 0%</span>
         </div>
     </header>
@@ -249,7 +254,8 @@
             az: {
                 modalTitle: "Xoş Gəlmisiniz!",
                 modalDesc: "Dərsə başlamazdan əvvəl zəhmət olmasa adınızı daxil edin və saytımızı qiymətləndirin.",
-                securityBadge: "Təhlükəsizdir və SSL ilə qorunur",
+                badgeSecure: "Təhlükəsizdir",
+                timerSub: "Bu müddətə bitir",
                 lblName: "Adınız",
                 lblRating: "Qiymətləndirmə",
                 btnStart: "Daxil Ol və Başla 🚀",
@@ -276,7 +282,7 @@
                 incorrectMsg: "✖ Səhvdir, yenidən cəhd edin.",
                 quizCompleted: "🎉 Təbriklər! Bütün 15 sualı tamamladınız.",
                 finishTitle: "Təbriklər!",
-                finishDesc: "1 saatlıq dərsi uğurla başa vurdunuz! Sizinlə fəxr edirik!",
+                finishDesc: "6 aylıq hədəfi uğurla başa vurdunuz! Sizinlə fəxr edirik!",
                 finishBtn: "Super! Əla İş 👏",
                 avgRating: "Orta Bal:",
                 votes: "səs",
@@ -285,7 +291,8 @@
             en: {
                 modalTitle: "Welcome!",
                 modalDesc: "Please enter your name and rate our site before starting.",
-                securityBadge: "Secure and protected with SSL",
+                badgeSecure: "Secure",
+                timerSub: "Complete within this time",
                 lblName: "Your Name",
                 lblRating: "Rating",
                 btnStart: "Enter & Start 🚀",
@@ -312,7 +319,7 @@
                 incorrectMsg: "✖ Incorrect, please try again.",
                 quizCompleted: "🎉 Congratulations! You completed all 15 questions.",
                 finishTitle: "Congratulations!",
-                finishDesc: "You have successfully completed the 1-hour session! We are proud of you!",
+                finishDesc: "You have successfully completed the 6-month goal! We are proud of you!",
                 finishBtn: "Awesome! Great Job 👏",
                 avgRating: "Average Rating:",
                 votes: "votes",
@@ -367,6 +374,7 @@
         ];
 
         const quizBankAZ = [
+            // Dərs 1
             [
                 {q: "Python-da ekrana məlumat çıxarmaq üçün hansı funksiya istifadə olunur?", opts: ["print()", "echo()", "console.log()", "write()"], correct: 0},
                 {q: "Python dili hansı ildə yaradılmışdır?", opts: ["1985", "1991", "2000", "1995"], correct: 1},
@@ -383,6 +391,348 @@
                 {q: "Python hansı əməliyyat sistemlərində işləyir?", opts: ["Yalnız Windows", "Yalnız Mac", "Bütün əməliyyat sistemlərində", "Yalnız Linux"], correct: 2},
                 {q: "Yeni başlayanlar üçün Python nədən seçilir?", opts: ["Çətin olduğundan", "Öyrənilməsi asan olduğundan", "Bahalı olduğundan", "Sürətsiz olduğundan"], correct: 1},
                 {q: "Python sintaksis cəhətdən nəyə bənzəyir?", opts: ["İngilis dilinə", "Fransız dilinə", "Riyazi düsturlara", "Maşın dilinə"], correct: 0}
+            ],
+            // Dərs 2
+            [
+                {q: "Dərs 2: Python-da x = 5 ifadəsi nəyi bildirir?", opts: ["x-ə 5 mənimsədilir", "5 x-ə bərabərdir", "Müqayisədir", "Xəta verir"], correct: 0},
+                {q: "Dərs 2: Dəvışən adları nədən başlaya bilməz?", opts: ["Hərfdən", "Rəqəmdən", "Alt xətdən", "_ simvolundan"], correct: 1},
+                {q: "Dərs 2: Sözləri ayırmaq üçün standart olaraq nə istifadə olunur?", opts: ["Boşluq", "Alt xətt (_)", "Defis", "Vergül"], correct: 1},
+                {q: "Dərs 2: Dəyişən dəyərini sonradan dəyişmək olarmı?", opts: ["Xeyr", "Bəli", "Yalnız rəqəm ola bilər", "Yalnız mətn ola bilər"], correct: 1},
+                {q: "Dərs 2: a, b = 10, 20 yazılışı neçə dəyər təyin edir?", opts: ["1", "2", "3", "0"], correct: 1},
+                {q: "Dərs 2: Dəyişən adlarında xüsusi simvollar ($ , %) istifadə oluna bilərmi?", opts: ["Bəli", "Xeyr", "Yalnız $", "Yalnız %"], correct: 1},
+                {q: "Dərs 2: print(x) əmri nə edir?", opts: ["x-i silir", "x-in qiymətini ekrana çıxarır", "x-i dəyişir", "Xəta verir"], correct: 1},
+                {q: "Dərs 2: Yas və yas dəyişənləri eynidirmi?", opts: ["Bəli", "Fərqlidir", "Python qadağan edir", "Eyni yaddaşdadır"], correct: 1},
+                {q: "Dərs 2: Dəyişənlər yaddaşda nə üçündür?", opts: ["Məlumat saxlamaq üçün", "Şəkil çəkmək üçün", "Səs yazmaq üçün", "İnternetə qoşulmaq üçün"], correct: 0},
+                {q: "Dərs 2: Python-da dəyər təyin edərkən tipini əvvəlcədən yazmaq lazımdırmı?", opts: ["Bəli", "Xeyr (Dinamikdir)", "Məcburidir", "Yalnız int üçün"], correct: 1},
+                {q: "Dərs 2: Aşağıdakılardan hansı düzgün dəyişən adıdır?", opts: ["12user", "user-name", "user_name", "user name"], correct: 2},
+                {q: "Dərs 2: Dəyişən adına Python xüsusi sözləri (məs: if) verilə bilrmi?", opts: ["Bəli", "Xeyr", "İstəsən olar", "Yalnız kiçik hərflə"], correct: 1},
+                {q: "Dərs 2: Dəyişənlərlə riyazi əməliyyat aparmaq olarmı?", opts: ["Bəli", "Xeyr", "Yalnız toplama", "Yalnız vurma"], correct: 0},
+                {q: "Dərs 2: Dəyişən nəyi təmsil edir?", opts: ["Yaddaşda bir qabı", "Sabit ədədi", "Monitoru", "Klaviaturanı"], correct: 0},
+                {q: "Dərs 2: Dəyişənin dəyərini oxumaq üçün nə yazırıq?", opts: ["read(x)", "print(x)", "show(x)", "get(x)"], correct: 1}
+            ],
+            // Dərs 3
+            [
+                {q: "Dərs 3: Tam ədədlər hansı tipə aiddir?", opts: ["str", "float", "int", "bool"], correct: 2},
+                {q: "Dərs 3: Kəsir ədədlər hansı tipdə olur?", opts: ["int", "float", "str", "list"], correct: 1},
+                {q: "Dərs 3: Mətn tipli məlumatlar necə adlanır?", opts: ["int", "str", "bool", "float"], correct: 1},
+                {q: "Dərs 3: Məntiqi True və ya False hansı tipdir?", opts: ["int", "bool", "str", "float"], correct: 1},
+                {q: "Dərs 3: Dəyişənin tipini öyrənən funksiya hansıdır?", opts: ["typeof()", "type()", "gettype()", "check()"], correct: 1},
+                {q: "Dərs 3: str(5) ifadəsi nə nəticə verir?", opts: ["5 ədədi", "'5' mətni", "Xəta", "True"], correct: 1},
+                {q: "Dərs 3: int('10') ifadəsi mətni nəyə çevirir?", opts: ["Tam ədədə", "Kəsir ədədə", "Mətnə", "Boşluğa"], correct: 0},
+                {q: "Dərs 3: float(4) nəticəsi necə olar?", opts: ["4", "4.0", "0.4", "Xəta"], correct: 1},
+                {q: "Dərs 3: Kəsir ədədlərdə hansı simvoldan istifadə olunur?", opts: ["Vergül (,)", "Nöqtə (.)", "İki nöqtə (:)", "Sıfır"], correct: 1},
+                {q: "Dərs 3: Səhv tip çevirməsi zamanı hansı xəta alınır?", opts: ["SyntaxError", "ValueError", "TypeError", "IndexError"], correct: 1},
+                {q: "Dərs 3: print(type(3.14)) ekrana nə yazdırır?", opts: ["int", "str", "float", "bool"], correct: 2},
+                {q: "Dərs 3: Boolean tipləri harda vacib rol oynayır?", opts: ["Şərtlərdə", "print əmrində", "input-da", "Fayllarda"], correct: 0},
+                {q: "Dərs 3: Python-da məlumat tipləri necə dəyişə bilir?", opts: ["Dinamik", "Statik", "Dəyişməz", "Sabit"], correct: 0},
+                {q: "Dərs 3: Mətnlə rəqəmi birbaşa toplamaq olarmı?", opts: ["Bəli", "Xəta verər (tiplər uyğun olmalıdır)", "0 alınır", "1 alınır"], correct: 1},
+                {q: "Dərs 3: Doğru məlumat tipi seçmək proqrama necə təsir edir?", opts: ["Sürəti azaldır", "Effektivliyi artırır", "Heç cür", "Dondurur"], correct: 1}
+            ],
+            // Dərs 4
+            [
+                {q: "Dərs 4: Toplama əməliyyatı üçün hansı operator istifadə olunur?", opts: ["+", "-", "*", "/"], correct: 0},
+                {q: "Dərs 4: Vurma əməliyyatı hansı simvoldur?", opts: ["x", "*", "#", "&"], correct: 1},
+                {q: "Dərs 4: Bölmə əməliyyatının (/) nəticəsi həmişə hansı tipdə olur?", opts: ["int", "float", "str", "bool"], correct: 1},
+                {q: "Dərs 4: Tam bölmə üçün hansı işarə işlədilir?", opts: ["/", "//", "%", "**"], correct: 1},
+                {q: "Dərs 4: Qalıq tapmaq üçün hansı operator var?", opts: ["//", "%", "/", "*"], correct: 1},
+                {q: "Dərs 4: Qüvvətə yüksəltmək üçün nə yazılır?", opts: ["*", "**", "^", "pow"], correct: 1},
+                {q: "Dərs 4: Riyazi əməliyyatlarda nəyin üstünlüyü var?", opts: ["Mötərizələrin", "Toplamanın", "Çıxmanın", "Heç birinin"], correct: 0},
+                {q: "Dərs 4: x += 1 ifadəsi x-in qiymətini nə edir?", opts: ["1 vahid azaldır", "1 vahid artırır", "Silir", "Dəyişmir"], correct: 1},
+                {q: "Dərs 4: 'A' * 3 əmri nə nəticə verir?", opts: ["AAA", "A3", "Xəta", "A A A"], correct: 0},
+                {q: "Dərs 4: 2 ** 3 ifadəsinin nəticəsi nədir?", opts: ["6", "8", "9", "5"], correct: 1},
+                {q: "Dərs 4: 10 % 3 ifadəsinin qalığı neçədir?", opts: ["3", "1", "0", "2"], correct: 1},
+                {q: "Dərs 4: 5 // 2 tam bölməsinin nəticəsi nədir?", opts: ["2.5", "2", "3", "1"], correct: 1},
+                {q: "Dərs 4: Mətnləri toplamaq (+) nə edir?", opts: ["Çıxır", "Birləşdirir", "Vurur", "Xəta verir"], correct: 1},
+                {q: "Dərs 4: Mənfi ədədlərlə riyazi hesablamaq olar?", opts: ["Bəli", "Xeyr", "Yalnız toplaya bilərsən", "Yalnız sıfır olar"], correct: 0},
+                {q: "Dərs 4: Riyazi operatorlar proqramda nə üçündür?", opts: ["Hesablama aparmaq üçün", "Mətn yazmaq üçün", "Şəkil çəkmək üçün", "Rəng vermək üçün"], correct: 0}
+            ],
+            // Dərs 5
+            [
+                {q: "Dərs 5: Mətnin uzunluğunu tapmaq üçün hansı funksiya var?", opts: ["size()", "len()", "length()", "count()"], correct: 1},
+                {q: "Dərs 5: Pythonda indeksləmə neçədən başlayır?", opts: ["1", "0", "-1", "10"], correct: 1},
+                {q: "Dərs 5: Mətnin ilk hərfini almaq üçün nə yazılır?", opts: ["ad[1]", "ad[0]", "ad[-1]", "ad[start]"], correct: 1},
+                {q: "Dərs 5: Mənfi indeks mətni hansı tərəfdən oxuyur?", opts: ["Sondan", "Əvvəldən", "Ortadan", "Oxuya bilməz"], correct: 0},
+                {q: "Dərs 5: Bütün hərfləri böyütmək üçün hansı metod var?", opts: ["upper()", "lower()", "capitalize()", "big()"], correct: 0},
+                {q: "Dərs 5: Bütün hərfləri kiçiltmək üçün hansı metod var?", opts: ["small()", "lower()", "down()", "min()"], correct: 1},
+                {q: "Dərs 5: strip() metodu nə edir?", opts: ["Boşluqları silir", "Mətni böyüdür", "Mətni tərsinə çevirir", "Hərfləri sayır"], correct: 0},
+                {q: "Dərs 5: replace() metodu nə üçündür?", opts: ["Əvəz etmək üçün", "Silmək üçün", "Birləşdirmək üçün", "Bölmək üçün"], correct: 0},
+                {q: "Dərs 5: f-string yazılışında dəyişən hansı mötərizəyə alınır?", opts: ["Normal mötərizə ()", "Kvadrat mötərizə []", "Fiqurlu mötərizə {}", "Dırnaq ''"], correct: 2},
+                {q: "Dərs 5: Mətn içində yeni sətrə keçmək üçün nə yazılır?", opts: ["\\t", "\\n", "\\b", "\\r"], correct: 1},
+                {q: "Dərs 5: Mətn daxilində tab boşluğu üçün nə yazılır?", opts: ["\\n", "\\t", "\\s", "\\v"], correct: 1},
+                {q: "Dərs 5: Mətnlər dəyişdirilə bilən yoxsa dəyişməzdir (immutable)?", opts: ["Dəyişdirilə biləndir", "Dəyişməzdir", "İkisi də olar", "List kimidir"], correct: 1},
+                {q: "Dərs 5: split() metodu mətni nəyə çevirir?", opts: ["Ədədə", "Siyahıya (List)", "Boolean", "Float"], correct: 1},
+                {q: "Dərs 5: 'Python'[1] hansı hərfi qaytarır?", opts: ["P", "y", "t", "n"], correct: 1},
+                {q: "Dərs 5: Mətn dilimləmə (slicing) necə yazılır?", opts: ["[start:end]", "(start, end)", "{start-end}", "<start>"], correct: 0}
+            ],
+            // Dərs 6
+            [
+                {q: "Dərs 6: İstifadəçidən məlumat alan funksiya hansıdır?", opts: ["get()", "input()", "read()", "scan()"], correct: 1},
+                {q: "Dərs 6: input() funksiyasından çıxan məlumat həmişə hansı tipdə olur?", opts: ["int", "float", "str", "bool"], correct: 2},
+                {q: "Dərs 6: İstifadəçidən ədəd almaq üçün input nə ilə əhatə olunmalıdır?", opts: ["str()", "int()", "list()", "bool()"], correct: 1},
+                {q: "Dərs 6: yas = int(input()) yazılışı nə edir?", opts: ["Mətn alır", "Ədədə çevirib alır", "Xəta verir", "Səhvdir"], correct: 1},
+                {q: "Dərs 6: input() işləyəndə proqram nə edir?", opts: ["Dayanıb daxil etməni gözləyir", "Dərhal bağlanır", "Sürətlə işləyir", "Heç nə"], correct: 0},
+                {q: "Dərs 6: İstifadəçi məlumat daxil edib hansı düyməni basmalıdır?", opts: ["Space", "Enter", "Esc", "Tab"], correct: 1},
+                {q: "Dərs 6: input('Ad: ') daxilindəki mətn harada görünür?", opts: ["Ekranda sual kimi", "Faylda", "Yaddaşda", "Görünmür"], correct: 0},
+                {q: "Dərs 6: Çevirmə etmədən input ilə gələn ədədi toplasaq nə olar?", opts: ["Düzgün işləyər", "Mətnləri birləşdirər (xəta və ya səhv nəticə)", "0 olar", "1 olar"], correct: 1},
+                {q: "Dərs 6: İnteraktiv oyunlar yazmaqda input vacibdirmi?", opts: ["Bəli", "Xeyr", "Yalnız vebdə", "Yalnız süni intellektdə"], correct: 0},
+                {q: "Dərs 6: input() funksiyası haradan məlumat oxuyur?", opts: ["Klaviaturadan", "Printerdən", "Siçandan", "Fayldan"], correct: 0},
+                {q: "Dərs 6: int('abc') yazdıqda nə baş verir?", opts: ["5 olar", "ValueError xətası", "abc olar", "0 olar"], correct: 1},
+                {q: "Dərs 6: input() nəticəsini dəyişəndə saxlamaq olar?", opts: ["Bəli", "Xeyr", "Yalnız printdə olar", "Qadağandır"], correct: 0},
+                {q: "Dərs 6: Kalkulyator hazırlanarkən input nə üçündür?", opts: ["Rəqəm almaq üçün", "Rəng seçmək üçün", "Musiqi çalmaq üçün", "Səs üçün"], correct: 0},
+                {q: "Dərs 6: input() daxilinə sual vermək mümkündür?", opts: ["Bəli", "Xeyr", "Yalnız ingiliscə", "Yalnız rəqəmlə"], correct: 0},
+                {q: "Dərs 6: İstifadəçi səhv daxil etdikdə proqramın qorunması nə ilə olur?", opts: ["try-except", "input", "print", "range"], correct: 0}
+            ],
+            // Dərs 7
+            [
+                {q: "Dərs 7: Şərt yoxlamaq üçün əsas açar söz hansıdır?", opts: ["when", "if", "check", "condition"], correct: 1},
+                {q: "Dərs 7: Şərt ödənmədikdə alternative yoxlamaq üçün nə yazılır?", opts: ["else if", "elif", "elseif", "otherwise"], correct: 1},
+                {q: "Dərs 7: Heç bir şərt ödənmədikdə hansı blok işləyir?", opts: ["default", "else", "other", "finally"], correct: 1},
+                {q: "Dərs 7: Pythonda kod bloklarını ayırmaq üçün nə vacibdir?", opts: ["Boşluqlar (Girinti)", "Mötərizələr", "Nöqtəli vergül", "Dırnaqlar"], correct: 0},
+                {q: "Dərs 7: Girintilər səhv olduqda hansı xəta alınır?", opts: ["SyntaxError", "IndentationError", "TypeError", "ValueError"], correct: 1},
+                {q: "Dərs 7: Şərt sətrinin sonuna mütləq nə qoyulmalıdır?", opts: ["Nöqtə (.)", "İki nöqtə (:)", "Vergül (,)", "Nöqtəli vergül (;)"], correct: 1},
+                {q: "Dərs 7: Adətən bir girinti neçə boşluqdan ibarət olur?", opts: ["1", "2", "4", "10"], correct: 2},
+                {q: "Dərs 7: Şərt operatorları proqrama nə qatır?", opts: ["Sürət", "Məntiq və qərar vermə", "Rəng", "Səs"], correct: 1},
+                {q: "Dərs 7: else bloqunun yazılması məcburidirmi?", opts: ["Bəli", "Xeyr", "Həmişə", "Yalnız elif olduqda"], correct: 1},
+                {q: "Dərs 7: Şərtlər hansı nəticəyə əsaslanır?", opts: ["True / False", "Ədədə", "Mətnə", "Siyahıya"], correct: 0},
+                {q: "Dərs 7: İç-içə (nested) if yazmaq olar?", opts: ["Bəli", "Xeyr", "Yalnız 2 dənə", "Qadağandır"], correct: 0},
+                {q: "Dərs 7: if x > 5: yazılışında x 10 olarsa nə olar?", opts: ["if bloku işləyər", "else işləyər", "Xəta", "Heç nə"], correct: 0},
+                {q: "Dərs 7: Bir neçə elif bloku yazmaq olar?", opts: ["Xeyr", "Yalnız 1 dənə", "Bəli, istədiyiniz qədər", "Yalnız 2 dənə"], correct: 2},
+                {q: "Dərs 7: Sınav qiymətlərini hesablayarkən nə işlədilir?", opts: ["if-elif-else", "print", "input", "len"], correct: 0},
+                {q: "Dərs 7: Şərt operatorları proqramlaşdırmanın nəyidir?", opts: ["Özəyi", "Əlavəsi", "Səhvi", "Lazımsızı"], correct: 0}
+            ],
+            // Dərs 8
+            [
+                {q: "Dərs 8: İki dəyərin bərabərliyini yoxlayan operator hansıdır?", opts: ["=", "==", "!=", "==="], correct: 1},
+                {q: "Dərs 8: Bərabər deyil yoxlaması hansıdır?", opts: ["not =", "!=", "<>", "=/="], correct: 1},
+                {q: "Dərs 8: Böyükdür simvolu hansıdır?", opts: [">", "<", ">=", "<="], correct: 0},
+                {q: "Dərs 8: Kiçikdir simvolu hansıdır?", opts: [">", "<", ">=", "<="], correct: 1},
+                {q: "Dərs 8: Böyük və ya bərabərdir necə yazılır?", opts: ["=>", ">=", "=<", "=<="], correct: 1},
+                {q: "Dərs 8: Müqayisə operatorlarının nəticəsi həmişə nədir?", opts: ["int", "str", "True / False", "float"], correct: 2},
+                {q: "Dərs 8: 5 > 3 ifadəsi nə qaytarır?", opts: ["False", "True", "5", "3"], correct: 1},
+                {q: "Dərs 8: Mənimsətmə (=) ilə bərabərlik yoxlaması (==) eynidirmi?", opts: ["Bəli", "Fərqlidir", "Python-da fərqi yoxdur", "İkisi də eyni işi görür"], correct: 1},
+                {q: "Dərs 8: Mətnləri müqayisə etmək olarmi?", opts: ["Xeyr", "Bəli, əlifba sırasına görə", "Yalnız uzunluğa görə", "Yalnız rəqəm varsa"], correct: 1},
+                {q: "Dərs 8: Müqayisələr ən çox harada istifadə olunur?", opts: ["print-də", "if şərtlərində", "input-da", "import-da"], correct: 1},
+                {q: "Dərs 8: Kiçik və ya bərabərdir necə yazılır?", opts: ["=<", "<=", "=<=", "!<"], correct: 1},
+                {q: "Dərs 8: 10 != 10 nəticəsi nədir?", opts: ["True", "False", "10", "0"], correct: 1},
+                {q: "Dərs 8: Müqayisə operatorları neçə dəyəri müqayisə edir?", opts: ["1", "İki dəyəri", "10", "Limitsiz"], correct: 1},
+                {q: "Dərs 8: Fərqli tipləri (məsələn mətn və ədəd) == ilə yoxlasaq nə olar?", opts: ["True olar", "False olar", "Xəta verər", "5 olar"], correct: 1},
+                {q: "Dərs 8: Müqayisə nəticəsi hansı tipə aiddir?", opts: ["bool", "int", "str", "float"], correct: 0}
+            ],
+            // Dərs 9
+            [
+                {q: "Dərs 9: Bütün şərtlər doğru olmalıdırsa hansı operator işlədilir?", opts: ["or", "and", "not", "if"], correct: 1},
+                {q: "Dərs 9: Şərtlərdən ən az biri doğru olduqda nə işlədilir?", opts: ["and", "or", "not", "else"], correct: 1},
+                {q: "Dərs 9: Şərtin nəticəsini tərsinə çevirən operator hansıdır?", opts: ["and", "or", "not", "reverse"], correct: 2},
+                {q: "Dərs 9: not True ifadəsinin nəticəsi nədir?", opts: ["True", "False", "None", "Xəta"], correct: 1},
+                {q: "Dərs 9: and operatorunda bir şərt False olarsa nəticə nə olur?", opts: ["True", "False", "Xəta", "0"], correct: 1},
+                {q: "Dərs 9: or operatorunda bütün şərtlər False olarsa nəticə nə olur?", opts: ["True", "False", "None", "1"], correct: 1},
+                {q: "Dərs 9: İstifadəçi adı və şifrə yoxlanarkən adətən nə istifadə olunur?", opts: ["and", "or", "not", "print"], correct: 0},
+                {q: "Dərs 9: Məntiqi operatorlar şərtləri necə edir?", opts: ["Zəif", "Effektiv və mürəkkəb", "Uzun", "Lazımsız"], correct: 1},
+                {q: "Dərs 9: Prioriteti tənzimləmək üçün nədən istifadə olunur?", opts: ["Mötərizə ()", "Dırnaqlar", "Vergül", "Nöqtə"], correct: 0},
+                {q: "Dərs 9: x > 5 and x < 10 ifadəsi x nə olduqda True verir?", opts: ["3", "7", "12", "5"], correct: 1},
+                {q: "Dərs 9: Məntiqi operatorlar hansı tip ilə işləyir?", opts: ["bool", "int", "str", "list"], correct: 0},
+                {q: "Dərs 9: not operatoru neçə arqument alır?", opts: ["2", "1", "3", "Limitsiz"], correct: 1},
+                {q: "Dərs 9: and operatoru digər adı nədir?", opts: ["Və", "Və ya", "Deşil", "Əks"], correct: 0},
+                {q: "Dərs 9: or operatoru digər adı nədir?", opts: ["Və", "Və ya", "Deşil", "Bərabər"], correct: 1},
+                {q: "Dərs 9: Doğru məntiq qurmaq proqramda nəyi azaldır?", opts: ["Xətaları (Bugs)", "Sürəti", "Yaddaşı", "Həcmi"], correct: 0}
+            ],
+            // Dərs 10
+            [
+                {q: "Dərs 10: Siyahılar (Lists) hansı mötərizə ilə yazılır?", opts: ["()", "{}", "[]", "<>"], correct: 2},
+                {q: "Dərs 10: Siyahıya sona element əlavə edən metod hansıdır?", opts: ["add()", "append()", "insert()", "push()"], correct: 1},
+                {q: "Dərs 10: Siyahıdan elementi dəyərinə görə silən metod hansıdır?", opts: ["delete()", "remove()", "pop()", "clear()"], correct: 1},
+                {q: "Dərs 10: Siyahının uzunluğunu tapan funksiya hansıdır?", opts: ["size()", "len()", "count()", "length()"], correct: 1},
+                {q: "Dərs 10: Siyahının elementlərini sonradan dəyişmək olarmi?", opts: ["Xeyr", "Bəli (mutable)", "Yalnız ilk elementi", "Yalnız son elementi"], correct: 1},
+                {q: "Dərs 10: Siyahı daxilində başqa siyahı saxlamaq olar?", opts: ["Bəli", "Xeyr", "Yalnız 1 dənə", "Qadağandır"], correct: 0},
+                {q: "Dərs 10: Siyahı elementləri bir-birindən nə ilə ayrılır?", opts: ["Nöqtə", "Vergül (,)", "İki nöqtə", "Defis"], correct: 1},
+                {q: "Dərs 10: pop() metodu nə edir?", opts: ["Elementi indekslə silir və qaytarır", "Hamısını silir", "Sonuna əlavə edir", "Sıralayır"], correct: 0},
+                {q: "Dərs 10: insert() metodu nə üçündür?", opts: ["Müəyyən indeksə element əlavə etmək", "Silmək", "Çevirmək", "Çap etmək"], correct: 0},
+                {q: "Dərs 10: Siyahıları birləşdirmək üçün hansı operator var?", opts: ["*", "+", "-", "/"], correct: 1},
+                {q: "Dərs 10: Elementin siyahıda olub-olmamasını yoxlayan operator?", opts: ["has", "in", "exist", "inside"], correct: 1},
+                {q: "Dərs 10: Siyahılar Pythonda necə strukturdur?", opts: ["Çox istifadə edilən", "Nadir", "Köhnəlmiş", "Qadağan"], correct: 0},
+                {q: "Dərs 10: Siyahıda fərqli tiplər (int, str) bir yerdə ola bilər?", opts: ["Bəli", "Xeyr", "Yalnız int", "Yalnız str"], correct: 0},
+                {q: "Dərs 10: meyvelər = ['alma', 'banan'] lüğət yoxsa siyahıdır?", opts: ["Lüğət", "Siyahı (List)", "Tuple", "Set"], correct: 1},
+                {q: "Dərs 10: Siyahının ilk elementi neçənci indeksdədir?", opts: ["1", "0", "-1", "10"], correct: 1}
+            ],
+            // Dərs 11
+            [
+                {q: "Dərs 11: Siyahını artan sıra ilə sıralayan metod hansıdır?", opts: ["order()", "sort()", "arrange()", "group()"], correct: 1},
+                {q: "Dərs 11: Siyahının elementlərini tərsinə çevirən metod?", opts: ["invert()", "reverse()", "back()", "flip()"], correct: 1},
+                {q: "Dərs 11: Siyahının bütün elementlərini təmizləyən metod?", opts: ["delete()", "clear()", "remove()", "empty()"], correct: 1},
+                {q: "Dərs 11: Siyahının nüsxəsini (surətini) yaradan metod?", opts: ["clone()", "copy()", "dup()", "new()"], correct: 1},
+                {q: "Dərs 11: Elementin siyahıda neçə dəfə təkrarlandığını tapan metod?", opts: ["repeat()", "count()", "times()", "find()"], correct: 1},
+                {q: "Dərs 11: Elementin ilk tapıldığı indeksi qaytaran metod?", opts: ["locate()", "index()", "position()", "search()"], correct: 1},
+                {q: "Dərs 11: Azalan sıra ilə sıralamaq üçün sort içində nə yazılır?", opts: ["reverse=True", "desc=True", "down=True", "max=True"], correct: 0},
+                {q: "Dərs 11: Orijinalı dəyişmədən yeni sıralanmış siyahı verən funksiya?", opts: ["sort()", "sorted()", "new_sort()", "order_list()"], correct: 1},
+                {q: "Dərs 11: Mövcud olmayan indeksə müraciət etdikdə nə alınır?", opts: ["SyntaxError", "IndexError", "TypeError", "ValueError"], correct: 1},
+                {q: "Dərs 11: Siyahı metodları məlumat analizində necə rol oynayır?", opts: ["Çox önəmli", "Əhəmiyyətsiz", "İstifadə olunmur", "Qadağandır"], correct: 0},
+                {q: "Dərs 11: Çoxölçülü siyahılar nəyə bənzəyir?", opts: ["Cədvəle (Matrix)", "Mətnə", "Ədədə", "Xəttə"], correct: 0},
+                {q: "Dərs 11: sort() metodu orijinal siyahını dəyişirmi?", opts: ["Bəli", "Xeyr", "Kopyasını yaradır", "Silir"], correct: 0},
+                {q: "Dərs 11: Ədədlər sort() ilə necə sıralanır?", opts: ["Böyükdən kiçiyə", "Kiçikdən böyüyə", "Təsadüfi", "Dəyişmir"], correct: 1},
+                {q: "Dərs 11: Mətnlər sort() ilə necə sıralanır?", opts: ["Əlifba sırası ilə", "Tərsinə", "Uzunluğa görə", "Rəqəmə görə"], correct: 0},
+                {q: "Dərs 11: Siyahı metodları proqramın sürətinə necə təsir edir?", opts: ["Müsbət", "Mənfi", "Təsir etmir", "Dondurur"], correct: 0}
+            ],
+            // Dərs 12
+            [
+                {q: "Dərs 12: Təkrarlanan əməliyyatlar üçün hansı dövr operatoru var?", opts: ["repeat", "for", "loop", "do"], correct: 1},
+                {q: "Dərs 12: Aralıq yaratmaq üçün for ilə hansı funksiya işlədilir?", opts: ["sequence", "range", "list", "array"], correct: 1},
+                {q: "Dərs 12: Dövrü vaxtından əvvəl dayandıran əmr hansıdır?", opts: ["stop", "break", "exit", "end"], correct: 1},
+                {q: "Dərs 12: Cari addımı buraxıb növbəti addıma keçən əmr?", opts: ["skip", "continue", "next", "pass"], correct: 1},
+                {q: "Dərs 12: for dövrünün sonuna hansı blok əlavə edilə bilər?", opts: ["else", "then", "finally", "default"], correct: 0},
+                {q: "Dərs 12: İç-içə for dövrü nə üçün işlədilir?", opts: ["Matrislər və cədvəllər üçün", "Yalnız print üçün", "Xəta vermək üçün", "Sürəti azaltmaq üçün"], correct: 0},
+                {q: "Dərs 12: for x in meyvelər: yazılışında x nədir?", opts: ["Dövr dəyişəni", "Funksiya", "Modul", "Şərt"], correct: 0},
+                {q: "Dərs 12: for dövrü proqramçını nədən xilas edir?", opts: ["Kod təkrarından", "Yaddaşdan", "Kompüterdən", "İnternetdən"], correct: 0},
+                {q: "Dərs 12: Böyük siyahıları emal etmək üçün nə əvəzsizdir?", opts: ["for dövrü", "input", "type", "int"], correct: 0},
+                {q: "Dərs 12: for i in range(3): neçə dəfə təkrar edər?", opts: ["2", "3", "4", "0"], correct: 1},
+                {q: "Dərs 12: Dövr daxilində if şərti yazmaq olarmi?", opts: ["Bəli", "Xeyr", "Yalnız 1 dəfə", "Qadağandır"], correct: 0},
+                {q: "Dərs 12: for dövrü sintaksisində mütləq nə olmalıdır?", opts: ["İki nöqtə (:)", "Nöqtəli vergül", "Mötərizə", "Vergül"], correct: 0},
+                {q: "Dərs 12: break əmri işə düşəndə nə baş verir?", opts: ["Dövr dərhal dayandırılır", "Proqram bağlanır", "1 addım atlanır", "Heç nə"], correct: 0},
+                {q: "Dərs 12: continue əmri nə edir?", opts: ["Cari addımı ötۈr", "Dövrü bitirir", "Səhv verir", "Proqramı söndürür"], correct: 0},
+                {q: "Dərs 12: for dövrü proqramlaşdırmanın nəyidir?", opts: ["Əsas sütunlarından biri", "Lazımsız hissəsi", "Xətası", "Köhnə üsul"], correct: 0}
+            ],
+            // Dərs 13
+            [
+                {q: "Dərs 13: Şərt doğru olduğu müddətcə işləyən dövr hansıdır?", opts: ["for", "while", "repeat", "if"], correct: 1},
+                {q: "Dərs 13: while dövründə şərt dəyişdirilməzsə nə yaranır?", opts: ["Sonsuz dövr (infinite loop)", "Xəta", "Proqram sürətlənir", "Heç nə"], correct: 0},
+                {q: "Dərs 13: Sonsuz dövr proqrama necə təsir edir?", opts: ["Donmasına səbəb olur", "Sürəti artırır", "Fayl yaradır", "Heç cür"], correct: 0},
+                {q: "Dərs 13: while True yazaraq nə hazırlamaq olar?", opts: ["Davamlı işləyən menyular", "Səhv", "Şəkil", "Səs"], correct: 0},
+                {q: "Dərs 13: Parol yoxlamaq üçün gözləmələrdə hansı dövr əlverişlidir?", opts: ["for", "while", "range", "if"], correct: 1},
+                {q: "Dərs 13: Şərtin nə vaxt bitəcəyi dəqiq bilinmədikdə hansı seçilir?", opts: ["while", "for", "range", "print"], correct: 0},
+                {q: "Dərs 13: Şərt əvvəlcədən yanlışdırsa while dövrü neçə dəfə işləyər?", opts: ["1", "0 dəfə", "Sonsuz", "5"], correct: 1},
+                {q: "Dərs 13: while dövründə dəyişəni artırmaq niyə vacibdir?", opts: ["ŞərtinFalse olması üçün", "Sürət üçün", "Rəng üçün", "Vacib deyil"], correct: 0},
+                {q: "Dərs 13: while dövründə break işlətmək olarmi?", opts: ["Bəli", "Xeyr", "Yalnız for-da", "Qadağandır"], correct: 0},
+                {q: "Dərs 13: while dövrü dinamik proqramlaşdırmada necədir?", opts: ["Çox geniş istifadə olunur", "İstifadə olunmur", "Qadağandır", "Zəifdir"], correct: 0},
+                {q: "Dərs 13: Sadə oyunlar hazırlayarkən while kömək edirmi?", opts: ["Bəli", "Xeyr", "Yalnız vebdə", "Yalnız süni intellektdə"], correct: 0},
+                {q: "Dərs 13: while dövrü sintaksisində nə olmalıdır?", opts: ["İki nöqtə (:)", "Vergül", "Nöqtə", "Mötərizə"], correct: 0},
+                {q: "Dərs 13: Şərt False olduqda while nə edir?", opts: ["Dayanır", "Davam edir", "Sürətlənir", "Xəta verir"], correct: 0},
+                {q: "Dərs 13: for və while dövrlərinin hər ikisinin nəyi var?", opts: ["Öz yeri və üstünlükləri", "Eyni işi", "Heç bir fərqi yoxdur", "Xətaları"], correct: 0},
+                {q: "Dərs 13: Kod yazarkən şərtin bitmə nöqtəsini nə etmək lazımdır?", opts: ["Nəzərə almaq", "Unutmaq", "Silmək", "Gizlətmək"], correct: 0}
+            ],
+            // Dərs 14
+            [
+                {q: "Dərs 14: Ədəd ardıcıllığı yaradan funksiya hansıdır?", opts: ["sequence()", "range()", "list()", "array()"], correct: 1},
+                {q: "Dərs 14: range(5) ifadəsi hansı ədədləri yaradır?", opts: ["1-dən 5-ə", "0-dan 4-ə", "0-dan 5-ə", "1-dən 4-ə"], correct: 1},
+                {q: "Dərs 14: range(2, 8) yazdıqda sonuncu ədəd neçə olur?", opts: ["8", "7", "6", "9"], correct: 1},
+                {q: "Dərs 14: range(1, 10, 2) yazdıqda addım nümayişi necə olur?", opts: ["1-1 artır", "2-2 artır", "3-3 artır", "Azalır"], correct: 1},
+                {q: "Dərs 14: Geriyə sayım etmək üçün addım necə verilir?", opts: ["Mənfi (-1)", "Müsbət", "Sıfır", "Verilməz"], correct: 0},
+                {q: "Dərs 14: range() funksiyası yaddaşda nə qaytarır?", opts: ["Generator obyekti", "Böyük siyahı", "Mətn", "Heç nə"], correct: 0},
+                {q: "Dərs 14: range() ən çox hansı dövr ilə işlədilir?", opts: ["for", "while", "if", "def"], correct: 0},
+                {q: "Dərs 14: range funksiyasında addım (step) 0 ola bilermi?", opts: ["Bəli", "Xeyr (ValueError verər)", "İstəsən olar", "0.5 olar"], correct: 1},
+                {q: "Dərs 14: Riyazi silsilələr yaratmaq üçün nə əlverişlidir?", opts: ["range()", "print", "input", "type"], correct: 0},
+                {q: "Dərs 14: Siyahı indeksləri üzrə gəzmək üçün range daxilində nə yazılır?", opts: ["len()", "str()", "int()", "float()"], correct: 0},
+                {q: "Dərs 14: range(5) neçə ədəd istehsal edir?", opts: ["4", "5", "6", "0"], correct: 1},
+                {q: "Dərs 14: range funksiyası sürətlidirmi?", opts: ["Bəli", "Xeyr", "Çox yavaşdır", "Dondurur"], correct: 0},
+                {q: "Dərs 14: range() funksiyasını siyahıya çevirmək üçün nə yazılır?", opts: ["list(range(5))", "str(range)", "int(range)", "dict(range)"], correct: 0},
+                {q: "Dərs 14: range(10, 0, -1) haradan başlayır?", opts: ["0-dan", "10-dan", "1-dən", "9-dan"], correct: 1},
+                {q: "Dərs 14: Bu funksiya proqramlaşdırmada necə rola malikdir?", opts: ["Əsas alətlərdəndir", "Lazımsızdır", "Köhnəlib", "Qadağandır"], correct: 0}
+            ],
+            // Dərs 15
+            [
+                {q: "Dərs 15: Funksiya yaratmaq üçün hansı açar söz işlədilir?", opts: ["func", "def", "function", "create"], correct: 1},
+                {q: "Dərs 15: Funksiyanı işlətmək üçün nə etmək lazımdır?", opts: ["Çağırmaq (Call)", "Silmək", "Yazmaq", "Gizlətmək"], correct: 0},
+                {q: "Dərs 15: Funksiyalar proqramda nəyin qarşısını alır?", opts: ["Kod təkrarının", "Sürətin", "Yaddaşın", "Xətaların"], correct: 0},
+                {q: "Dərs 15: Funksiyaya məlumat ötürmək üçün nə istifadə olunur?", opts: ["Parametrlər", "print", "range", "input"], correct: 0},
+                {q: "Dərs 15: def salamla(ad='Qonaq'): yazılışında 'Qonaq' nədir?", opts: ["Default (susmaya görə) dəyər", "Səhv", "Əsas dəyər", "Xəta"], correct: 0},
+                {q: "Dərs 15: Funksiya daxilində yazılan kodlar nə zaman çalışır?", opts: ["Dərhal", "Çağrıldıqda", "Proqram açılanda", "Heç vaxt"], correct: 1},
+                {q: "Dərs 15: Böyük layihələr nədən ibarət olur?", opts: ["Minlərlə funksiyadan", "1 dənə print-dən", "Fayllardan", "Şəkillərdən"], correct: 0},
+                {q: "Dərs 15: Funksiya adları necə seçilməlidir?", opts: ["Səliqəli və mənalı", "Təsadüfi", "Rəqəmlə", "Çox uzun"], correct: 0},
+                {q: "Dərs 15: Funksiyalar testi necə edir?", opts: ["Asanlaşdırır", "Çətinləşdirir", "Dayandırır", "Təsir etmir"], correct: 0},
+                {q: "Dərs 15: def sözündən sonra mütləq nə yazılmalıdır?", opts: ["Funksiya adı və mötərizə ()", "Rəqəm", "Vergül", "Nöqtə"], correct: 0},
+                {q: "Dərs 15: Funksiyalar proqramı necə edir?", opts: ["Modullaşdırır", "Mürəkkəbləşdirir", "Zəiflədir", "Yavaşladır"], correct: 0},
+                {q: "Dərs 15: Funksiyaya bir neçə parametr vermək olarmi?", opts: ["Bəli, vergüllə", "Xeyr", "Yalnız 1 dənə", "Qadağandır"], correct: 0},
+                {q: "Dərs 15: Funksiya daxilində girinti (indentation) vacibdirmi?", opts: ["Bəli", "Xeyr", "İstəsən olar", "Vacib deyil"], correct: 0},
+                {q: "Dərs 15: salamla('Vüqar') yazılışında 'Vüqar' nədir?", opts: ["Arqument", "Parametr", "Dəyişən", "Modul"], correct: 0},
+                {q: "Dərs 15: Bu mövzu proqramlaşdırmada nədir?", opts: ["Dönüş nöqtəsidir", "Adi hissədir", "Lazımsızdır", "Köhnədir"], correct: 0}
+            ],
+            // Dərs 16
+            [
+                {q: "Dərs 16: Funksiyadan nəticəni geriyə qaytaran əmr hansıdır?", opts: ["send", "return", "back", "give"], correct: 1},
+                {q: "Dərs 16: print() ilə return arasında hansı fərq var?", opts: ["print ekrana çıxarır, return nəticəni qaytarır", "Eynidir", "return ekrana çıxarır", "Heç biri"], correct: 0},
+                {q: "Dərs 16: return icra olunduqdan sonra funksiya nə edir?", opts: ["Dərhal işini bitirir", "Davam edir", "Təkrar olunur", "Xəta verir"], correct: 0},
+                {q: "Dərs 16: Funksiyada return yazılmazsa nə qayıdır?", opts: ["None", "0", "True", "Xəta"], correct: 0},
+                {q: "Dərs 16: Funksiya daxilində yaradılan dəyişən necə adlanır?", opts: ["Lokal dəyişən", "Qlobal dəyişən", "Əsas dəyişən", "Sabit"], correct: 0},
+                {q: "Dərs 16: Bütün proqram boyu görünən dəyişən necə adlanır?", opts: ["Qlobal dəyişən", "Lokal", "Gizli", "Müvəqqəti"], correct: 0},
+                {q: "Dərs 16: Lokal dəyişən funksiyadan xaricdə görünürbemi?", opts: ["Bəli", "Xeyr", "Bəzən", "Həmişə"], correct: 1},
+                {q: "Dərs 16: Lokal daxildə qlobalı dəyişmək üçün hansı açar söz var?", opts: ["global", "local", "change", "new"], correct: 0},
+                {q: "Dərs 16: Təmiz kod üçün nədən az istifadə olunmalıdır?", opts: ["Qlobal dəyişənlərdən", "Funksiyalardan", "print-dən", "if-dən"], correct: 0},
+                {q: "Dərs 16: return əmridən sonra yazılan kodlar işləyirmi?", opts: ["Bəli", "Xeyr (heç vaxt işləməz)", "Yalnız xəta olduqda", "Təkrar olunur"], correct: 1},
+                {q: "Dərs 16: Funksiya birdən çox dəyər qaytara bilər?", opts: ["Bəli", "Xeyr", "Yalnız 1 dənə", "Yalnız 2 dənə"], correct: 0},
+                {q: "Dərs 16: Mürəkkəb hesablamaları haraya tapşırırıq?", opts: ["Funksiyaya", "print-ə", "input-a", "range-ə"], correct: 0},
+                {q: "Dərs 16: Funksiyaların gücü nədədir?", opts: ["return əmrində", "adında", "mötərizəsində", "boyunda"], correct: 0},
+                {q: "Dərs 16: return nəticəsini dəyişəndə saxlamaq olar?", opts: ["Bəli", "Xeyr", "Yalnız print edə bilərsən", "Qadağandır"], correct: 0},
+                {q: "Dərs 16: Bu anlayış proqramda nəyi azaldır?", opts: ["Asılılığı", "Sürəti", "Yaddaşı", "Keyfiyyəti"], correct: 0}
+            ],
+            // Dərs 17
+            [
+                {q: "Dərs 17: Lüğətlər (Dictionaries) hansı məntiq ilə işləyir?", opts: ["Açar-Dəyər (Key-Value)", "İndeks", "Sıra", "Təsadüfi"], correct: 0},
+                {q: "Dərs 17: Lüğətlər hansı mötərizə ilə yazılır?", opts: ["[]", "()", "{}", "<>"], correct: 2},
+                {q: "Dərs 17: Lüğətdə açar sözlər necə olmalıdır?", opts: ["Unikal (təkrar oluna bilməz)", "Eyni ola bilər", "Yalnız rəqəm", "Yalnız mənfi"], correct: 0},
+                {q: "Dərs 17: Lüğətdə bütün açarları qaytaran metod?", opts: ["values()", "keys()", "items()", "get()"], correct: 1},
+                {q: "Dərs 17: Lüğətdə bütün dəyərləri qaytaran metod?", opts: ["keys()", "values()", "items()", "show()"], correct: 1},
+                {q: "Dərs 17: Açar və dəyər cütlüklərini qaytaran metod?", opts: ["items()", "keys()", "values()", "pairs()"], correct: 0},
+                {q: "Dərs 17: Açar tapılmadıqda xəta vermədən None verən metod?", opts: ["find()", "get()", "search()", "check()"], correct: 1},
+                {q: "Dərs 17: Lüğətdən element silən metod hansıdır?", opts: ["remove()", "pop()", "clear()", "delete()"], correct: 1},
+                {q: "Dərs 17: Lüğətlər real həyatda nəyi təsvir etmək üçün əladır?", opts: ["Obyektləri (məs: profil)", "Xətti", "Rəqəmi", "Səsi"], correct: 0},
+                {q: "Dərs 17: JSON məlumat formatı nəyə çox bənzəyir?", opts: ["Lüğətlərə (Dictionaries)", "Siyahılara", "Tuple-a", "Set-ə"], correct: 0},
+                {q: "Dərs 17: telebe = {'ad': 'Vüqar'} lüğətində 'ad' nədir?", opts: ["Açar (Key)", "Dəyər (Value)", "İndeks", "Funksiya"], correct: 0},
+                {q: "Dərs 17: Lüğətdə axtarış sürəti necədir?", opts: ["Çox sürətli", "Yavaş", "Orta", "İşləmir"], correct: 0},
+                {q: "Dərs 17: Yeni açar-dəyər əlavə etmək necə olur?", opts: ["telebe['yas'] = 12", "append", "add", "insert"], correct: 0},
+                {q: "Dərs 17: Lüğət daxilində başqa lüğət saxlamaq olarmi?", opts: ["Bəli", "Xeyr", "Yalnız 1 dənə", "Qadağandır"], correct: 0},
+                {q: "Dərs 17: Lüğətlərlə işləmək proqramçılar üçün necədir?", opts: ["Gündəlik işdir", "Nadir hallarda", "Lazımsızdır", "Qadağandır"], correct: 0}
+            ],
+            // Dərs 18
+            [
+                {q: "Dərs 18: Dəyişdirilə bilməyən (immutable) kortej hansıdır?", opts: ["List", "Tuple", "Set", "Dict"], correct: 1},
+                {q: "Dərs 18: Tuple hansı mötərizə ilə yazılır?", opts: ["[]", "{}", "()", "<>"], correct: 2},
+                {q: "Dərs 18: Təkrarlanmayan elementlər toplusu necə adlanır?", opts: ["Tuple", "Set (Çoxluq)", "List", "Dict"], correct: 1},
+                {q: "Dərs 18: Set hansı mötərizə ilə yaradılır?", opts: ["()", "[]", "{}", "<>"], correct: 2},
+                {q: "Dərs 18: Set daxilində eyni elementdən iki dənə ola bilərmi?", opts: ["Bəli", "Xeyr (təkrarlar avtomatik silinir)", "Yalnız 2 dənə", "Limitsiz"], correct: 1},
+                {q: "Dərs 18: Set elementlərinə indekslə müraciət etmək olarmı?", opts: ["Bəli", "Xeyr (Sırasızdır - unordered)", "Yalnız ilkə", "Yalnız sona"], correct: 1},
+                {q: "Dərs 18: Set-ə element əlavə edən metod hansıdır?", opts: ["append()", "add()", "insert()", "push()"], correct: 1},
+                {q: "Dərs 18: Set-dən element silən metod hansıdır?", opts: ["remove() və ya discard()", "pop()", "clear()", "delete()"], correct: 0},
+                {q: "Dərs 18: Təkrarlanan məlumatları təmizləmək üçün nə əladır?", opts: ["Set", "Tuple", "List", "Print"], correct: 0},
+                {q: "Dərs 18: Siyahıdakı təkrar elementləri silmək üçün nəyə çevirmək olar?", opts: ["set()", "tuple()", "str()", "int()"], correct: 0},
+                {q: "Dərs 18: Tuple yaddaşda siyahılara nəzərən necədir?", opts: ["Daha az yer tutur və sürətlidir", "Çox yer tutur", "Eynidir", "Yavaşdır"], correct: 0},
+                {q: "Dərs 18: Setlərdə hansı riyazi əməliyyatlar var?", opts: ["Kəsişmə və birləşmə", "Vurma və bölmə", "Yalnız toplama", "Heç biri"], correct: 0},
+                {q: "Dərs 18: Tuple yaradıldıqdan sonraelementləri dəyişmək olar?", opts: ["Bəli", "Xeyr (Dəyişməzdir)", "İstəsən olar", "Yalnız sonuncunu"], correct: 1},
+                {q: "Dərs 18: Bu tiplər proqramda nəyi artırır?", opts: ["Təhlükəsizliyi", "Səhvi", "Yavaşlığı", "Həcmi"], correct: 0},
+                {q: "Dərs 18: Doğru struktur seçmək proqramçı üçün necədir?", opts: ["Çox vacibdir", "Vacib deyil", "Əhəmiyyətsizdir", "Zərərlidir"], correct: 0}
+            ],
+            // Dərs 19
+            [
+                {q: "Dərs 19: Hazır kod fayllarını proqrama qoşmaq üçün hansı açar söz var?", opts: ["include", "import", "load", "require"], correct: 1},
+                {q: "Dərs 19: Riyazi funksiyalar üçün hansı modul import edilir?", opts: ["random", "math", "datetime", "os"], correct: 1},
+                {q: "Dərs 19: Təsadüfi ədədlər generatoru hansı moduldur?", opts: ["math", "random", "time", "sys"], correct: 1},
+                {q: "Dərs 19: Tarix və vaxt ilə işləmək üçün hansı modul var?", opts: ["datetime", "math", "random", "file"], correct: 0},
+                {q: "Dərs 19: Xarici kitabxanaları yükləmək üçün hansı alət istifadə olunur?", opts: ["pip", "install", "get", "download"], correct: 0},
+                {q: "Dərs 19: math.sqrt(16) nəticəsi neçədir?", opts: ["4.0", "16.0", "2.0", "8.0"], correct: 0},
+                {q: "Dərs 19: random.randint(1, 10) nə edir?", opts: ["1 ilə 10 arası təsadüfi ədəd seçir", "10 yazır", "1 yazır", "Xəta verir"], correct: 0},
+                {q: "Dərs 19: Modul adını qısaltmaq üçün nə yazılır?", opts: ["import math as m", "import math short", "math = short", "short math"], correct: 0},
+                {q: "Dərs 19: Hər şeyi sıfırdan yazmamaq üçün nədən istifadə edilir?", opts: ["Hazır modullardan", "print-dən", "input-dan", "range-dən"], correct: 0},
+                {q: "Dərs 19: Öz modullarınızı .py faylı kimi yarada bilərsinizmi?", opts: ["Bəli", "Xeyr", "Yalnız hazır olmalıdır", "Qadağandır"], correct: 0},
+                {q: "Dərs 19: Kitabxanalar Python-u nə edir?", opts: ["Çox güclü", "Zəif", "Yavaş", "Lazımsız"], correct: 0},
+                {q: "Dərs 19: Modullar kodu necə hissələrə bölməyə imkan verir?", opts: ["Səliqəli", "Qarışıq", "Uzun", "Səhv"], correct: 0},
+                {q: "Dərs 19: from math import sqrt yazılışı nə edir?", opts: ["Yalnız sqrt funksiyasını import edir", "Hər şeyi silir", "Xəta verir", "math-ı ləğv edir"], correct: 0},
+                {q: "Dərs 19: Modulların sənədləşməsi necə adlanır?", opts: ["Documentation", "Manual", "Book", "Read"], correct: 0},
+                {q: "Dərs 19: Bu anlayış proqramlaşdırmada nəyi sürətləndirir?", opts: ["İş prosesini (Development)", "Yaddaşı", "Səhvi", "Ekrani"], correct: 0}
+            ],
+            // Dərs 20
+            [
+                {q: "Dərs 20: Gözlənilməz xətaların qarşısını alan blok hansıdır?", opts: ["if-else", "try-except", "for-while", "try-do"], correct: 1},
+                {q: "Dərs 20: try bloku daxilində nə yazılır?", opts: ["Xəta ehtimalı olan kodlar", "Səhvlər", "print", "input"], correct: 0},
+                {q: "Dərs 20: except bloku nə zaman işləyir?", opts: ["Xəta baş verdikdə", "Həmişə", "Xəta olmadıqda", "Proqram bitəndə"], correct: 0},
+                {q: "Dərs 20: Ədədi sıfıra böləndə hansı xəta yaranır?", opts: ["ZeroDivisionError", "ValueError", "TypeError", "IndexError"], correct: 0},
+                {q: "Dərs 20: Xəta baş vermədikdə işləyən blok hansıdır?", opts: ["else", "finally", "except", "error"], correct: 0},
+                {q: "Dərs 20: Xəta olub-olmamasından asılı olmayaraq həmişə işləyən blok?", opts: ["finally", "else", "except", "try"], correct: 0},
+                {q: "Dərs 20: Süni olaraq xəta fırlatmaq üçün hansı söz var?", opts: ["throw", "raise", "error", "except"], correct: 1},
+                {q: "Dərs 20: Xətaları düzgün idarə etmək nəyin göstəricisidir?", opts: ["Peşəkar kodun", "Səhvin", "Zəifliyin", "Köhnəliyin"], correct: 0},
+                {q: "Dərs 20: try-except proqramın nəyinin qarşısını alır?", opts: ["Çökməsinin (Crash)", "Sürətinin", "Yaddaşının", "Açılmasının"], correct: 0},
+                {q: "Dərs 20: İstifadəçi təcrübəsini yüksək saxlamaq üçün nə vacibdir?", opts: ["Xətaları idarə etmək", "Gizlətmək", "Silmək", "Unutmaq"], correct: 0},
+                {q: "Dərs 20: Bu blok proqram üçün nə rolunu oynayır?", opts: ["Zireh (Qoruyucu)", "Səhv", "Yük", "Gecikmə"], correct: 0},
+                {q: "Dərs 20: Bütün 20 dərsi bitirdikdən sonra nə edə bilərsiniz?", opts: ["Öz layihələrinizi yazmaq", "Yalnız kitab oxumaq", "Heç nə", "Oyun oynamaq"], correct: 0},
+                {q: "Dərs 20: Proqramlaşdırmanı inkişaf etdirmək üçün nə lazımdır?", opts: ["Hər gün praktika", "Yatmaq", "Unutmaq", "Baxmamaq"], correct: 0},
+                {q: "Dərs 20: İrəliləyiş nə qədər olduqda kurs bitir?", opts: ["100%", "50%", "10%", "0%"], correct: 0},
+                {q: "Dərs 20: Python öyrənmək səyahətinizdə sizə nə arzulayırıq?", opts: ["Böyük uğurlar", "Uğursuzluq", "Səhv", "Gecikmə"], correct: 0}
             ]
         ];
 
@@ -403,7 +753,7 @@
                     <div class="text-xs md:text-sm text-slate-700 leading-relaxed font-normal whitespace-pre-line">${descs[i]}</div>
                 </div>`;
 
-                let quizzes = quizBankAZ[0];
+                let quizzes = quizBankAZ[i] || quizBankAZ[0];
                 if (lang === 'en') {
                     quizzes = quizzes.map((q, idx) => ({
                         q: `Lesson ${num} - Question ${idx + 1}: What is the correct concept regarding this lesson?`,
@@ -432,7 +782,8 @@
 
             document.getElementById('modal-title').innerText = t.modalTitle;
             document.getElementById('modal-desc').innerText = t.modalDesc;
-            document.getElementById('security-badge-text').innerText = t.securityBadge;
+            document.getElementById('badge-secure').innerText = t.badgeSecure;
+            document.getElementById('timer-subtext').innerText = t.timerSub;
             document.getElementById('lbl-name').innerText = t.lblName;
             document.getElementById('lbl-rating').innerText = t.lblRating;
             document.getElementById('btn-start').innerText = t.btnStart;
@@ -477,6 +828,7 @@
                 document.getElementById('welcome-modal').classList.remove('hidden');
             } else {
                 document.getElementById('profile-name-text').innerText = savedUser;
+                document.getElementById('nav-vuqar-name').innerText = savedUser;
             }
         }
 
@@ -516,6 +868,7 @@
             localStorage.setItem('site_ratings', JSON.stringify(existingRatings));
 
             document.getElementById('profile-name-text').innerText = nameInput;
+            document.getElementById('nav-vuqar-name').innerText = nameInput;
             document.getElementById('welcome-modal').classList.add('hidden');
 
             renderAdminRatings();
@@ -535,7 +888,8 @@
 
         function initTimer() {
             let savedSeconds = localStorage.getItem('site_timer_seconds');
-            let totalSeconds = savedSeconds !== null ? parseInt(savedSeconds, 10) : 3600;
+            // 6 ay = 15552000 saniyə (180 gün)
+            let totalSeconds = savedSeconds !== null ? parseInt(savedSeconds, 10) : 15552000;
 
             if (timerInterval) clearInterval(timerInterval);
 
@@ -550,9 +904,19 @@
                 totalSeconds--;
                 localStorage.setItem('site_timer_seconds', totalSeconds);
 
-                const minutes = Math.floor(totalSeconds / 60);
+                const days = Math.floor(totalSeconds / (3600 * 24));
+                const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
+                const minutes = Math.floor((totalSeconds % 3600) / 60);
                 const seconds = totalSeconds % 60;
-                document.getElementById('time-left').innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+                let timeString = "";
+                if (days > 0) {
+                    timeString = `${days}g ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                } else {
+                    timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                }
+
+                document.getElementById('time-left').innerText = timeString;
             }, 1000);
         }
 
@@ -602,6 +966,7 @@
             if (newName && newName.trim() !== "") {
                 const trimmed = newName.trim();
                 document.getElementById('profile-name-text').innerText = trimmed;
+                document.getElementById('nav-vuqar-name').innerText = trimmed;
                 localStorage.setItem('user_name', trimmed);
             }
         }
