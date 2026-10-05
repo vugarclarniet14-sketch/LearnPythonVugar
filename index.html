@@ -74,7 +74,7 @@
             <!-- Dil Seçimi (Azərbaycan dili daxil) -->
             <div class="flex flex-col gap-1.5">
                 <label class="text-xs font-semibold uppercase tracking-wider text-slate-400">Dil / Language</label>
-                <select id="customLanguageSelect" onchange="changeAppLanguage(this.value)" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm shadow-sm cursor-pointer focus:outline-none">
+                <select id="customLanguageSelect" onchange="alert('Dil dəyişdirildi: ' + this.value)" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm shadow-sm cursor-pointer focus:outline-none">
                     <option value="az">🇦🇿 Azərbaycan dili</option>
                     <option value="en">🇬🇧 English</option>
                     <option value="tr">🇹🇷 Türkçe</option>
@@ -165,7 +165,29 @@
             <input type="email" id="email-input" placeholder="E-poçt ünvanınız (Məs: user@gmail.com)" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm mb-3 focus:outline-none">
             <input type="password" id="password-input" placeholder="Şifrəniz" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm mb-5 focus:outline-none">
             
-            <button onclick="handleEmailLogin()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl transition cursor-pointer shadow-md">Daxil Ol (Sign In)</button>
+            <!-- Birbaşa işləyən düymə məntiqi -->
+            <button onclick="
+                const e = document.getElementById('email-input').value.trim();
+                const p = document.getElementById('password-input').value.trim();
+                if(!e || !p) { alert('Zəhmət olmasa e-poçt və şifrəni daxil edin!'); return; }
+                const name = e.split('@')[0];
+                const formattedName = name.charAt(0).toUpperCase() + name.slice(1);
+                const avatar = 'https://api.dicebear.com/7.x/bottts/svg?seed=Panda';
+                
+                document.getElementById('auth-overlay').classList.add('hidden');
+                document.getElementById('drawer-user-display-name').innerText = formattedName;
+                document.getElementById('drawer-user-email').innerText = e;
+                document.getElementById('drawer-user-avatar').src = avatar;
+                
+                localStorage.setItem('user_name', formattedName);
+                localStorage.setItem('user_email', e);
+                localStorage.setItem('user_avatar', avatar);
+                localStorage.setItem('is_logged_in', 'true');
+                
+                startTimer();
+                renderLessons();
+                selectLesson(1);
+            " class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl transition cursor-pointer shadow-md">Daxil Ol (Sign In)</button>
         </div>
     </div>
 
@@ -194,7 +216,6 @@
     </script>
 
     <script>
-        // 1 Saatlıq Timer (3600 saniyə)
         let totalSeconds = 3600;
         let timerInterval = null;
 
@@ -218,7 +239,6 @@
             }, 1000);
         }
 
-        // Yan panelin idarəsi
         function toggleSettingsDrawer(open) {
             const drawer = document.getElementById('settings-drawer');
             const backdrop = document.getElementById('settings-backdrop');
@@ -231,7 +251,6 @@
             }
         }
 
-        // Dark / Light Mode
         function toggleDarkMode() {
             const html = document.documentElement;
             const themeLabel = document.getElementById('theme-label');
@@ -254,7 +273,6 @@
             document.getElementById('theme-label').innerText = 'Qaranlıq Rejim';
         }
 
-        // 20 Dərs Verilənlər Bazası (20 cümlə, 15 suallıq quiz)
         const lessons = Array.from({ length: 20 }, (_, i) => {
             const num = i + 1;
             const sentences = Array.from({ length: 20 }, (_, s) => 
@@ -358,42 +376,6 @@
             document.getElementById('progress-text').innerText = `İrəliləyiş: ${percent}%`;
         }
 
-        function handleEmailLogin() {
-            const email = document.getElementById('email-input').value.trim();
-            const password = document.getElementById('password-input').value.trim();
-            
-            if (!email || !password) {
-                alert("Zəhmət olmasa e-poçt və şifrənizi daxil edin!");
-                return;
-            }
-            
-            const userName = email.split('@')[0];
-            const formattedName = userName.charAt(0).toUpperCase() + userName.slice(1);
-            const avatarUrl = `https://api.dicebear.com/7.x/bottts/svg?seed=Panda`;
-            
-            completeLogin(formattedName, email, avatarUrl);
-        }
-
-        function completeLogin(name, email, avatar) {
-            // Overlay pəncərəsini Tailwind 'hidden' sinfi ilə tamamilə gizlədirik
-            const authOverlay = document.getElementById('auth-overlay');
-            authOverlay.classList.add('hidden');
-            
-            document.getElementById('drawer-user-display-name').innerText = name;
-            document.getElementById('drawer-user-email').innerText = email;
-            document.getElementById('drawer-user-avatar').src = avatar;
-            
-            localStorage.setItem('user_name', name);
-            localStorage.setItem('user_email', email);
-            localStorage.setItem('user_avatar', avatar);
-            localStorage.setItem('is_logged_in', 'true');
-            
-            startTimer();
-            renderLessons();
-            selectLesson(1);
-        }
-
-        // Heyvan və İnsan Avatarlarının Dəyişdirilməsi
         function changeAvatarPreset(type) {
             let avatarUrl = `https://api.dicebear.com/7.x/bottts/svg?seed=${type}`;
             if (type === 'Boy') avatarUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=Felix`;
@@ -411,10 +393,6 @@
                 document.getElementById('drawer-user-display-name').innerText = trimmed;
                 localStorage.setItem('user_name', trimmed);
             }
-        }
-
-        function changeAppLanguage(lang) {
-            alert(`Dil dəyişdirildi: ${lang}`);
         }
 
         function handleLogout() {
