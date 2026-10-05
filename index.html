@@ -356,7 +356,6 @@
             "The try-except block handles runtime errors (exceptions) gracefully without crashing your program.\n\nCatch specific errors like ZeroDivisionError or ValueError. Congratulations on completing all 20 lessons!"
         ];
 
-        // 🧠 HƏR DƏRSİN ÖZ İZAHINA UYĞUN MƏZMUNLU QUİZ SUALLARI
         const quizBankAZ = [
             // Dərs 1
             [
@@ -737,7 +736,6 @@
                     <div class="text-xs md:text-sm text-slate-700 leading-relaxed font-normal whitespace-pre-line">${descs[i]}</div>
                 </div>`;
 
-                // Hər dərsin öz quiz bankını götürürük (və ya ingilis dilinə uyğunlaşdırırıq)
                 let quizzes = quizBankAZ[i] || quizBankAZ[0];
                 if (lang === 'en') {
                     quizzes = quizzes.map((q, idx) => ({
@@ -811,7 +809,6 @@
                 document.getElementById('welcome-modal').classList.remove('hidden');
             } else {
                 document.getElementById('profile-name-text').innerText = savedUser;
-                startTimer();
             }
         }
 
@@ -854,30 +851,38 @@
             document.getElementById('welcome-modal').classList.add('hidden');
 
             renderAdminRatings();
-            startTimer();
+            initTimer();
         }
 
         function signOut() {
             if (confirm(currentLang === 'az' ? "Çıxış etmək istədiyinizdən əminsiniz?" : "Are you sure you want to sign out?")) {
                 localStorage.removeItem('user_name');
                 localStorage.removeItem('user_avatar');
+                localStorage.removeItem('site_timer_seconds');
                 location.reload();
             }
         }
 
-        let totalSeconds = 3600;
+        // ⏳ SAATIN SIFIRLANMAMASI ÜÇÜN LOCALSTORAGE İNTEQRASİYASI
         let timerInterval = null;
 
-        function startTimer() {
-            if (timerInterval) return;
+        function initTimer() {
+            let savedSeconds = localStorage.getItem('site_timer_seconds');
+            let totalSeconds = savedSeconds !== null ? parseInt(savedSeconds, 10) : 3600;
+
+            if (timerInterval) clearInterval(timerInterval);
+
             timerInterval = setInterval(() => {
                 if (totalSeconds <= 0) {
                     clearInterval(timerInterval);
+                    localStorage.setItem('site_timer_seconds', 0);
                     triggerFireworks();
                     document.getElementById('finish-modal').classList.remove('hidden');
                     return;
                 }
                 totalSeconds--;
+                localStorage.setItem('site_timer_seconds', totalSeconds);
+
                 const minutes = Math.floor(totalSeconds / 60);
                 const seconds = totalSeconds % 60;
                 document.getElementById('time-left').innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
@@ -895,13 +900,8 @@
 
             const interval = setInterval(function() {
                 const timeLeft = animationEnd - Date.now();
-
-                if (timeLeft <= 0) {
-                    return clearInterval(interval);
-                }
-
+                if (timeLeft <= 0) return clearInterval(interval);
                 const particleCount = 50 * (timeLeft / duration);
-
                 confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
                 confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
             }, 250);
@@ -1101,6 +1101,9 @@
         document.addEventListener('DOMContentLoaded', () => {
             applyLanguage(currentLang);
             checkFirstVisit();
+            if (localStorage.getItem('user_name')) {
+                initTimer();
+            }
 
             const runBtn = document.getElementById('btn-run');
             if (runBtn) {
