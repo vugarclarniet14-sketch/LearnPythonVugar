@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="az" class="light">
+<html lang="az">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,31 +10,47 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <!-- Canvas Confetti (Fişəng Effekti) -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    
+    <style>
+        .avatar-box {
+            font-size: 2.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 5rem;
+            height: 5rem;
+            border-radius: 9999px;
+            background-color: #dbeafe;
+            border: 4px solid #ffffff;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            user-select: none;
+        }
+    </style>
 </head>
-<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-300 relative">
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col transition-colors duration-300 relative">
 
     <!-- 🌟 İLK GİRİŞDƏ GƏLƏN QİYMƏTLƏNDİRMƏ PƏNCƏRƏSİ (MODAL) -->
     <div id="welcome-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 w-full max-w-md p-6 rounded-3xl shadow-2xl flex flex-col items-center text-center text-slate-800 dark:text-slate-100">
+        <div class="bg-white border border-slate-200 w-full max-w-md p-6 rounded-3xl shadow-2xl flex flex-col items-center text-center text-slate-800">
             
-            <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 rounded-2xl flex items-center justify-center text-3xl mb-4 shadow-inner">
+            <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-3xl mb-4 shadow-inner">
                 👋
             </div>
             
             <h2 id="modal-title" class="text-xl font-bold mb-1">Xoş Gəlmisiniz!</h2>
-            <p id="modal-desc" class="text-xs text-slate-500 dark:text-slate-400 mb-6">Dərsə başlamazdan əvvəl zəhmət olmasa adınızı daxil edin və saytımızı qiymətləndirin.</p>
+            <p id="modal-desc" class="text-xs text-slate-500 mb-6">Dərsə başlamazdan əvvəl zəhmət olmasa adınızı daxil edin və saytımızı qiymətləndirin.</p>
 
             <div class="w-full flex flex-col gap-4 mb-6">
                 <!-- Ad Daxil Etmə -->
                 <div class="text-left">
                     <label id="lbl-name" class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">Adınız</label>
-                    <input type="text" id="modal-user-name" placeholder="Məs: Vüqar" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium">
+                    <input type="text" id="modal-user-name" placeholder="Məs: Vüqar" class="w-full px-4 py-3 rounded-xl border border-slate-300 bg-slate-50 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium">
                 </div>
 
                 <!-- Ulduz Seçimi -->
                 <div class="text-left">
                     <label id="lbl-rating" class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">Qiymətləndirmə</label>
-                    <div class="flex items-center justify-center gap-2 text-3xl cursor-pointer p-2 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700" id="modal-star-rating">
+                    <div class="flex items-center justify-center gap-2 text-3xl cursor-pointer p-2 rounded-xl bg-slate-50 border border-slate-200" id="modal-star-rating">
                         <span onclick="setModalRating(1)" class="modal-star text-slate-300 hover:text-yellow-400 transition">★</span>
                         <span onclick="setModalRating(2)" class="modal-star text-slate-300 hover:text-yellow-400 transition">★</span>
                         <span onclick="setModalRating(3)" class="modal-star text-slate-300 hover:text-yellow-400 transition">★</span>
@@ -52,10 +68,10 @@
 
     <!-- 🎆 DƏRS BİTƏNDƏ AÇILAN FİŞƏNG / TƏBRİK MODALI -->
     <div id="finish-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 w-full max-w-md p-6 rounded-3xl shadow-2xl flex flex-col items-center text-center text-slate-800 dark:text-slate-100">
+        <div class="bg-white border border-slate-200 w-full max-w-md p-6 rounded-3xl shadow-2xl flex flex-col items-center text-center text-slate-800">
             <div class="text-6xl mb-3">🎆🎉🎆</div>
-            <h2 id="finish-title" class="text-2xl font-black text-blue-600 dark:text-blue-400 mb-2">Təbriklər!</h2>
-            <p id="finish-desc" class="text-sm text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
+            <h2 id="finish-title" class="text-2xl font-black text-blue-600 mb-2">Təbriklər!</h2>
+            <p id="finish-desc" class="text-sm text-slate-600 mb-6 leading-relaxed">
                 1 saatlıq dərsi uğurla başa vurdunuz! Sizinlə fəxr edirik!
             </p>
             <button onclick="closeFinishModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-sm cursor-pointer shadow-lg shadow-blue-500/30 transition">
@@ -66,12 +82,12 @@
 
     <!-- ⚙ YUXARI SAĞ KÜNC: MENYU VƏ 1 SAATLIQ VAXT SAYĞACI -->
     <div class="fixed top-4 right-4 z-40 flex items-center gap-3">
-        <div id="timer-badge" class="flex items-center gap-1.5 bg-white dark:bg-slate-800 border border-rose-200 dark:border-rose-900/60 px-3.5 py-2 rounded-xl text-rose-600 dark:text-rose-400 font-mono text-xs font-bold shadow-md">
+        <div id="timer-badge" class="flex items-center gap-1.5 bg-white border border-rose-200 px-3.5 py-2 rounded-xl text-rose-600 font-mono text-xs font-bold shadow-md">
             <span>⏳</span>
             <span id="time-left">60:00</span>
         </div>
 
-        <button onclick="toggleSettingsDrawer(true)" class="p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 text-base shadow-md cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700 transition flex items-center gap-2">
+        <button onclick="toggleSettingsDrawer(true)" class="p-2.5 rounded-xl border border-slate-300 bg-white text-slate-800 text-base shadow-md cursor-pointer hover:bg-slate-100 transition flex items-center gap-2">
             <span>⚙️</span>
             <span id="btn-menu-label" class="text-xs font-semibold hidden sm:inline">Menyu</span>
         </button>
@@ -80,46 +96,49 @@
     <!-- YAN TƏRƏFDƏN AÇILAN PANEL (DRAWER / SETTINGS) -->
     <div id="settings-backdrop" onclick="toggleSettingsDrawer(false)" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 hidden transition-opacity duration-300"></div>
     
-    <div id="settings-drawer" class="fixed top-0 right-0 h-full w-80 bg-white dark:bg-slate-800 border-l border-slate-200 dark:border-slate-700 shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col p-6 text-slate-800 dark:text-slate-100">
+    <div id="settings-drawer" class="fixed top-0 right-0 h-full w-80 bg-white border-l border-slate-200 shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col p-6 text-slate-800">
         
         <!-- Panel Başlığı -->
-        <div class="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-700 mb-6">
+        <div class="flex items-center justify-between pb-4 border-b border-slate-200 mb-6">
             <h3 id="drawer-header" class="text-base font-bold flex items-center gap-2">👤 Profil və Tənzimləmələr</h3>
-            <button onclick="toggleSettingsDrawer(false)" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition">✕</button>
+            <button onclick="toggleSettingsDrawer(false)" class="p-2 rounded-lg hover:bg-slate-100 cursor-pointer text-slate-400 hover:text-slate-600 transition">✕</button>
         </div>
 
         <!-- Panel Məzmunu -->
         <div class="flex flex-col gap-6 flex-1 overflow-y-auto pr-1">
             
             <!-- Profil Kartı -->
-            <div class="flex flex-col gap-3 p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-xs items-center text-center relative overflow-hidden">
+            <div class="flex flex-col gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-200 shadow-xs items-center text-center relative overflow-hidden">
                 <div class="absolute top-0 inset-x-0 h-12 bg-gradient-to-r from-blue-500 to-indigo-600"></div>
                 
-                <img id="drawer-user-avatar" src="https://api.dicebear.com/7.x/adventurer/svg?seed=Panda" alt="Avatar" class="w-20 h-20 rounded-full object-cover border-4 border-white dark:border-slate-800 shadow-md z-10 mt-2 bg-white dark:bg-slate-800">
+                <!-- BOZULMAYAN VƏ DAXİLİ SEÇİLƏN PROFIL AVATARI -->
+                <div id="drawer-user-avatar-box" class="avatar-box z-10 mt-2">
+                    🦁
+                </div>
                 
                 <div class="w-full flex flex-col items-center">
-                    <span id="drawer-user-display-name" onclick="editName()" class="text-base font-bold cursor-pointer hover:underline text-blue-600 dark:text-blue-400 flex items-center gap-1" title="Adı dəyişmək üçün kliklə">
+                    <span id="drawer-user-display-name" onclick="editName()" class="text-base font-bold cursor-pointer hover:underline text-blue-600 flex items-center gap-1" title="Adı dəyişmək üçün kliklə">
                         <span id="profile-name-text">Vüqar</span> ✏️
                     </span>
                     <span id="profile-role" class="text-[11px] font-medium text-slate-400">Tələbə / Öyrənən</span>
                 </div>
 
-                <!-- Avatar Seçimi (12 ƏDƏD KEYFİYYƏTLİ PROFİL ŞƏKLİ) -->
-                <div class="w-full mt-2 pt-3 border-t border-slate-200 dark:border-slate-700">
+                <!-- Avatar Seçimi (TAM DÜZƏLDİLMİŞ BÖYÜK AVATARLAR) -->
+                <div class="w-full mt-2 pt-3 border-t border-slate-200">
                     <label id="lbl-choose-avatar" class="text-[11px] font-semibold text-slate-400 uppercase block mb-2">Profil Şəkli Seç (PP)</label>
                     <div class="grid grid-cols-4 gap-2">
-                        <button onclick="changeAvatarPreset('Lion', 'adventurer')" class="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1">🦁 Aslan</button>
-                        <button onclick="changeAvatarPreset('Panda', 'adventurer')" class="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1">🐼 Panda</button>
-                        <button onclick="changeAvatarPreset('Tiger', 'adventurer')" class="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1">🐯 Pələng</button>
-                        <button onclick="changeAvatarPreset('Wolf', 'adventurer')" class="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1">🐺 Canavar</button>
-                        <button onclick="changeAvatarPreset('Fox', 'adventurer')" class="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1">🦊 Tülkü</button>
-                        <button onclick="changeAvatarPreset('Leopard', 'adventurer')" class="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1">🐆 Bəbir</button>
-                        <button onclick="changeAvatarPreset('Hero', 'avataaars')" class="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1">👦 Oğlan</button>
-                        <button onclick="changeAvatarPreset('Princess', 'avataaars')" class="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1">👧 Qız</button>
-                        <button onclick="changeAvatarPreset('Coder', 'bottts')" class="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1">🤖 Robot</button>
-                        <button onclick="changeAvatarPreset('Eagle', 'adventurer')" class="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1">🦅 Qartal</button>
-                        <button onclick="changeAvatarPreset('Bear', 'adventurer')" class="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1">🐻 Ayı</button>
-                        <button onclick="changeAvatarPreset('Dragon', 'bottts')" class="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1">🐉 Əjdaha</button>
+                        <button onclick="changeAvatarPreset('🦁')" class="p-2 rounded-xl border border-slate-200 hover:bg-blue-50 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1"><span class="text-2xl">🦁</span> Aslan</button>
+                        <button onclick="changeAvatarPreset('🐼')" class="p-2 rounded-xl border border-slate-200 hover:bg-blue-50 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1"><span class="text-2xl">🐼</span> Panda</button>
+                        <button onclick="changeAvatarPreset('🐯')" class="p-2 rounded-xl border border-slate-200 hover:bg-blue-50 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1"><span class="text-2xl">🐯</span> Pələng</button>
+                        <button onclick="changeAvatarPreset('🐺')" class="p-2 rounded-xl border border-slate-200 hover:bg-blue-50 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1"><span class="text-2xl">🐺</span> Canavar</button>
+                        <button onclick="changeAvatarPreset('🦊')" class="p-2 rounded-xl border border-slate-200 hover:bg-blue-50 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1"><span class="text-2xl">🦊</span> Tülkü</button>
+                        <button onclick="changeAvatarPreset('🐆')" class="p-2 rounded-xl border border-slate-200 hover:bg-blue-50 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1"><span class="text-2xl">🐆</span> Bəbir</button>
+                        <button onclick="changeAvatarPreset('👦')" class="p-2 rounded-xl border border-slate-200 hover:bg-blue-50 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1"><span class="text-2xl">👦</span> Oğlan</button>
+                        <button onclick="changeAvatarPreset('👧')" class="p-2 rounded-xl border border-slate-200 hover:bg-blue-50 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1"><span class="text-2xl">👧</span> Qız</button>
+                        <button onclick="changeAvatarPreset('🤖')" class="p-2 rounded-xl border border-slate-200 hover:bg-blue-50 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1"><span class="text-2xl">🤖</span> Robot</button>
+                        <button onclick="changeAvatarPreset('🦅')" class="p-2 rounded-xl border border-slate-200 hover:bg-blue-50 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1"><span class="text-2xl">🦅</span> Qartal</button>
+                        <button onclick="changeAvatarPreset('🐻')" class="p-2 rounded-xl border border-slate-200 hover:bg-blue-50 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1"><span class="text-2xl">🐻</span> Ayı</button>
+                        <button onclick="changeAvatarPreset('🐉')" class="p-2 rounded-xl border border-slate-200 hover:bg-blue-50 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1"><span class="text-2xl">🐉</span> Əjdaha</button>
                     </div>
                 </div>
             </div>
@@ -127,24 +146,15 @@
             <!-- Dil Seçimi -->
             <div class="flex flex-col gap-1.5">
                 <label id="lbl-language" class="text-xs font-semibold uppercase tracking-wider text-slate-400">Dil / Language</label>
-                <select id="language-select" onchange="changeLanguage(this.value)" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 text-sm font-medium focus:outline-none cursor-pointer">
+                <select id="language-select" onchange="changeLanguage(this.value)" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 bg-slate-50 text-slate-900 text-sm font-medium focus:outline-none cursor-pointer">
                     <option value="az">🇦🇿 Azərbaycan dili</option>
                     <option value="en">🇬🇧 English</option>
                 </select>
             </div>
 
-            <!-- Tema (Dark Mode) -->
-            <div class="flex flex-col gap-1.5">
-                <label id="lbl-theme" class="text-xs font-semibold uppercase tracking-wider text-slate-400">Görünüş Rejimi</label>
-                <button onclick="toggleDarkMode()" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 text-sm shadow-sm cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700/50 transition">
-                    <span id="theme-label">Qaranlıq Rejim</span>
-                    <span id="theme-icon">🌙</span>
-                </button>
-            </div>
-
             <!-- Çıxış Et (Sign Out) -->
-            <div class="pt-4 border-t border-slate-200 dark:border-slate-700 mt-auto">
-                <button onclick="signOut()" class="w-full bg-rose-50 dark:bg-rose-950/40 hover:bg-rose-100 dark:hover:bg-rose-900/50 text-rose-600 dark:text-rose-400 font-semibold py-2.5 rounded-xl text-sm transition cursor-pointer border border-rose-200 dark:border-rose-900/50 flex items-center justify-center gap-2">
+            <div class="pt-4 border-t border-slate-200 mt-auto">
+                <button onclick="signOut()" class="w-full bg-rose-50 hover:bg-rose-100 text-rose-600 font-semibold py-2.5 rounded-xl text-sm transition cursor-pointer border border-rose-200 flex items-center justify-center gap-2">
                     <span>🚪</span>
                     <span id="btn-signout">Çıxış Et (Sign Out)</span>
                 </button>
@@ -154,10 +164,10 @@
     </div>
 
     <!-- HEADER / NAVBAR -->
-    <header class="border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur sticky top-0 z-30 px-6 py-4 flex justify-between items-center">
+    <header class="border-b border-slate-200 bg-white/80 backdrop-blur sticky top-0 z-30 px-6 py-4 flex justify-between items-center">
         <div class="flex items-center gap-3">
             <h1 class="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">PythonPro</h1>
-            <span id="progress-text" class="text-xs bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 px-2.5 py-1 rounded-full font-medium">İrəliləyiş: 0%</span>
+            <span id="progress-text" class="text-xs bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full font-medium">İrəliləyiş: 0%</span>
         </div>
     </header>
 
@@ -165,8 +175,8 @@
     <main class="flex-1 max-w-7xl w-full mx-auto p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
         
         <!-- Sola: Dərslərin Siyahısı -->
-        <section class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col h-[650px]">
-            <h2 id="lessons-header" class="font-semibold text-lg mb-4 text-slate-800 dark:text-slate-100">Dərslər (20 Dərs)</h2>
+        <section class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col h-[650px]">
+            <h2 id="lessons-header" class="font-semibold text-lg mb-4 text-slate-800">Dərslər (20 Dərs)</h2>
             <div id="lesson-list" class="overflow-y-auto flex-1 space-y-2 pr-2"></div>
         </section>
 
@@ -174,23 +184,23 @@
         <section class="md:col-span-2 flex flex-col gap-6">
             
             <!-- Dərs Məzmunu -->
-            <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm text-slate-800 dark:text-slate-100">
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-slate-800">
                 <h2 id="lesson-title" class="text-xl font-bold mb-3">Dərs seçin</h2>
-                <div id="lesson-content" class="text-slate-600 dark:text-slate-300 mb-4 text-sm leading-relaxed space-y-2"></div>
+                <div id="lesson-content" class="text-slate-600 mb-4 text-sm leading-relaxed space-y-2"></div>
                 
                 <!-- Quiz Hissəsi -->
-                <div id="quiz-container" class="mt-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                <div id="quiz-container" class="mt-4 p-4 rounded-xl bg-slate-50 border border-slate-200">
                     <div class="flex justify-between items-center mb-3">
-                        <span id="quiz-counter" class="text-xs font-bold text-blue-600 dark:text-blue-400">Sual 1 / 15</span>
+                        <span id="quiz-counter" class="text-xs font-bold text-blue-600">Sual 1 / 15</span>
                     </div>
-                    <p id="quiz-question" class="font-medium text-sm mb-3 text-slate-800 dark:text-slate-100"></p>
+                    <p id="quiz-question" class="font-medium text-sm mb-3 text-slate-800"></p>
                     <div id="quiz-options" class="space-y-2"></div>
                     <div id="quiz-feedback" class="mt-3 text-sm font-semibold hidden"></div>
                 </div>
             </div>
 
-            <!-- Python Kod Editoru (ƏVVƏLKİ DÜYMƏ SƏHVİ DÜZƏLDİLDİ) -->
-            <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col text-slate-800 dark:text-slate-100">
+            <!-- Python Kod Editoru -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col text-slate-800">
                 <h3 id="editor-header" class="font-semibold text-sm mb-2">İnteraktiv Simulyator</h3>
                 <textarea id="code-editor" class="w-full h-28 font-mono text-sm p-3 rounded-xl bg-slate-900 text-emerald-400 border border-slate-700 focus:outline-none resize-none" placeholder="print('Salam PythonPro!')"></textarea>
                 
@@ -244,9 +254,6 @@
                 drawerHeader: "👤 Profil və Tənzimləmələr",
                 lblChooseAvatar: "Profil Şəkli Seç (PP)",
                 lblLanguage: "Dil / Language",
-                lblTheme: "Görünüş Rejimi",
-                themeDark: "Qaranlıq Rejim",
-                themeLight: "İşıqlı Rejim",
                 btnSignout: "Çıxış Et (Sign Out)",
                 lessonsHeader: "Dərslər (20 Dərs)",
                 editorHeader: "İnteraktiv Simulyator",
@@ -269,9 +276,6 @@
                 drawerHeader: "👤 Profile & Settings",
                 lblChooseAvatar: "Choose Profile Picture",
                 lblLanguage: "Language",
-                lblTheme: "Appearance Mode",
-                themeDark: "Dark Mode",
-                themeLight: "Light Mode",
                 btnSignout: "Sign Out",
                 lessonsHeader: "Lessons (20 Lessons)",
                 editorHeader: "Interactive Simulator",
@@ -285,44 +289,6 @@
                 role: "Student / Learner"
             }
         };
-
-        // ☀️ / 🌙 DARK MODE SİSTEMİ
-        function initTheme() {
-            const savedTheme = localStorage.getItem('site_theme') || 'light';
-            const html = document.documentElement;
-
-            if (savedTheme === 'dark') {
-                html.classList.add('dark');
-            } else {
-                html.classList.remove('dark');
-            }
-            updateThemeUI();
-        }
-
-        function toggleDarkMode() {
-            const html = document.documentElement;
-
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                localStorage.setItem('site_theme', 'light');
-            } else {
-                html.classList.add('dark');
-                localStorage.setItem('site_theme', 'dark');
-            }
-            updateThemeUI();
-        }
-
-        function updateThemeUI() {
-            const isDark = document.documentElement.classList.contains('dark');
-            const themeLabel = document.getElementById('theme-label');
-            const themeIcon = document.getElementById('theme-icon');
-            const t = translations[currentLang];
-
-            if (themeLabel && themeIcon) {
-                themeLabel.innerText = isDark ? t.themeLight : t.themeDark;
-                themeIcon.innerText = isDark ? '☀️' : '🌙';
-            }
-        }
 
         // 🌐 DİL DƏYİŞMƏ
         function applyLanguage(lang) {
@@ -339,7 +305,6 @@
             document.getElementById('drawer-header').innerText = t.drawerHeader;
             document.getElementById('lbl-choose-avatar').innerText = t.lblChooseAvatar;
             document.getElementById('lbl-language').innerText = t.lblLanguage;
-            document.getElementById('lbl-theme').innerText = t.lblTheme;
             document.getElementById('btn-signout').innerText = t.btnSignout;
             document.getElementById('lessons-header').innerText = t.lessonsHeader;
             document.getElementById('editor-header').innerText = t.editorHeader;
@@ -352,7 +317,6 @@
             document.getElementById('profile-role').innerText = t.role;
             document.getElementById('language-select').value = lang;
 
-            updateThemeUI();
             updateProgress();
         }
 
@@ -363,10 +327,9 @@
         // 1. İLK GİRİŞ YOXLAMASI
         function checkFirstVisit() {
             const savedUser = localStorage.getItem('user_name');
-            const savedAvatar = localStorage.getItem('user_avatar') || 'Panda';
-            const savedStyle = localStorage.getItem('user_avatar_style') || 'adventurer';
+            const savedAvatar = localStorage.getItem('user_avatar') || '🦁';
             
-            changeAvatarPreset(savedAvatar, savedStyle);
+            changeAvatarPreset(savedAvatar);
 
             if (!savedUser) {
                 document.getElementById('welcome-modal').classList.remove('hidden');
@@ -472,7 +435,7 @@
             document.getElementById('finish-modal').classList.add('hidden');
         }
 
-        // 3. SETTINGS & PROFILE & AVATARS (AVATARLAR TAM DÜZƏLDİLDİ)
+        // 3. SETTINGS & PROFILE & AVATARS
         function toggleSettingsDrawer(open) {
             const drawer = document.getElementById('settings-drawer');
             const backdrop = document.getElementById('settings-backdrop');
@@ -485,11 +448,10 @@
             }
         }
 
-        function changeAvatarPreset(seed, style = 'adventurer') {
-            const avatarImg = document.getElementById('drawer-user-avatar');
-            avatarImg.src = `https://api.dicebear.com/7.x/${style}/svg?seed=${seed}`;
-            localStorage.setItem('user_avatar', seed);
-            localStorage.setItem('user_avatar_style', style);
+        function changeAvatarPreset(emoji) {
+            const avatarBox = document.getElementById('drawer-user-avatar-box');
+            avatarBox.innerText = emoji;
+            localStorage.setItem('user_avatar', emoji);
         }
 
         function editName() {
@@ -504,53 +466,33 @@
 
         // 4. BÜTÜN 20 DƏRS (HƏR BİRİ TAM 20 CÜMLƏLİK İZAHLA)
         const lessonDescriptions = [
-            // Dərs 1
             Array.from({ length: 20 }, (_, s) => `${s + 1}. Python dünyada öyrənilməsi ən asan və populyar proqramlaşdırma dilidir. Bu dərsimizdə təməl məntiqi və print() əmrini öyrənirik.`).join(' '),
-            // Dərs 2
             Array.from({ length: 20 }, (_, s) => `${s + 1}. Python-da dəyişənlər məlumatları yaddaşda saxlamaq üçün istifadə olunur. Məsələn, x = 5 yazdığımız zaman x dəyişəni yaranır.`).join(' '),
-            // Dərs 3
             Array.from({ length: 20 }, (_, s) => `${s + 1}. Məlumat tiplərinə tam ədədlər (int), kəsir ədədlər (float) və mətnlər (str) daxildir. Bunlar proqramın əsasını təşkil edir.`).join(' '),
-            // Dərs 4
             Array.from({ length: 20 }, (_, s) => `${s + 1}. Riyazi əməliyyatlar toplama, çıxma, vurma və bölmə kimi klassik operatorlarla icra olunur. Python riyaziyyatı çox sürətli hesablayır.`).join(' '),
-            // Dərs 5
             Array.from({ length: 20 }, (_, s) => `${s + 1}. Mətnlər (Strings) dırnaq işarəsi daxilində yazılır. Mətnləri birləşdirmək və ya indeksləmək mümkündür.`).join(' '),
-            // Dərs 6
             Array.from({ length: 20 }, (_, s) => `${s + 1}. input() funksiyası istifadəçidən məlumat almaq üçün istifadə olunur. Alınan bütün məlumatlar mətn tipində olur.`).join(' '),
-            // Dərs 7
             Array.from({ length: 20 }, (_, s) => `${s + 1}. Şərt operatorları (if, elif, else) proqramın müəyyən şərtlərə görə qərar verməsini təmin edir. Məntiqi müqayisələr aparılır.`).join(' '),
-            // Dərs 8
             Array.from({ length: 20 }, (_, s) => `${s + 1}. Müqayisə operatorları (==, !=, >, <, >=, <=) iki qiyməti müqayisə edərək True və ya False nəticəsi qaytarır.`).join(' '),
-            // Dərs 9
             Array.from({ length: 20 }, (_, s) => `${s + 1}. Məntiqi operatorlar (and, or, not) bir neçə şərti birlikdə yoxlamaq üçün tətbiq olunur. Şərtləri mürəkkəbləşdirir.`).join(' '),
-            // Dərs 10
             Array.from({ length: 20 }, (_, s) => `${s + 1}. Siyahılar (Lists) birdən çox məlumatı tək bir dəyişəndə saxlamağa imkan verir. Kvadrat mötərizə ilə yazılır.`).join(' '),
-            // Dərs 11
             Array.from({ length: 20 }, (_, s) => `${s + 1}. Siyahı metodları (append, remove, pop, sort) siyahılara yeni elementlər əlavə etmək və ya silmək üçün istifadə olunur.`).join(' '),
-            // Dərs 12
             Array.from({ length: 20 }, (_, s) => `${s + 1}. for dövrü müəyyən edilmiş sayda və ya siyahının elementləri üzərində təkrarən kod icra etmək üçün istifadə olunur.`).join(' '),
-            // Dərs 13
             Array.from({ length: 20 }, (_, s) => `${s + 1}. while dövrü müəyyən bir şərt ödənilənə qədər kodları ardıcıl olaraq təkrar-təkrar işlədir.`).join(' '),
-            // Dərs 14
             Array.from({ length: 20 }, (_, s) => `${s + 1}. range() funksiyası müəyyən bir aralıqda ədədlər ardıcıllığı yaratmaq üçün for dövrü ilə birgə tətbiq olunur.`).join(' '),
-            // Dərs 15
             Array.from({ length: 20 }, (_, s) => `${s + 1}. Funksiyalar (def) kod təkrarının qarşısını almaq üçün yazılan xüsusi kod bloklarıdır. Çox dəfə çağırıla bilər.`).join(' '),
-            // Dərs 16
             Array.from({ length: 20 }, (_, s) => `${s + 1}. Funksiyalarda parametr və return anlayışı məlumatı emal edib geriyə cavab qaytarmaq üçün istifadə olunur.`).join(' '),
-            // Dərs 17
             Array.from({ length: 20 }, (_, s) => `${s + 1}. Lüğətlər (Dictionaries) 'Açar-Dəyər' (Key-Value) məntiqi ilə işləyən məlumat strukturudur.`).join(' '),
-            // Dərs 18
             Array.from({ length: 20 }, (_, s) => `${s + 1}. Tuples və Sets dəyişməz və təkrar olunmayan elementləri saxlamaq üçün istifadə olunan məlumat tipləridir.`).join(' '),
-            // Dərs 19
             Array.from({ length: 20 }, (_, s) => `${s + 1}. Modullar və Kitabxanalar (import) başqaları tərəfindən yazılmış hazır funksiyaları proqramımıza qoşmağa imkan verir.`).join(' '),
-            // Dərs 20
             Array.from({ length: 20 }, (_, s) => `${s + 1}. Təbriklər! Xətaların idarə olunması (try-except) ilə Python-un təməl kursunu uğurla tamamlayırsınız.`).join(' ')
         ];
 
         const lessons = Array.from({ length: 20 }, (_, i) => {
             const num = i + 1;
-            const contentText = `<div class="space-y-2 bg-blue-50/50 dark:bg-slate-900/50 p-4 rounded-xl border border-blue-100 dark:border-slate-700">
-                <p class="font-semibold text-blue-600 dark:text-blue-400 mb-2">📌 ${num}-ci Dərs: Python Mühitində 20 Cümləlik Ətraflı İzah</p>
-                <p class="text-xs md:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">${lessonDescriptions[i]}</p>
+            const contentText = `<div class="space-y-2 bg-blue-50 p-4 rounded-xl border border-blue-100">
+                <p class="font-semibold text-blue-600 mb-2">📌 ${num}-ci Dərs: Python Mühitində 20 Cümləlik Ətraflı İzah</p>
+                <p class="text-xs md:text-sm text-slate-700 leading-relaxed">${lessonDescriptions[i]}</p>
             </div>`;
 
             return {
@@ -576,7 +518,7 @@
             lessons.forEach(lesson => {
                 const isCompleted = completedLessons.includes(lesson.id);
                 const btn = document.createElement('button');
-                btn.className = `w-full text-left p-3 rounded-xl text-sm font-medium transition flex justify-between items-center cursor-pointer ${currentLessonId === lesson.id ? 'bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800' : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700/50'}`;
+                btn.className = `w-full text-left p-3 rounded-xl text-sm font-medium transition flex justify-between items-center cursor-pointer ${currentLessonId === lesson.id ? 'bg-blue-50 text-blue-600 border border-blue-200' : 'text-slate-700 hover:bg-slate-100'}`;
                 btn.innerHTML = `<span>${lesson.title}</span> ${isCompleted ? '✅' : '📖'}`;
                 btn.onclick = () => { selectLesson(lesson.id); currentQuizIndex = 0; };
                 listEl.appendChild(btn);
@@ -608,7 +550,7 @@
             optionsEl.innerHTML = '';
             q.options.forEach((opt, idx) => {
                 const optBtn = document.createElement('button');
-                optBtn.className = 'w-full text-left px-3 py-2 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 text-sm hover:bg-blue-50 dark:hover:bg-slate-700 cursor-pointer transition';
+                optBtn.className = 'w-full text-left px-3 py-2 rounded-lg bg-white border border-slate-200 text-slate-800 text-sm hover:bg-blue-50 cursor-pointer transition';
                 optBtn.innerText = opt;
                 optBtn.onclick = () => checkQuiz(idx, q.correct, lesson);
                 optionsEl.appendChild(optBtn);
@@ -648,7 +590,7 @@
             document.getElementById('progress-text').innerText = `${prefix} ${percent}%`;
         }
 
-        // 5. KOD İŞLƏTMƏ DÜYMƏSİ (RUN CODE - BİRBAŞA İŞLƏYİR VƏ YÖNLƏNDİRMƏ ETMİR)
+        // 5. KOD İŞLƏTMƏ DÜYMƏSİ (RUN CODE)
         function runJSCode(event) {
             if (event) event.preventDefault();
             const code = document.getElementById('code-editor').value;
@@ -701,7 +643,6 @@
 
         // SƏHFƏ YÜKLƏNƏNDƏ
         document.addEventListener('DOMContentLoaded', () => {
-            initTheme();
             applyLanguage(currentLang);
             checkFirstVisit();
             renderLessons();
