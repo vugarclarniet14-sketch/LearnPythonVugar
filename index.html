@@ -84,12 +84,12 @@
 
     <!-- ⚙ YUXARI SAĞ KÜNC: TAYMER VƏ MENYU -->
     <div class="fixed top-4 right-4 z-40 flex items-center gap-3">
-        <div id="timer-badge" class="flex flex-col items-end bg-white border border-rose-200 px-3 py-1.5 rounded-xl text-rose-600 font-mono shadow-md">
+        <div id="timer-badge" class="flex flex-col items-end bg-white border border-rose-200 px-3.5 py-2 rounded-xl text-rose-600 font-mono shadow-md">
             <div class="flex items-center gap-1.5 text-xs font-bold">
                 <span>⏳</span>
-                <span id="time-left">180:00:00</span>
+                <span id="time-left">182g 00:00:00</span>
             </div>
-            <span id="timer-subtext" class="text-[9px] font-sans font-semibold text-rose-400 tracking-tight">Bu müddətə bitir</span>
+            <span id="timer-subtext" class="text-[10px] font-sans font-bold text-rose-500 tracking-tight mt-0.5">Bu müddətə bitir</span>
         </div>
 
         <button onclick="toggleSettingsDrawer(true)" class="p-2.5 rounded-xl border border-slate-300 bg-white text-slate-800 text-base shadow-md cursor-pointer hover:bg-slate-100 transition flex items-center gap-2">
@@ -888,7 +888,7 @@
 
         function initTimer() {
             let savedSeconds = localStorage.getItem('site_timer_seconds');
-            // 6 ay = 15552000 saniyə (180 gün)
+            // 6 ay = 15552000 saniyə (182 gün)
             let totalSeconds = savedSeconds !== null ? parseInt(savedSeconds, 10) : 15552000;
 
             if (timerInterval) clearInterval(timerInterval);
@@ -909,13 +909,7 @@
                 const minutes = Math.floor((totalSeconds % 3600) / 60);
                 const seconds = totalSeconds % 60;
 
-                let timeString = "";
-                if (days > 0) {
-                    timeString = `${days}g ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                } else {
-                    timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                }
-
+                let timeString = `${days}g ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
                 document.getElementById('time-left').innerText = timeString;
             }, 1000);
         }
