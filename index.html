@@ -18,7 +18,7 @@
     <!-- ⚙ YUXARI SAĞ KÜNC: MENYU VƏ 1 SAATLIQ VAXT SAYĞACI -->
     <div class="fixed top-4 right-4 z-40 flex items-center gap-3">
         <!-- Vaxt Sayğacı -->
-        <div id="timer-badge" class="hidden items-center gap-1.5 bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900 px-3 py-2 rounded-xl text-rose-600 dark:text-rose-400 font-mono text-xs font-bold shadow-sm">
+        <div id="timer-badge" class="flex items-center gap-1.5 bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900 px-3 py-2 rounded-xl text-rose-600 dark:text-rose-400 font-mono text-xs font-bold shadow-sm">
             <span>⏳</span>
             <span id="time-left">60:00</span>
         </div>
@@ -48,11 +48,11 @@
                 <img id="drawer-user-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=Panda" alt="Avatar" class="w-16 h-16 rounded-full object-cover border-2 border-blue-500 shadow-sm">
                 
                 <div class="w-full flex flex-col items-center">
-                    <span id="drawer-user-display-name" onclick="editName()" class="text-sm font-bold cursor-pointer hover:underline text-blue-600 dark:text-blue-400" title="Adı dəyişmək üçün kliklə">İstifadəçi</span>
-                    <span class="text-[11px] text-slate-400 truncate w-full" id="drawer-user-email">user@gmail.com</span>
+                    <span id="drawer-user-display-name" onclick="editName()" class="text-sm font-bold cursor-pointer hover:underline text-blue-600 dark:text-blue-400" title="Adı dəyişmək üçün kliklə">Vüqar</span>
+                    <span class="text-[11px] text-slate-400 truncate w-full" id="drawer-user-email">vuqar@gmail.com</span>
                 </div>
 
-                <!-- Heyvan və İnsan Avatarları Seçimi -->
+                <!-- Avatar Seçimi -->
                 <div class="w-full mt-2 pt-3 border-t border-slate-200 dark:border-slate-700">
                     <label class="text-[11px] font-semibold text-slate-400 uppercase block mb-2">Profil Şəkli Seç</label>
                     <div class="grid grid-cols-4 gap-2">
@@ -71,7 +71,7 @@
 
             <div class="border-t border-slate-200 dark:border-slate-700"></div>
 
-            <!-- Dil Seçimi (Azərbaycan dili daxil) -->
+            <!-- Dil Seçimi -->
             <div class="flex flex-col gap-1.5">
                 <label class="text-xs font-semibold uppercase tracking-wider text-slate-400">Dil / Language</label>
                 <select id="customLanguageSelect" onchange="alert('Dil dəyişdirildi: ' + this.value)" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm shadow-sm cursor-pointer focus:outline-none">
@@ -90,14 +90,6 @@
                     <span>🌓</span>
                 </button>
             </div>
-        </div>
-
-        <!-- Ən Sonda: Sign Out -->
-        <div class="pt-4 border-t border-slate-200 dark:border-slate-700 mt-auto">
-            <button onclick="handleLogout()" class="w-full text-center px-4 py-3 text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 rounded-xl transition cursor-pointer shadow-md flex items-center justify-center gap-2">
-                <span>Sign Out (Çıxış Et)</span>
-                <span>🚪</span>
-            </button>
         </div>
     </div>
 
@@ -156,42 +148,7 @@
         </section>
     </main>
 
-    <!-- AUTHENTICATION OVERLAY -->
-    <div id="auth-overlay" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white dark:bg-slate-800 p-8 rounded-2xl max-w-md w-full border border-slate-200 dark:border-slate-700 shadow-2xl text-center">
-            <h2 class="text-2xl font-bold mb-2">PythonPro-ya Xoş Gəlmisiniz</h2>
-            <p class="text-slate-500 dark:text-slate-400 text-sm mb-6">Dərslərə başlamaq üçün e-poçt (Gmail) və şifrənizi daxil edin:</p>
-            
-            <input type="email" id="email-input" placeholder="E-poçt ünvanınız (Məs: user@gmail.com)" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm mb-3 focus:outline-none">
-            <input type="password" id="password-input" placeholder="Şifrəniz" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm mb-5 focus:outline-none">
-            
-            <!-- Birbaşa işləyən düymə məntiqi -->
-            <button onclick="
-                const e = document.getElementById('email-input').value.trim();
-                const p = document.getElementById('password-input').value.trim();
-                if(!e || !p) { alert('Zəhmət olmasa e-poçt və şifrəni daxil edin!'); return; }
-                const name = e.split('@')[0];
-                const formattedName = name.charAt(0).toUpperCase() + name.slice(1);
-                const avatar = 'https://api.dicebear.com/7.x/bottts/svg?seed=Panda';
-                
-                document.getElementById('auth-overlay').classList.add('hidden');
-                document.getElementById('drawer-user-display-name').innerText = formattedName;
-                document.getElementById('drawer-user-email').innerText = e;
-                document.getElementById('drawer-user-avatar').src = avatar;
-                
-                localStorage.setItem('user_name', formattedName);
-                localStorage.setItem('user_email', e);
-                localStorage.setItem('user_avatar', avatar);
-                localStorage.setItem('is_logged_in', 'true');
-                
-                startTimer();
-                renderLessons();
-                selectLesson(1);
-            " class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl transition cursor-pointer shadow-md">Daxil Ol (Sign In)</button>
-        </div>
-    </div>
-
-    <!-- JAVASCRIPT MƏNTİQİ -->
+    <!-- JAVASCRIPT MƏNTİQİ (Brython üçün) -->
     <script type="text/python">
         import sys
         from browser import document, window
@@ -215,15 +172,12 @@
         window.runPythonCode = runPythonCode
     </script>
 
+    <!-- ÜMUMİ JAVASCRIPT SKRİPTLƏRİ -->
     <script>
         let totalSeconds = 3600;
         let timerInterval = null;
 
         function startTimer() {
-            const timerBadge = document.getElementById('timer-badge');
-            timerBadge.classList.remove('hidden');
-            timerBadge.classList.add('flex');
-
             if (timerInterval) clearInterval(timerInterval);
 
             timerInterval = setInterval(() => {
@@ -238,6 +192,12 @@
                 document.getElementById('time-left').innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             }, 1000);
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            startTimer();
+            renderLessons();
+            selectLesson(1);
+        });
 
         function toggleSettingsDrawer(open) {
             const drawer = document.getElementById('settings-drawer');
@@ -263,14 +223,6 @@
                 localStorage.setItem('theme', 'dark');
                 themeLabel.innerText = 'İşıqlı Rejim';
             }
-        }
-
-        if (localStorage.getItem('theme') === 'dark') {
-            document.documentElement.classList.add('dark');
-            document.getElementById('theme-label').innerText = 'İşıqlı Rejim';
-        } else {
-            document.documentElement.classList.remove('dark');
-            document.getElementById('theme-label').innerText = 'Qaranlıq Rejim';
         }
 
         const lessons = Array.from({ length: 20 }, (_, i) => {
@@ -382,45 +334,15 @@
             else if (type === 'Girl') avatarUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka`;
 
             document.getElementById('drawer-user-avatar').src = avatarUrl;
-            localStorage.setItem('user_avatar', avatarUrl);
         }
 
         function editName() {
             const currentName = document.getElementById('drawer-user-display-name').innerText;
             const newName = prompt("Yeni adınızı daxil edin:", currentName);
             if (newName && newName.trim() !== "") {
-                const trimmed = newName.trim();
-                document.getElementById('drawer-user-display-name').innerText = trimmed;
-                localStorage.setItem('user_name', trimmed);
+                document.getElementById('drawer-user-display-name').innerText = newName.trim();
             }
         }
-
-        function handleLogout() {
-            localStorage.removeItem('is_logged_in');
-            localStorage.removeItem('user_name');
-            localStorage.removeItem('user_email');
-            localStorage.removeItem('user_avatar');
-            location.reload();
-        }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            const isLoggedIn = localStorage.getItem('is_logged_in');
-            const authOverlay = document.getElementById('auth-overlay');
-            
-            if (isLoggedIn === 'true') {
-                authOverlay.classList.add('hidden');
-                
-                document.getElementById('drawer-user-display-name').innerText = localStorage.getItem('user_name') || 'İstifadəçi';
-                document.getElementById('drawer-user-email').innerText = localStorage.getItem('user_email') || 'user@gmail.com';
-                document.getElementById('drawer-user-avatar').src = localStorage.getItem('user_avatar') || 'https://api.dicebear.com/7.x/bottts/svg?seed=Panda';
-                
-                startTimer();
-                renderLessons();
-                selectLesson(1);
-            } else {
-                authOverlay.classList.remove('hidden');
-            }
-        });
     </script>
 </body>
 </html>
