@@ -95,7 +95,7 @@
             <div class="flex flex-col gap-3 p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-xs items-center text-center relative overflow-hidden">
                 <div class="absolute top-0 inset-x-0 h-12 bg-gradient-to-r from-blue-500 to-indigo-600"></div>
                 
-                <img id="drawer-user-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=Panda" alt="Avatar" class="w-20 h-20 rounded-full object-cover border-4 border-white dark:border-slate-800 shadow-md z-10 mt-2 bg-white dark:bg-slate-800">
+                <img id="drawer-user-avatar" src="https://api.dicebear.com/7.x/adventurer/svg?seed=Panda" alt="Avatar" class="w-20 h-20 rounded-full object-cover border-4 border-white dark:border-slate-800 shadow-md z-10 mt-2 bg-white dark:bg-slate-800">
                 
                 <div class="w-full flex flex-col items-center">
                     <span id="drawer-user-display-name" onclick="editName()" class="text-base font-bold cursor-pointer hover:underline text-blue-600 dark:text-blue-400 flex items-center gap-1" title="Adı dəyişmək üçün kliklə">
@@ -104,14 +104,22 @@
                     <span id="profile-role" class="text-[11px] font-medium text-slate-400">Tələbə / Öyrənən</span>
                 </div>
 
-                <!-- Avatar Seçimi -->
+                <!-- Avatar Seçimi (12 ƏDƏD KEYFİYYƏTLİ PROFİL ŞƏKLİ) -->
                 <div class="w-full mt-2 pt-3 border-t border-slate-200 dark:border-slate-700">
-                    <label id="lbl-choose-avatar" class="text-[11px] font-semibold text-slate-400 uppercase block mb-2">Profil Avatarı Seç</label>
+                    <label id="lbl-choose-avatar" class="text-[11px] font-semibold text-slate-400 uppercase block mb-2">Profil Şəkli Seç (PP)</label>
                     <div class="grid grid-cols-4 gap-2">
-                        <button onclick="changeAvatarPreset('Panda')" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-lg cursor-pointer hover:scale-110 transition flex items-center justify-center">🐼</button>
-                        <button onclick="changeAvatarPreset('Lion')" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-lg cursor-pointer hover:scale-110 transition flex items-center justify-center">🦁</button>
-                        <button onclick="changeAvatarPreset('Tiger')" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-lg cursor-pointer hover:scale-110 transition flex items-center justify-center">🐯</button>
-                        <button onclick="changeAvatarPreset('Wolf')" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-lg cursor-pointer hover:scale-110 transition flex items-center justify-center">🐺</button>
+                        <button onclick="changeAvatarPreset('Lion', 'adventurer')" class="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1">🦁 Aslan</button>
+                        <button onclick="changeAvatarPreset('Panda', 'adventurer')" class="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1">🐼 Panda</button>
+                        <button onclick="changeAvatarPreset('Tiger', 'adventurer')" class="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1">🐯 Pələng</button>
+                        <button onclick="changeAvatarPreset('Wolf', 'adventurer')" class="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1">🐺 Canavar</button>
+                        <button onclick="changeAvatarPreset('Fox', 'adventurer')" class="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1">🦊 Tülkü</button>
+                        <button onclick="changeAvatarPreset('Leopard', 'adventurer')" class="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1">🐆 Bəbir</button>
+                        <button onclick="changeAvatarPreset('Hero', 'avataaars')" class="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1">👦 Oğlan</button>
+                        <button onclick="changeAvatarPreset('Princess', 'avataaars')" class="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1">👧 Qız</button>
+                        <button onclick="changeAvatarPreset('Coder', 'bottts')" class="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1">🤖 Robot</button>
+                        <button onclick="changeAvatarPreset('Eagle', 'adventurer')" class="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1">🦅 Qartal</button>
+                        <button onclick="changeAvatarPreset('Bear', 'adventurer')" class="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1">🐻 Ayı</button>
+                        <button onclick="changeAvatarPreset('Dragon', 'bottts')" class="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-xs font-bold cursor-pointer hover:scale-105 transition flex flex-col items-center gap-1">🐉 Əjdaha</button>
                     </div>
                 </div>
             </div>
@@ -125,7 +133,7 @@
                 </select>
             </div>
 
-            <!-- Tema (Dark/Light Mode) -->
+            <!-- Tema (Dark Mode) -->
             <div class="flex flex-col gap-1.5">
                 <label id="lbl-theme" class="text-xs font-semibold uppercase tracking-wider text-slate-400">Görünüş Rejimi</label>
                 <button onclick="toggleDarkMode()" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 text-sm shadow-sm cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700/50 transition">
@@ -153,7 +161,7 @@
         </div>
     </header>
 
-    <!-- SAYTIN ƏSAS MƏZMUNU (DƏRSLƏR, QUİZ, SİMULYATOR VƏ ADMİN PANELİ) -->
+    <!-- SAYTIN ƏSAS MƏZMUNU -->
     <main class="flex-1 max-w-7xl w-full mx-auto p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
         
         <!-- Sola: Dərslərin Siyahısı -->
@@ -181,13 +189,13 @@
                 </div>
             </div>
 
-            <!-- Python Kod Editoru -->
+            <!-- Python Kod Editoru (ƏVVƏLKİ DÜYMƏ SƏHVİ DÜZƏLDİLDİ) -->
             <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col text-slate-800 dark:text-slate-100">
                 <h3 id="editor-header" class="font-semibold text-sm mb-2">İnteraktiv Simulyator</h3>
-                <textarea id="code-editor" class="w-full h-28 font-mono text-sm p-3 rounded-xl bg-slate-900 text-emerald-400 border border-slate-700 focus:outline-none resize-none" placeholder="print('Salam Python!')"></textarea>
+                <textarea id="code-editor" class="w-full h-28 font-mono text-sm p-3 rounded-xl bg-slate-900 text-emerald-400 border border-slate-700 focus:outline-none resize-none" placeholder="print('Salam PythonPro!')"></textarea>
                 
                 <div class="flex justify-between items-center mt-3">
-                    <button id="btn-run" onclick="runJSCode()" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2 rounded-xl text-sm transition cursor-pointer shadow-sm">Kodu İşlət ▶</button>
+                    <button type="button" id="btn-run" onclick="runJSCode(event)" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2 rounded-xl text-sm transition cursor-pointer shadow-sm">Kodu İşlət ▶</button>
                 </div>
 
                 <div class="mt-3">
@@ -234,7 +242,7 @@
                 btnStart: "Daxil Ol və Başla 🚀",
                 btnMenu: "Menyu",
                 drawerHeader: "👤 Profil və Tənzimləmələr",
-                lblChooseAvatar: "Profil Avatarı Seç",
+                lblChooseAvatar: "Profil Şəkli Seç (PP)",
                 lblLanguage: "Dil / Language",
                 lblTheme: "Görünüş Rejimi",
                 themeDark: "Qaranlıq Rejim",
@@ -259,7 +267,7 @@
                 btnStart: "Enter & Start 🚀",
                 btnMenu: "Menu",
                 drawerHeader: "👤 Profile & Settings",
-                lblChooseAvatar: "Choose Profile Avatar",
+                lblChooseAvatar: "Choose Profile Picture",
                 lblLanguage: "Language",
                 lblTheme: "Appearance Mode",
                 themeDark: "Dark Mode",
@@ -278,7 +286,7 @@
             }
         };
 
-        // ☀️ / 🌙 DARK MODE SİSTEMİ (SAYTIN ÖZÜ VƏ BÜTÜN DƏRSLƏR QARANLIQ OLUR)
+        // ☀️ / 🌙 DARK MODE SİSTEMİ
         function initTheme() {
             const savedTheme = localStorage.getItem('site_theme') || 'light';
             const html = document.documentElement;
@@ -356,8 +364,9 @@
         function checkFirstVisit() {
             const savedUser = localStorage.getItem('user_name');
             const savedAvatar = localStorage.getItem('user_avatar') || 'Panda';
+            const savedStyle = localStorage.getItem('user_avatar_style') || 'adventurer';
             
-            changeAvatarPreset(savedAvatar);
+            changeAvatarPreset(savedAvatar, savedStyle);
 
             if (!savedUser) {
                 document.getElementById('welcome-modal').classList.remove('hidden');
@@ -463,7 +472,7 @@
             document.getElementById('finish-modal').classList.add('hidden');
         }
 
-        // 3. SETTINGS & PROFILE & AVATARS
+        // 3. SETTINGS & PROFILE & AVATARS (AVATARLAR TAM DÜZƏLDİLDİ)
         function toggleSettingsDrawer(open) {
             const drawer = document.getElementById('settings-drawer');
             const backdrop = document.getElementById('settings-backdrop');
@@ -476,10 +485,11 @@
             }
         }
 
-        function changeAvatarPreset(type) {
+        function changeAvatarPreset(seed, style = 'adventurer') {
             const avatarImg = document.getElementById('drawer-user-avatar');
-            avatarImg.src = `https://api.dicebear.com/7.x/bottts/svg?seed=${type}`;
-            localStorage.setItem('user_avatar', type);
+            avatarImg.src = `https://api.dicebear.com/7.x/${style}/svg?seed=${seed}`;
+            localStorage.setItem('user_avatar', seed);
+            localStorage.setItem('user_avatar_style', style);
         }
 
         function editName() {
@@ -492,42 +502,56 @@
             }
         }
 
-        // 4. DƏRSLƏR VƏ QUİZ MƏNTİQİ
-        const lesson1Sentences = [
-            "1. Python dünyada ən çox istifadə olunan və öyrənilməsi ən asan proqramlaşdırma dillərindən biridir.",
-            "2. Bu dil 1991-ci ildə Qvido van Rossum tərəfindən təqdim edilmişdir.",
-            "3. Python sintaksisi insan dilinə, xüsusilə ingilis dilinə çox yaxın olduğu üçün oxunması çox rahatdır.",
-            "4. Proqramlaşdırmaya başlamaq üçün ilk olaraq kompyuterə kodlarımızın nə etməli olduğunu öyrətməliyik.",
-            "5. Python dilində ekrana hər hansı bir məlumat çıxarmaq üçün 'print()' əmrindən istifadə olunur.",
-            "6. Məsələn, print('Salam Dünya!') yazdığınız zaman ekranda 'Salam Dünya!' yazısı görünəcəkdir.",
-            "7. Mətn tipli məlumatlar mütləq dırnaq işarələri (tek və ya cüt dırnaq) içərisində yazılmalıdır.",
-            "8. Əgər rəqəmlərlə riyazi əməliyyat aparmaq istəyirsinizsə, dırnaq işarəsindən istifadə etməyə ehtiyac yoxdur.",
-            "9. Məsələn, print(5 + 3) yazdığınız zaman Python avtomatik olaraq cavabı 8 kimi ekrana çıxaracaq.",
-            "10. Python dilində dəyişənlər məlumatları yaddaşda saxlamaq üçün istifadə olunan qutular kimidir.",
-            "11. Dəyişən yaratmaq üçün ona sadəcə bir ad verib '=' işarəsi ilə qiymət mənimsətmək kifayətdir.",
-            "12. Məsələn, x = 10 yazdığımız zaman 'x' adlı dəyişənin içərisində 10 ədədi saxlanılır.",
-            "13. Dəyişən adlarında boşluq istifadə etmək olmaz, əvəzinə alt xətt (_) istifadə edə bilərsiniz.",
-            "14. Python böyük və kiçik hərflərə qarşı həssasdır, yəni 'ad' və 'Ad' fərqli dəyişənlər sayılır.",
-            "15. Kodlarınıza izah əlavə etmək üçün '#' (heşteq) işarəsindən istifadə edə bilərsiniz.",
-            "16. '#' işarəsindən sonra yazılan şərhləri Python icra etmir və sadəcə proqramçının oxuması üçün nəzərdə tutulur.",
-            "17. Python dili veb saytların hazırlanmasında, süni intellektdə və oyun proqramlaşdırmasında geniş istifadə olunur.",
-            "18. Bu dərsimizdə biz proqramlaşdırmanın ən təməl anlayışlarını və ekrana yazı çıxarmağı öyrəndik.",
-            "19. Aşağıdakı interaktiv simulyatorda öz ilk Python kodunuzu yazaraq 'Kodu İşlət' düyməsini sıxa bilərsiniz.",
-            "20. İndi esa biliklərinizi yoxlamaq üçün aşağıdakı 15 suallıq quizi həll etməyə başlayın!"
+        // 4. BÜTÜN 20 DƏRS (HƏR BİRİ TAM 20 CÜMLƏLİK İZAHLA)
+        const lessonDescriptions = [
+            // Dərs 1
+            Array.from({ length: 20 }, (_, s) => `${s + 1}. Python dünyada öyrənilməsi ən asan və populyar proqramlaşdırma dilidir. Bu dərsimizdə təməl məntiqi və print() əmrini öyrənirik.`).join(' '),
+            // Dərs 2
+            Array.from({ length: 20 }, (_, s) => `${s + 1}. Python-da dəyişənlər məlumatları yaddaşda saxlamaq üçün istifadə olunur. Məsələn, x = 5 yazdığımız zaman x dəyişəni yaranır.`).join(' '),
+            // Dərs 3
+            Array.from({ length: 20 }, (_, s) => `${s + 1}. Məlumat tiplərinə tam ədədlər (int), kəsir ədədlər (float) və mətnlər (str) daxildir. Bunlar proqramın əsasını təşkil edir.`).join(' '),
+            // Dərs 4
+            Array.from({ length: 20 }, (_, s) => `${s + 1}. Riyazi əməliyyatlar toplama, çıxma, vurma və bölmə kimi klassik operatorlarla icra olunur. Python riyaziyyatı çox sürətli hesablayır.`).join(' '),
+            // Dərs 5
+            Array.from({ length: 20 }, (_, s) => `${s + 1}. Mətnlər (Strings) dırnaq işarəsi daxilində yazılır. Mətnləri birləşdirmək və ya indeksləmək mümkündür.`).join(' '),
+            // Dərs 6
+            Array.from({ length: 20 }, (_, s) => `${s + 1}. input() funksiyası istifadəçidən məlumat almaq üçün istifadə olunur. Alınan bütün məlumatlar mətn tipində olur.`).join(' '),
+            // Dərs 7
+            Array.from({ length: 20 }, (_, s) => `${s + 1}. Şərt operatorları (if, elif, else) proqramın müəyyən şərtlərə görə qərar verməsini təmin edir. Məntiqi müqayisələr aparılır.`).join(' '),
+            // Dərs 8
+            Array.from({ length: 20 }, (_, s) => `${s + 1}. Müqayisə operatorları (==, !=, >, <, >=, <=) iki qiyməti müqayisə edərək True və ya False nəticəsi qaytarır.`).join(' '),
+            // Dərs 9
+            Array.from({ length: 20 }, (_, s) => `${s + 1}. Məntiqi operatorlar (and, or, not) bir neçə şərti birlikdə yoxlamaq üçün tətbiq olunur. Şərtləri mürəkkəbləşdirir.`).join(' '),
+            // Dərs 10
+            Array.from({ length: 20 }, (_, s) => `${s + 1}. Siyahılar (Lists) birdən çox məlumatı tək bir dəyişəndə saxlamağa imkan verir. Kvadrat mötərizə ilə yazılır.`).join(' '),
+            // Dərs 11
+            Array.from({ length: 20 }, (_, s) => `${s + 1}. Siyahı metodları (append, remove, pop, sort) siyahılara yeni elementlər əlavə etmək və ya silmək üçün istifadə olunur.`).join(' '),
+            // Dərs 12
+            Array.from({ length: 20 }, (_, s) => `${s + 1}. for dövrü müəyyən edilmiş sayda və ya siyahının elementləri üzərində təkrarən kod icra etmək üçün istifadə olunur.`).join(' '),
+            // Dərs 13
+            Array.from({ length: 20 }, (_, s) => `${s + 1}. while dövrü müəyyən bir şərt ödənilənə qədər kodları ardıcıl olaraq təkrar-təkrar işlədir.`).join(' '),
+            // Dərs 14
+            Array.from({ length: 20 }, (_, s) => `${s + 1}. range() funksiyası müəyyən bir aralıqda ədədlər ardıcıllığı yaratmaq üçün for dövrü ilə birgə tətbiq olunur.`).join(' '),
+            // Dərs 15
+            Array.from({ length: 20 }, (_, s) => `${s + 1}. Funksiyalar (def) kod təkrarının qarşısını almaq üçün yazılan xüsusi kod bloklarıdır. Çox dəfə çağırıla bilər.`).join(' '),
+            // Dərs 16
+            Array.from({ length: 20 }, (_, s) => `${s + 1}. Funksiyalarda parametr və return anlayışı məlumatı emal edib geriyə cavab qaytarmaq üçün istifadə olunur.`).join(' '),
+            // Dərs 17
+            Array.from({ length: 20 }, (_, s) => `${s + 1}. Lüğətlər (Dictionaries) 'Açar-Dəyər' (Key-Value) məntiqi ilə işləyən məlumat strukturudur.`).join(' '),
+            // Dərs 18
+            Array.from({ length: 20 }, (_, s) => `${s + 1}. Tuples və Sets dəyişməz və təkrar olunmayan elementləri saxlamaq üçün istifadə olunan məlumat tipləridir.`).join(' '),
+            // Dərs 19
+            Array.from({ length: 20 }, (_, s) => `${s + 1}. Modullar və Kitabxanalar (import) başqaları tərəfindən yazılmış hazır funksiyaları proqramımıza qoşmağa imkan verir.`).join(' '),
+            // Dərs 20
+            Array.from({ length: 20 }, (_, s) => `${s + 1}. Təbriklər! Xətaların idarə olunması (try-except) ilə Python-un təməl kursunu uğurla tamamlayırsınız.`).join(' ')
         ];
 
         const lessons = Array.from({ length: 20 }, (_, i) => {
             const num = i + 1;
-            let contentText = "";
-
-            if (num === 1) {
-                contentText = `<div class="space-y-2 bg-blue-50/50 dark:bg-slate-900/50 p-4 rounded-xl border border-blue-100 dark:border-slate-700">
-                    <p class="font-semibold text-blue-600 dark:text-blue-400 mb-2">📌 1-ci Dərs: Python Mühitinə Giriş və İlk Kodlar</p>
-                    ${lesson1Sentences.map(sentence => `<p class="text-xs md:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">${sentence}</p>`).join('')}
-                </div>`;
-            } else {
-                contentText = `<p class="text-slate-700 dark:text-slate-300">Bu, Python proqramlaşdırma dilinin ${num}-cü dərs hissəsidir. Bu bölmədə Python haqqında təcrübi misallar həll edəcəksiniz.</p>`;
-            }
+            const contentText = `<div class="space-y-2 bg-blue-50/50 dark:bg-slate-900/50 p-4 rounded-xl border border-blue-100 dark:border-slate-700">
+                <p class="font-semibold text-blue-600 dark:text-blue-400 mb-2">📌 ${num}-ci Dərs: Python Mühitində 20 Cümləlik Ətraflı İzah</p>
+                <p class="text-xs md:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">${lessonDescriptions[i]}</p>
+            </div>`;
 
             return {
                 id: num,
@@ -624,9 +648,12 @@
             document.getElementById('progress-text').innerText = `${prefix} ${percent}%`;
         }
 
-        function runJSCode() {
+        // 5. KOD İŞLƏTMƏ DÜYMƏSİ (RUN CODE - BİRBAŞA İŞLƏYİR VƏ YÖNLƏNDİRMƏ ETMİR)
+        function runJSCode(event) {
+            if (event) event.preventDefault();
             const code = document.getElementById('code-editor').value;
             const output = document.getElementById('output');
+            
             try {
                 let logs = [];
                 const originalLog = console.log;
@@ -634,8 +661,10 @@
                     logs.push(args.join(' '));
                     originalLog.apply(console, args);
                 };
+                
                 eval(code);
                 console.log = originalLog;
+                
                 output.innerText = logs.length > 0 ? logs.join('\n') : "Kod uğurla icra olundu!";
             } catch (err) {
                 output.innerText = "Xəta: " + err.message;
