@@ -72,12 +72,12 @@
     <div id="finish-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-white border border-slate-200 w-full max-w-md p-6 rounded-3xl shadow-2xl flex flex-col items-center text-center text-slate-800">
             <div class="text-6xl mb-3">🎆🎉🎆</div>
-            <h2 id="finish-title" class="text-2xl font-black text-blue-600 mb-2">Təbriklər!</h2>
+            <h2 id="finish-title" class="text-2xl font-black text-blue-600 mb-2">Vaxt Bitdi!</h2>
             <p id="finish-desc" class="text-sm text-slate-600 mb-6 leading-relaxed">
-                6 aylıq hədəfi uğurla başa vurdunuz! Sizinlə fəxr edirik!
+                Bu dərs üçün ayrılan 1 saat başa çatdı! Növbəti dərsə keçə bilərsən.
             </p>
             <button onclick="closeFinishModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-sm cursor-pointer shadow-lg shadow-blue-500/30 transition">
-                Super! Əla İş 👏
+                Davam Et 👏
             </button>
         </div>
     </div>
@@ -87,9 +87,9 @@
         <div id="timer-badge" class="flex flex-col items-end bg-white border border-rose-200 px-3.5 py-2 rounded-xl text-rose-600 font-mono shadow-md">
             <div class="flex items-center gap-1.5 text-xs font-bold">
                 <span>⏳</span>
-                <span id="time-left">182g 00:00:00</span>
+                <span id="time-left">01:00:00</span>
             </div>
-            <span id="timer-subtext" class="text-[10px] font-sans font-bold text-rose-500 tracking-tight mt-0.5">Bu müddətə bitir</span>
+            <span id="timer-subtext" class="text-[10px] font-sans font-bold text-rose-500 tracking-tight mt-0.5">Dərs üçün 1 saat</span>
         </div>
 
         <button onclick="toggleSettingsDrawer(true)" class="p-2.5 rounded-xl border border-slate-300 bg-white text-slate-800 text-base shadow-md cursor-pointer hover:bg-slate-100 transition flex items-center gap-2">
@@ -255,7 +255,7 @@
                 modalTitle: "Xoş Gəlmisiniz!",
                 modalDesc: "Dərsə başlamazdan əvvəl zəhmət olmasa adınızı daxil edin və saytımızı qiymətləndirin.",
                 badgeSecure: "Təhlükəsizdir",
-                timerSub: "Bu müddətə bitir",
+                timerSub: "Dərs üçün 1 saat",
                 lblName: "Adınız",
                 lblRating: "Qiymətləndirmə",
                 btnStart: "Daxil Ol və Başla 🚀",
@@ -281,9 +281,9 @@
                 correctMsg: "✔ Düzgün cavab!",
                 incorrectMsg: "✖ Səhvdir, yenidən cəhd edin.",
                 quizCompleted: "🎉 Təbriklər! Bütün 15 sualı tamamladınız.",
-                finishTitle: "Təbriklər!",
-                finishDesc: "6 aylıq hədəfi uğurla başa vurdunuz! Sizinlə fəxr edirik!",
-                finishBtn: "Super! Əla İş 👏",
+                finishTitle: "Vaxt Bitdi!",
+                finishDesc: "Bu dərs üçün ayrılan 1 saat başa çatdı! Növbəti dərsə keçə bilərsən.",
+                finishBtn: "Davam Et 👏",
                 avgRating: "Orta Bal:",
                 votes: "səs",
                 noRatings: "Hələ heç kim ulduz verməyib."
@@ -292,7 +292,7 @@
                 modalTitle: "Welcome!",
                 modalDesc: "Please enter your name and rate our site before starting.",
                 badgeSecure: "Secure",
-                timerSub: "Complete within this time",
+                timerSub: "1 hour for lesson",
                 lblName: "Your Name",
                 lblRating: "Rating",
                 btnStart: "Enter & Start 🚀",
@@ -318,9 +318,9 @@
                 correctMsg: "✔ Correct answer!",
                 incorrectMsg: "✖ Incorrect, please try again.",
                 quizCompleted: "🎉 Congratulations! You completed all 15 questions.",
-                finishTitle: "Congratulations!",
-                finishDesc: "You have successfully completed the 6-month goal! We are proud of you!",
-                finishBtn: "Awesome! Great Job 👏",
+                finishTitle: "Time's Up!",
+                finishDesc: "The 1 hour allocated for this lesson has ended! You can move to the next lesson.",
+                finishBtn: "Continue 👏",
                 avgRating: "Average Rating:",
                 votes: "votes",
                 noRatings: "No ratings given yet."
@@ -872,64 +872,54 @@
             document.getElementById('welcome-modal').classList.add('hidden');
 
             renderAdminRatings();
-            initTimer();
+            initLessonTimer(currentLessonId);
         }
 
         function signOut() {
             if (confirm(currentLang === 'az' ? "Çıxış etmək istədiyinizdən əminsiniz?" : "Are you sure you want to sign out?")) {
                 localStorage.removeItem('user_name');
                 localStorage.removeItem('user_avatar');
-                localStorage.removeItem('site_timer_seconds');
+                localStorage.removeItem('lesson_timers');
                 location.reload();
             }
         }
 
         let timerInterval = null;
 
-        function initTimer() {
-            let savedSeconds = localStorage.getItem('site_timer_seconds');
-            // 6 ay = 15552000 saniyə (182 gün)
-            let totalSeconds = savedSeconds !== null ? parseInt(savedSeconds, 10) : 15552000;
-
+        function initLessonTimer(lessonId) {
             if (timerInterval) clearInterval(timerInterval);
+
+            // Bütün dərslərin qalan saniyələrini yaddaşdan oxuyuruq
+            let lessonTimers = JSON.parse(localStorage.getItem('lesson_timers') || '{}');
+            
+            // Əgər bu dərs üçün hələ vaxt təyin olunmayıbsa, 1 saat (3600 saniyə) qoyuruq
+            if (lessonTimers[lessonId] === undefined) {
+                lessonTimers[lessonId] = 3600;
+                localStorage.setItem('lesson_timers', JSON.stringify(lessonTimers));
+            }
+
+            let totalSeconds = lessonTimers[lessonId];
 
             timerInterval = setInterval(() => {
                 if (totalSeconds <= 0) {
                     clearInterval(timerInterval);
-                    localStorage.setItem('site_timer_seconds', 0);
-                    triggerFireworks();
+                    lessonTimers[lessonId] = 0;
+                    localStorage.setItem('lesson_timers', JSON.stringify(lessonTimers));
                     document.getElementById('finish-modal').classList.remove('hidden');
                     return;
                 }
-                totalSeconds--;
-                localStorage.setItem('site_timer_seconds', totalSeconds);
 
-                const days = Math.floor(totalSeconds / (3600 * 24));
-                const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
+                totalSeconds--;
+                lessonTimers[lessonId] = totalSeconds;
+                localStorage.setItem('lesson_timers', JSON.stringify(lessonTimers));
+
+                const hours = Math.floor(totalSeconds / 3600);
                 const minutes = Math.floor((totalSeconds % 3600) / 60);
                 const seconds = totalSeconds % 60;
 
-                let timeString = `${days}g ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                let timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
                 document.getElementById('time-left').innerText = timeString;
             }, 1000);
-        }
-
-        function triggerFireworks() {
-            const duration = 5 * 1000;
-            const animationEnd = Date.now() + duration;
-            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
-
-            function randomInRange(min, max) {
-                return Math.random() * (max - min) + min;
-            }
-
-            const interval = setInterval(function() {
-                const timeLeft = animationEnd - Date.now();
-                if (timeLeft <= 0) return clearInterval(interval);
-                const particleCount = 50 * (timeLeft / duration);
-                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
-                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
-            }, 250);
         }
 
         function closeFinishModal() {
@@ -994,6 +984,11 @@
             quizContainer.classList.remove('hidden');
             renderQuizQuestion(lesson);
             renderLessons();
+
+            // Hər dərsə keçəndə həmin dərsin taymerini işə salırıq
+            if (localStorage.getItem('user_name')) {
+                initLessonTimer(id);
+            }
         }
 
         function renderQuizQuestion(lesson) {
@@ -1128,7 +1123,7 @@
             applyLanguage(currentLang);
             checkFirstVisit();
             if (localStorage.getItem('user_name')) {
-                initTimer();
+                initLessonTimer(currentLessonId);
             }
 
             const runBtn = document.getElementById('btn-run');
