@@ -45,7 +45,7 @@
             
             <!-- İstifadəçi Profili -->
             <div class="flex flex-col gap-3 p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-xs items-center text-center">
-                <img id="drawer-user-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Panda" alt="Avatar" class="w-16 h-16 rounded-full object-cover border-2 border-blue-500 shadow-sm">
+                <img id="drawer-user-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=Panda" alt="Avatar" class="w-16 h-16 rounded-full object-cover border-2 border-blue-500 shadow-sm">
                 
                 <div class="w-full flex flex-col items-center">
                     <span id="drawer-user-display-name" onclick="editName()" class="text-sm font-bold cursor-pointer hover:underline text-blue-600 dark:text-blue-400" title="Adı dəyişmək üçün kliklə">İstifadəçi</span>
@@ -121,7 +121,7 @@
         <!-- Sağca: Dərs Məzmunu və Kod Editoru -->
         <section class="md:col-span-2 flex flex-col gap-6">
             
-            <!-- Dərs Məzmunu (20 Cümləlik Zəngin Mətn) -->
+            <!-- Dərs Məzmunu -->
             <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
                 <h2 id="lesson-title" class="text-xl font-bold mb-3">Dərs seçin</h2>
                 <div id="lesson-content" class="text-slate-600 dark:text-slate-300 mb-4 text-sm leading-relaxed space-y-2"></div>
@@ -254,14 +254,13 @@
             document.getElementById('theme-label').innerText = 'Qaranlıq Rejim';
         }
 
-        // 20 Dərs Verilənlər Bazası (Hər biri 20 cümləlik zəngin mətn və 15 suallıq quiz)
+        // 20 Dərs Verilənlər Bazası (20 cümlə, 15 suallıq quiz)
         const lessons = Array.from({ length: 20 }, (_, i) => {
             const num = i + 1;
             const sentences = Array.from({ length: 20 }, (_, s) => 
                 `Bu, Python proqramlaşdırma dilinin ${num}-cü dərs hissəsinin ${s + 1}-ci əsas cümləsidir ki, burada mühüm məntiqi anlayış izah olunur.`
             );
             
-            // 15 Suallıq Quiz Generatoru
             const quizQuestions = Array.from({ length: 15 }, (_, q) => ({
                 question: `Dərs ${num} - Sual ${q + 1}: Python dilində bu bölmə ilə bağlı doğru ifadə hansıdır?`,
                 options: ["Doğru sintaksis budur", "Səhv əmr formatıdır", "Heç biri doğru deyil", "Mötərizə tələb olunmur"],
@@ -303,10 +302,7 @@
             if (!lesson) return;
             
             document.getElementById('lesson-title').innerText = lesson.title;
-            
-            // 20 cümləni paraqraflara bölərək göstərək
-            const contentContainer = document.getElementById('lesson-content');
-            contentContainer.innerHTML = `<p>${lesson.content}</p>`;
+            document.getElementById('lesson-content').innerHTML = `<p>${lesson.content}</p>`;
             
             const quizContainer = document.getElementById('quiz-container');
             quizContainer.classList.remove('hidden');
@@ -373,13 +369,15 @@
             
             const userName = email.split('@')[0];
             const formattedName = userName.charAt(0).toUpperCase() + userName.slice(1);
-            const avatarUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=Panda`;
+            const avatarUrl = `https://api.dicebear.com/7.x/bottts/svg?seed=Panda`;
             
             completeLogin(formattedName, email, avatarUrl);
         }
 
         function completeLogin(name, email, avatar) {
-            document.getElementById('auth-overlay').style.display = 'none';
+            // Overlay pəncərəsini Tailwind 'hidden' sinfi ilə tamamilə gizlədirik
+            const authOverlay = document.getElementById('auth-overlay');
+            authOverlay.classList.add('hidden');
             
             document.getElementById('drawer-user-display-name').innerText = name;
             document.getElementById('drawer-user-email').innerText = email;
@@ -397,16 +395,9 @@
 
         // Heyvan və İnsan Avatarlarının Dəyişdirilməsi
         function changeAvatarPreset(type) {
-            let seed = type;
-            let avatarUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}`;
-            
-            if (type === 'Panda') avatarUrl = "https://api.dicebear.com/7.x/bottts/svg?seed=Panda";
-            else if (type === 'Lion') avatarUrl = "https://api.dicebear.com/7.x/bottts/svg?seed=Lion";
-            else if (type === 'Tiger') avatarUrl = "https://api.dicebear.com/7.x/bottts/svg?seed=Tiger";
-            else if (type === 'Wolf') avatarUrl = "https://api.dicebear.com/7.x/bottts/svg?seed=Wolf";
-            else if (type === 'Unicorn') avatarUrl = "https://api.dicebear.com/7.x/bottts/svg?seed=Unicorn";
-            else if (type === 'Horse') avatarUrl = "https://api.dicebear.com/7.x/bottts/svg?seed=Horse";
-            else if (type === 'Fox') avatarUrl = "https://api.dicebear.com/7.x/bottts/svg?seed=Fox";
+            let avatarUrl = `https://api.dicebear.com/7.x/bottts/svg?seed=${type}`;
+            if (type === 'Boy') avatarUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=Felix`;
+            else if (type === 'Girl') avatarUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka`;
 
             document.getElementById('drawer-user-avatar').src = avatarUrl;
             localStorage.setItem('user_avatar', avatarUrl);
@@ -423,7 +414,6 @@
         }
 
         function changeAppLanguage(lang) {
-            // Dil dəyişimi məntiqi
             alert(`Dil dəyişdirildi: ${lang}`);
         }
 
@@ -437,18 +427,20 @@
 
         window.addEventListener('DOMContentLoaded', () => {
             const isLoggedIn = localStorage.getItem('is_logged_in');
+            const authOverlay = document.getElementById('auth-overlay');
+            
             if (isLoggedIn === 'true') {
-                document.getElementById('auth-overlay').style.display = 'none';
+                authOverlay.classList.add('hidden');
                 
                 document.getElementById('drawer-user-display-name').innerText = localStorage.getItem('user_name') || 'İstifadəçi';
                 document.getElementById('drawer-user-email').innerText = localStorage.getItem('user_email') || 'user@gmail.com';
-                document.getElementById('drawer-user-avatar').src = localStorage.getItem('user_avatar') || 'https://api.dicebear.com/7.x/avataaars/svg?seed=Panda';
+                document.getElementById('drawer-user-avatar').src = localStorage.getItem('user_avatar') || 'https://api.dicebear.com/7.x/bottts/svg?seed=Panda';
                 
                 startTimer();
                 renderLessons();
                 selectLesson(1);
             } else {
-                document.getElementById('auth-overlay').style.display = 'flex';
+                authOverlay.classList.remove('hidden');
             }
         });
     </script>
