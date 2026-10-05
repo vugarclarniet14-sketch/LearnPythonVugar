@@ -117,10 +117,10 @@
                 </div>
                 
                 <div class="w-full flex flex-col items-center">
-                    <span id="drawer-user-display-name" onclick="editName()" class="text-base font-bold cursor-pointer hover:underline text-blue-600 flex items-center gap-1">
-                        <span id="profile-name-text">Vüqar</span> ✏️
+                    <span class="text-base font-bold text-blue-600 flex items-center gap-1">
+                        Müəllim: Vüqar Xudaverdiyev 👨‍🏫
                     </span>
-                    <span id="profile-role" class="text-[11px] font-medium text-slate-400">Tələbə / Öyrənən</span>
+                    <span id="profile-role" class="text-[11px] font-medium text-slate-400">Kurs Rəhbəri / Müəllim</span>
                 </div>
 
                 <div class="w-full mt-2 pt-3 border-t border-slate-200">
@@ -153,7 +153,7 @@
             <div class="pt-4 border-t border-slate-200 mt-auto">
                 <button type="button" onclick="signOut()" class="w-full bg-rose-50 hover:bg-rose-100 text-rose-600 font-semibold py-2.5 rounded-xl text-sm transition cursor-pointer border border-rose-200 flex items-center justify-center gap-2">
                     <span>🚪</span>
-                    <span id="btn-signout">Çıxış Et (Sign Out)</span>
+                    <span id="btn-signout">Sıfırla / Yenilə (Reset)</span>
                 </button>
             </div>
         </div>
@@ -163,10 +163,10 @@
     <header class="border-b border-slate-200 bg-white/80 backdrop-blur sticky top-0 z-30 px-6 py-4 flex justify-between items-center shadow-xs">
         <div class="flex items-center gap-4">
             <h1 class="text-2xl font-black bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">PythonPro</h1>
-            <!-- 👑 VÜQAR YAZISI OLAN YER -->
+            <!-- 👑 MÜƏLLİM VÜQAR XUDAVERDİYEV YAZISI -->
             <div class="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-xl bg-blue-50 border border-blue-100 text-blue-700 text-xs font-bold shadow-2xs">
-                <span>💻</span>
-                <span>Tələbə: <span id="nav-vuqar-name" class="underline">Vüqar</span></span>
+                <span>👨‍‍🏫</span>
+                <span>Müəllim: <span class="underline">Vüqar Xudaverdiyev</span></span>
             </div>
             <span id="progress-text" class="text-xs bg-blue-100 text-blue-700 font-bold px-3 py-1 rounded-full border border-blue-200">İrəliləyiş: 0%</span>
         </div>
@@ -204,7 +204,7 @@
             <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col text-slate-800">
                 <div class="flex justify-between items-center mb-2">
                     <h3 id="editor-header" class="font-bold text-sm text-slate-700 flex items-center gap-2">💻 İnteraktiv Python Simulyatoru</h3>
-                    <button type="button" id="btn-clear" onclick="resetCodeEditor()" class="text-xs text-slate-400 hover:text-slate-600 font-medium transition cursor-pointer">Arassala 🗑️</button>
+                    <button type="button" id="btn-clear" onclick="resetCodeEditor()" class="text-xs text-slate-400 hover:text-slate-600 font-medium transition cursor-pointer">Təmizlə 🗑️</button>
                 </div>
                 
                 <textarea id="code-editor" class="w-full h-32 font-mono text-sm p-4 rounded-xl bg-slate-900 text-emerald-400 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 leading-relaxed resize-none shadow-inner" placeholder="print('Salam PythonPro!')"></textarea>
@@ -222,7 +222,7 @@
             <!-- 📊 ADMIN PANELİ -->
             <div class="bg-slate-900 text-slate-100 p-6 rounded-2xl border border-slate-800 shadow-md">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 id="admin-header" class="font-bold text-base text-yellow-400 flex items-center gap-2">👑 Admin Paneli: Qeydə Alınan Ulduzlar</h3>
+                    <h3 id="admin-header" class="font-bold text-base text-yellow-400 flex items-center gap-2">👑 Müəllim Paneli: Qeydə Alınan Ulduzlar</h3>
                     <span id="avg-rating" class="text-xs font-bold bg-yellow-400/20 text-yellow-400 px-3 py-1 rounded-full border border-yellow-400/30">Orta Bal: 0.0 / 5</span>
                 </div>
                 
@@ -263,18 +263,18 @@
                 drawerHeader: "👤 Profil və Tənzimləmələr",
                 lblChooseAvatar: "Profil Şəkli Seç (PP)",
                 lblLanguage: "Dil / Language",
-                btnSignout: "Çıxış Et (Sign Out)",
+                btnSignout: "Sıfırla / Yenilə",
                 lessonsHeader: "📚 Dərslər (20 Dərs)",
                 editorHeader: "💻 İnteraktiv Python Simulyatoru",
                 btnRun: "Kodu İşlət ▶",
                 btnClear: "Təmizlə 🗑",
                 outputHeader: "🖥️ Nəticə (Output):",
-                adminHeader: "👑 Admin Paneli: Qeydə Alınan Ulduzlar",
+                adminHeader: "👑 Müəllim Paneli: Qeydə Alınan Ulduzlar",
                 thName: "Ad",
                 thStars: "Verdiyi Ulduz",
                 thDate: "Tarix",
                 progressText: "İrəliləyiş:",
-                role: "Tələbə / Öyrənən",
+                role: "Kurs Rəhbəri / Müəllim",
                 lessonPrefix: "Dərs",
                 lessonDetailPrefix: "ci Dərs: Python Mühitində Ətraflı İzah",
                 questionText: "Sual",
@@ -300,18 +300,18 @@
                 drawerHeader: "👤 Profile & Settings",
                 lblChooseAvatar: "Choose Profile Picture",
                 lblLanguage: "Language",
-                btnSignout: "Sign Out",
+                btnSignout: "Reset / Refresh",
                 lessonsHeader: "📚 Lessons (20 Lessons)",
                 editorHeader: "💻 Interactive Python Simulator",
                 btnRun: "Run Code ▶",
                 btnClear: "Clear 🗑️",
                 outputHeader: "🖥️ Output:",
-                adminHeader: "👑 Admin Panel: Saved Ratings",
+                adminHeader: "👑 Teacher Panel: Saved Ratings",
                 thName: "Name",
                 thStars: "Rating Given",
                 thDate: "Date",
                 progressText: "Progress:",
-                role: "Student / Learner",
+                role: "Course Director / Teacher",
                 lessonPrefix: "Lesson",
                 lessonDetailPrefix: "Detailed Explanation in Python",
                 questionText: "Question",
@@ -567,7 +567,7 @@
                 {q: "Dərs 11: Mövcud olmayan indeksə müraciət etdikdə nə alınır?", opts: ["SyntaxError", "IndexError", "TypeError", "ValueError"], correct: 1},
                 {q: "Dərs 11: Siyahı metodları məlumat analizində necə rol oynayır?", opts: ["Çox önəmli", "Əhəmiyyətsiz", "İstifadə olunmur", "Qadağandır"], correct: 0},
                 {q: "Dərs 11: Çoxölçülü siyahılar nəyə bənzəyir?", opts: ["Cədvəle (Matrix)", "Mətnə", "Ədədə", "Xəttə"], correct: 0},
-                {q: "Dərs 11: sort() metodu orijinal siyahını dəyişirmi?", opts: ["Bəli", "Xeyr", "Kopyasını yaradır", "Silir"], correct: 0},
+                {q: "Dərs 11: sort() metodu orijinal siyahıyı dəyişirmi?", opts: ["Bəli", "Xeyr", "Kopyasını yaradır", "Silir"], correct: 0},
                 {q: "Dərs 11: Ədədlər sort() ilə necə sıralanır?", opts: ["Böyükdən kiçiyə", "Kiçikdən böyüyə", "Təsadüfi", "Dəyişmir"], correct: 1},
                 {q: "Dərs 11: Mətnlər sort() ilə necə sıralanır?", opts: ["Əlifba sırası ilə", "Tərsinə", "Uzunluğa görə", "Rəqəmə görə"], correct: 0},
                 {q: "Dərs 11: Siyahı metodları proqramın sürətinə necə təsir edir?", opts: ["Müsbət", "Mənfi", "Təsir etmir", "Dondurur"], correct: 0}
@@ -819,16 +819,12 @@
         }
 
         function checkFirstVisit() {
-            const savedUser = localStorage.getItem('user_name');
             const savedAvatar = localStorage.getItem('user_avatar') || '🦁';
-            
             changeAvatarPreset(savedAvatar);
 
-            if (!savedUser) {
+            const hasEntered = localStorage.getItem('site_entered');
+            if (!hasEntered) {
                 document.getElementById('welcome-modal').classList.remove('hidden');
-            } else {
-                document.getElementById('profile-name-text').innerText = savedUser;
-                document.getElementById('nav-vuqar-name').innerText = savedUser;
             }
         }
 
@@ -848,27 +844,23 @@
 
         function submitModalAndStart() {
             const nameInput = document.getElementById('modal-user-name').value.trim();
-            if (!nameInput) {
-                alert(currentLang === 'az' ? "Lütfən adınızı daxil edin!" : "Please enter your name!");
-                return;
-            }
+            const ratingUser = nameInput ? nameInput : "Vüqar Xudaverdiyev";
+
             if (modalSelectedRating === 0) {
                 alert(currentLang === 'az' ? "Lütfən sayta neçə ulduz verdiyinizi seçin!" : "Please select a rating!");
                 return;
             }
 
-            localStorage.setItem('user_name', nameInput);
+            localStorage.setItem('site_entered', 'true');
 
             const existingRatings = JSON.parse(localStorage.getItem('site_ratings') || '[]');
             existingRatings.push({
-                name: nameInput,
+                name: ratingUser,
                 stars: modalSelectedRating,
                 date: new Date().toLocaleDateString('az-AZ') + " " + new Date().toLocaleTimeString('az-AZ', {hour: '2-digit', minute:'2-digit'})
             });
             localStorage.setItem('site_ratings', JSON.stringify(existingRatings));
 
-            document.getElementById('profile-name-text').innerText = nameInput;
-            document.getElementById('nav-vuqar-name').innerText = nameInput;
             document.getElementById('welcome-modal').classList.add('hidden');
 
             renderAdminRatings();
@@ -876,8 +868,8 @@
         }
 
         function signOut() {
-            if (confirm(currentLang === 'az' ? "Çıxış etmək istədiyinizdən əminsiniz?" : "Are you sure you want to sign out?")) {
-                localStorage.removeItem('user_name');
+            if (confirm(currentLang === 'az' ? "Məlumatları sıfırlamaq istədiyinizdən əminsiniz?" : "Are you sure you want to reset data?")) {
+                localStorage.removeItem('site_entered');
                 localStorage.removeItem('user_avatar');
                 localStorage.removeItem('lesson_timers');
                 location.reload();
@@ -889,10 +881,8 @@
         function initLessonTimer(lessonId) {
             if (timerInterval) clearInterval(timerInterval);
 
-            // Bütün dərslərin qalan saniyələrini yaddaşdan oxuyuruq
             let lessonTimers = JSON.parse(localStorage.getItem('lesson_timers') || '{}');
             
-            // Əgər bu dərs üçün hələ vaxt təyin olunmayıbsa, 1 saat (3600 saniyə) qoyuruq
             if (lessonTimers[lessonId] === undefined) {
                 lessonTimers[lessonId] = 3600;
                 localStorage.setItem('lesson_timers', JSON.stringify(lessonTimers));
@@ -944,17 +934,6 @@
             localStorage.setItem('user_avatar', emoji);
         }
 
-        function editName() {
-            const currentName = document.getElementById('profile-name-text').innerText;
-            const newName = prompt(currentLang === 'az' ? "Yeni adınızı daxil edin:" : "Enter your new name:", currentName);
-            if (newName && newName.trim() !== "") {
-                const trimmed = newName.trim();
-                document.getElementById('profile-name-text').innerText = trimmed;
-                document.getElementById('nav-vuqar-name').innerText = trimmed;
-                localStorage.setItem('user_name', trimmed);
-            }
-        }
-
         function renderLessons() {
             const listEl = document.getElementById('lesson-list');
             listEl.innerHTML = '';
@@ -985,10 +964,7 @@
             renderQuizQuestion(lesson);
             renderLessons();
 
-            // Hər dərsə keçəndə həmin dərsin taymerini işə salırıq
-            if (localStorage.getItem('user_name')) {
-                initLessonTimer(id);
-            }
+            initLessonTimer(id);
         }
 
         function renderQuizQuestion(lesson) {
@@ -1122,9 +1098,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             applyLanguage(currentLang);
             checkFirstVisit();
-            if (localStorage.getItem('user_name')) {
-                initLessonTimer(currentLessonId);
-            }
+            initLessonTimer(currentLessonId);
 
             const runBtn = document.getElementById('btn-run');
             if (runBtn) {
