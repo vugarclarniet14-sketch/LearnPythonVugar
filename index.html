@@ -1,94 +1,684 @@
 
 <!DOCTYPE html>
-<html lang="az">
+<html lang="az" class="light">
 <head>
-  <meta charset="UTF-8">
-  <title>Mənim Saytım - Dark Mode</title>
-  <style>
-    /* 1. Standart (Açıq) Rənglər */
-    :root {
-      --bg-color: #ffffff;
-      --text-color: #121212;
-      --card-bg: #f4f4f9;
-      --btn-bg: #007bff;
-      --btn-text: #ffffff;
-    }
-
-    /* 2. Qaranlıq (Dark Mode) Rənglər */
-    [data-theme="dark"] {
-      --bg-color: #121212;
-      --text-color: #f1f1f1;
-      --card-bg: #1e1e1e;
-      --btn-bg: #bb86fc;
-      --btn-text: #000000;
-    }
-
-    /* Səhifə Stlləri */
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 40px;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    .card {
-      background-color: var(--card-bg);
-      padding: 20px;
-      border-radius: 10px;
-      max-width: 400px;
-      margin-top: 20px;
-    }
-
-    /* Dark Mode Düyməsi */
-    .toggle-btn {
-      background-color: var(--btn-bg);
-      color: var(--btn-text);
-      border: none;
-      padding: 10px 20px;
-      border-radius: 6px;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 16px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PythonPro - Learn Python Online</title>
+    
+    <!-- Tailwind CSS v4 -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Canvas Confetti (Fişəng Effekti) -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-300 relative">
 
-  <button class="toggle-btn" id="theme-toggle">🌙 Qaranlıq Rejim</button>
+    <!-- 🌟 İLK GİRİŞDƏ GƏLƏN QİYMƏTLƏNDİRMƏ PƏNCƏRƏSİ (MODAL) -->
+    <div id="welcome-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 w-full max-w-md p-6 rounded-3xl shadow-2xl flex flex-col items-center text-center text-slate-800 dark:text-slate-100">
+            
+            <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 rounded-2xl flex items-center justify-center text-3xl mb-4 shadow-inner">
+                👋
+            </div>
+            
+            <h2 id="modal-title" class="text-xl font-bold mb-1">Xoş Gəlmisiniz!</h2>
+            <p id="modal-desc" class="text-xs text-slate-500 dark:text-slate-400 mb-6">Dərsə başlamazdan əvvəl zəhmət olmasa adınızı daxil edin və saytımızı qiymətləndirin.</p>
 
-  <div class="card">
-    <h2>Xoş gəlmisiniz!</h2>
-    <p>Bu, mənim saytımdakı Dark Mode testi üçündür.</p>
-  </div>
+            <div class="w-full flex flex-col gap-4 mb-6">
+                <!-- Ad Daxil Etmə -->
+                <div class="text-left">
+                    <label id="lbl-name" class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">Adınız</label>
+                    <input type="text" id="modal-user-name" placeholder="Məs: Vüqar" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium">
+                </div>
 
-  <script>
-    const toggleBtn = document.getElementById('theme-toggle');
+                <!-- Ulduz Seçimi -->
+                <div class="text-left">
+                    <label id="lbl-rating" class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">Qiymətləndirmə</label>
+                    <div class="flex items-center justify-center gap-2 text-3xl cursor-pointer p-2 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700" id="modal-star-rating">
+                        <span onclick="setModalRating(1)" class="modal-star text-slate-300 hover:text-yellow-400 transition">★</span>
+                        <span onclick="setModalRating(2)" class="modal-star text-slate-300 hover:text-yellow-400 transition">★</span>
+                        <span onclick="setModalRating(3)" class="modal-star text-slate-300 hover:text-yellow-400 transition">★</span>
+                        <span onclick="setModalRating(4)" class="modal-star text-slate-300 hover:text-yellow-400 transition">★</span>
+                        <span onclick="setModalRating(5)" class="modal-star text-slate-300 hover:text-yellow-400 transition">★</span>
+                    </div>
+                </div>
+            </div>
 
-    // Səhifə yüklənəndə əvvəlki seçimi yoxlayırıq
-    const currentTheme = localStorage.getItem('theme');
+            <button id="btn-start" onclick="submitModalAndStart()" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-3 rounded-xl text-sm transition cursor-pointer shadow-lg shadow-blue-500/25">
+                Daxil Ol və Başla 🚀
+            </button>
+        </div>
+    </div>
 
-    if (currentTheme === 'dark') {
-      document.documentElement.setAttribute('data-theme', 'dark');
-      toggleBtn.textContent = '☀️ Açıq Rejim';
-    }
+    <!-- 🎆 DƏRS BİTƏNDƏ AÇILAN FİŞƏNG / TƏBRİK MODALI -->
+    <div id="finish-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 w-full max-w-md p-6 rounded-3xl shadow-2xl flex flex-col items-center text-center text-slate-800 dark:text-slate-100">
+            <div class="text-6xl mb-3">🎆🎉🎆</div>
+            <h2 id="finish-title" class="text-2xl font-black text-blue-600 dark:text-blue-400 mb-2">Təbriklər!</h2>
+            <p id="finish-desc" class="text-sm text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
+                1 saatlıq dərsi uğurla başa vurdunuz! Sizinlə fəxr edirik!
+            </p>
+            <button onclick="closeFinishModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-sm cursor-pointer shadow-lg shadow-blue-500/30 transition">
+                Super! Əla İş 👏
+            </button>
+        </div>
+    </div>
 
-    // Düyməyə basıldıqda rejimi dəyişirik
-    toggleBtn.addEventListener('click', () => {
-      let theme = document.documentElement.getAttribute('data-theme');
+    <!-- ⚙ YUXARI SAĞ KÜNC: MENYU VƏ 1 SAATLIQ VAXT SAYĞACI -->
+    <div class="fixed top-4 right-4 z-40 flex items-center gap-3">
+        <div id="timer-badge" class="flex items-center gap-1.5 bg-white dark:bg-slate-800 border border-rose-200 dark:border-rose-900/60 px-3.5 py-2 rounded-xl text-rose-600 dark:text-rose-400 font-mono text-xs font-bold shadow-md">
+            <span>⏳</span>
+            <span id="time-left">60:00</span>
+        </div>
 
-      if (theme === 'dark') {
-        document.documentElement.removeAttribute('data-theme');
-        localStorage.setItem('theme', 'light');
-        toggleBtn.textContent = '🌙 Qaranlıq Rejim';
-      } else {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        localStorage.setItem('theme', 'dark');
-        toggleBtn.textContent = '☀️ Açıq Rejim';
-      }
-    });
-  </script>
+        <button onclick="toggleSettingsDrawer(true)" class="p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 text-base shadow-md cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700 transition flex items-center gap-2">
+            <span>⚙️</span>
+            <span id="btn-menu-label" class="text-xs font-semibold hidden sm:inline">Menyu</span>
+        </button>
+    </div>
 
+    <!-- YAN TƏRƏFDƏN AÇILAN PANEL (DRAWER / SETTINGS) -->
+    <div id="settings-backdrop" onclick="toggleSettingsDrawer(false)" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 hidden transition-opacity duration-300"></div>
+    
+    <div id="settings-drawer" class="fixed top-0 right-0 h-full w-80 bg-white dark:bg-slate-800 border-l border-slate-200 dark:border-slate-700 shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col p-6 text-slate-800 dark:text-slate-100">
+        
+        <!-- Panel Başlığı -->
+        <div class="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-700 mb-6">
+            <h3 id="drawer-header" class="text-base font-bold flex items-center gap-2">👤 Profil və Tənzimləmələr</h3>
+            <button onclick="toggleSettingsDrawer(false)" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition">✕</button>
+        </div>
+
+        <!-- Panel Məzmunu -->
+        <div class="flex flex-col gap-6 flex-1 overflow-y-auto pr-1">
+            
+            <!-- Profil Kartı -->
+            <div class="flex flex-col gap-3 p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-xs items-center text-center relative overflow-hidden">
+                <div class="absolute top-0 inset-x-0 h-12 bg-gradient-to-r from-blue-500 to-indigo-600"></div>
+                
+                <img id="drawer-user-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=Panda" alt="Avatar" class="w-20 h-20 rounded-full object-cover border-4 border-white dark:border-slate-800 shadow-md z-10 mt-2 bg-white dark:bg-slate-800">
+                
+                <div class="w-full flex flex-col items-center">
+                    <span id="drawer-user-display-name" onclick="editName()" class="text-base font-bold cursor-pointer hover:underline text-blue-600 dark:text-blue-400 flex items-center gap-1" title="Adı dəyişmək üçün kliklə">
+                        <span id="profile-name-text">Vüqar</span> ✏️
+                    </span>
+                    <span id="profile-role" class="text-[11px] font-medium text-slate-400">Tələbə / Öyrənən</span>
+                </div>
+
+                <!-- Avatar Seçimi -->
+                <div class="w-full mt-2 pt-3 border-t border-slate-200 dark:border-slate-700">
+                    <label id="lbl-choose-avatar" class="text-[11px] font-semibold text-slate-400 uppercase block mb-2">Profil Avatarı Seç</label>
+                    <div class="grid grid-cols-4 gap-2">
+                        <button onclick="changeAvatarPreset('Panda')" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-lg cursor-pointer hover:scale-110 transition flex items-center justify-center">🐼</button>
+                        <button onclick="changeAvatarPreset('Lion')" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-lg cursor-pointer hover:scale-110 transition flex items-center justify-center">🦁</button>
+                        <button onclick="changeAvatarPreset('Tiger')" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-lg cursor-pointer hover:scale-110 transition flex items-center justify-center">🐯</button>
+                        <button onclick="changeAvatarPreset('Wolf')" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 text-lg cursor-pointer hover:scale-110 transition flex items-center justify-center">🐺</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dil Seçimi -->
+            <div class="flex flex-col gap-1.5">
+                <label id="lbl-language" class="text-xs font-semibold uppercase tracking-wider text-slate-400">Dil / Language</label>
+                <select id="language-select" onchange="changeLanguage(this.value)" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 text-sm font-medium focus:outline-none cursor-pointer">
+                    <option value="az">🇦🇿 Azərbaycan dili</option>
+                    <option value="en">🇬🇧 English</option>
+                </select>
+            </div>
+
+            <!-- Tema (Dark/Light Mode) -->
+            <div class="flex flex-col gap-1.5">
+                <label id="lbl-theme" class="text-xs font-semibold uppercase tracking-wider text-slate-400">Görünüş Rejimi</label>
+                <button onclick="toggleDarkMode()" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 text-sm shadow-sm cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700/50 transition">
+                    <span id="theme-label">Qaranlıq Rejim</span>
+                    <span id="theme-icon">🌙</span>
+                </button>
+            </div>
+
+            <!-- Çıxış Et (Sign Out) -->
+            <div class="pt-4 border-t border-slate-200 dark:border-slate-700 mt-auto">
+                <button onclick="signOut()" class="w-full bg-rose-50 dark:bg-rose-950/40 hover:bg-rose-100 dark:hover:bg-rose-900/50 text-rose-600 dark:text-rose-400 font-semibold py-2.5 rounded-xl text-sm transition cursor-pointer border border-rose-200 dark:border-rose-900/50 flex items-center justify-center gap-2">
+                    <span>🚪</span>
+                    <span id="btn-signout">Çıxış Et (Sign Out)</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- HEADER / NAVBAR -->
+    <header class="border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur sticky top-0 z-30 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <h1 class="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">PythonPro</h1>
+            <span id="progress-text" class="text-xs bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 px-2.5 py-1 rounded-full font-medium">İrəliləyiş: 0%</span>
+        </div>
+    </header>
+
+    <!-- SAYTIN ƏSAS MƏZMUNU (DƏRSLƏR, QUİZ, SİMULYATOR VƏ ADMİN PANELİ) -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Sola: Dərslərin Siyahısı -->
+        <section class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col h-[650px]">
+            <h2 id="lessons-header" class="font-semibold text-lg mb-4 text-slate-800 dark:text-slate-100">Dərslər (20 Dərs)</h2>
+            <div id="lesson-list" class="overflow-y-auto flex-1 space-y-2 pr-2"></div>
+        </section>
+
+        <!-- Sağca: Dərs Məzmunu, Editor və Admin Panel -->
+        <section class="md:col-span-2 flex flex-col gap-6">
+            
+            <!-- Dərs Məzmunu -->
+            <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm text-slate-800 dark:text-slate-100">
+                <h2 id="lesson-title" class="text-xl font-bold mb-3">Dərs seçin</h2>
+                <div id="lesson-content" class="text-slate-600 dark:text-slate-300 mb-4 text-sm leading-relaxed space-y-2"></div>
+                
+                <!-- Quiz Hissəsi -->
+                <div id="quiz-container" class="mt-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                    <div class="flex justify-between items-center mb-3">
+                        <span id="quiz-counter" class="text-xs font-bold text-blue-600 dark:text-blue-400">Sual 1 / 15</span>
+                    </div>
+                    <p id="quiz-question" class="font-medium text-sm mb-3 text-slate-800 dark:text-slate-100"></p>
+                    <div id="quiz-options" class="space-y-2"></div>
+                    <div id="quiz-feedback" class="mt-3 text-sm font-semibold hidden"></div>
+                </div>
+            </div>
+
+            <!-- Python Kod Editoru -->
+            <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col text-slate-800 dark:text-slate-100">
+                <h3 id="editor-header" class="font-semibold text-sm mb-2">İnteraktiv Simulyator</h3>
+                <textarea id="code-editor" class="w-full h-28 font-mono text-sm p-3 rounded-xl bg-slate-900 text-emerald-400 border border-slate-700 focus:outline-none resize-none" placeholder="print('Salam Python!')"></textarea>
+                
+                <div class="flex justify-between items-center mt-3">
+                    <button id="btn-run" onclick="runJSCode()" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2 rounded-xl text-sm transition cursor-pointer shadow-sm">Kodu İşlət ▶</button>
+                </div>
+
+                <div class="mt-3">
+                    <h4 id="output-header" class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Nəticə (Output):</h4>
+                    <pre id="output" class="p-3 rounded-xl bg-slate-900 text-slate-200 font-mono text-xs min-h-[40px] overflow-x-auto"></pre>
+                </div>
+            </div>
+
+            <!-- 📊 ADMIN PANELİ -->
+            <div class="bg-slate-900 text-slate-100 p-6 rounded-2xl border border-slate-800 shadow-sm">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 id="admin-header" class="font-bold text-base text-yellow-400 flex items-center gap-2">👑 Admin Paneli: Qeydə Alınan Ulduzlar</h3>
+                    <span id="avg-rating" class="text-xs font-bold bg-yellow-400/20 text-yellow-400 px-3 py-1 rounded-full">Orta Bal: 0.0 / 5</span>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-800 text-slate-400">
+                                <th id="th-name" class="py-2">Ad</th>
+                                <th id="th-stars" class="py-2">Verdiyi Ulduz</th>
+                                <th id="th-date" class="py-2">Tarix</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ratings-table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- JAVASCRIPT MƏNTİQİ -->
+    <script>
+        let currentLang = localStorage.getItem('site_lang') || 'az';
+        let modalSelectedRating = 0;
+
+        const translations = {
+            az: {
+                modalTitle: "Xoş Gəlmisiniz!",
+                modalDesc: "Dərsə başlamazdan əvvəl zəhmət olmasa adınızı daxil edin və saytımızı qiymətləndirin.",
+                lblName: "Adınız",
+                lblRating: "Qiymətləndirmə",
+                btnStart: "Daxil Ol və Başla 🚀",
+                btnMenu: "Menyu",
+                drawerHeader: "👤 Profil və Tənzimləmələr",
+                lblChooseAvatar: "Profil Avatarı Seç",
+                lblLanguage: "Dil / Language",
+                lblTheme: "Görünüş Rejimi",
+                themeDark: "Qaranlıq Rejim",
+                themeLight: "İşıqlı Rejim",
+                btnSignout: "Çıxış Et (Sign Out)",
+                lessonsHeader: "Dərslər (20 Dərs)",
+                editorHeader: "İnteraktiv Simulyator",
+                btnRun: "Kodu İşlət ▶",
+                outputHeader: "Nəticə (Output):",
+                adminHeader: "👑 Admin Paneli: Qeydə Alınan Ulduzlar",
+                thName: "Ad",
+                thStars: "Verdiyi Ulduz",
+                thDate: "Tarix",
+                progressText: "İrəliləyiş:",
+                role: "Tələbə / Öyrənən"
+            },
+            en: {
+                modalTitle: "Welcome!",
+                modalDesc: "Please enter your name and rate our site before starting.",
+                lblName: "Your Name",
+                lblRating: "Rating",
+                btnStart: "Enter & Start 🚀",
+                btnMenu: "Menu",
+                drawerHeader: "👤 Profile & Settings",
+                lblChooseAvatar: "Choose Profile Avatar",
+                lblLanguage: "Language",
+                lblTheme: "Appearance Mode",
+                themeDark: "Dark Mode",
+                themeLight: "Light Mode",
+                btnSignout: "Sign Out",
+                lessonsHeader: "Lessons (20 Lessons)",
+                editorHeader: "Interactive Simulator",
+                btnRun: "Run Code ▶",
+                outputHeader: "Output:",
+                adminHeader: "👑 Admin Panel: Saved Ratings",
+                thName: "Name",
+                thStars: "Rating Given",
+                thDate: "Date",
+                progressText: "Progress:",
+                role: "Student / Learner"
+            }
+        };
+
+        // ☀️ / 🌙 DARK MODE SİSTEMİ (SAYTIN ÖZÜ VƏ BÜTÜN DƏRSLƏR QARANLIQ OLUR)
+        function initTheme() {
+            const savedTheme = localStorage.getItem('site_theme') || 'light';
+            const html = document.documentElement;
+
+            if (savedTheme === 'dark') {
+                html.classList.add('dark');
+            } else {
+                html.classList.remove('dark');
+            }
+            updateThemeUI();
+        }
+
+        function toggleDarkMode() {
+            const html = document.documentElement;
+
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('site_theme', 'light');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('site_theme', 'dark');
+            }
+            updateThemeUI();
+        }
+
+        function updateThemeUI() {
+            const isDark = document.documentElement.classList.contains('dark');
+            const themeLabel = document.getElementById('theme-label');
+            const themeIcon = document.getElementById('theme-icon');
+            const t = translations[currentLang];
+
+            if (themeLabel && themeIcon) {
+                themeLabel.innerText = isDark ? t.themeLight : t.themeDark;
+                themeIcon.innerText = isDark ? '☀️' : '🌙';
+            }
+        }
+
+        // 🌐 DİL DƏYİŞMƏ
+        function applyLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('site_lang', lang);
+            const t = translations[lang];
+
+            document.getElementById('modal-title').innerText = t.modalTitle;
+            document.getElementById('modal-desc').innerText = t.modalDesc;
+            document.getElementById('lbl-name').innerText = t.lblName;
+            document.getElementById('lbl-rating').innerText = t.lblRating;
+            document.getElementById('btn-start').innerText = t.btnStart;
+            document.getElementById('btn-menu-label').innerText = t.btnMenu;
+            document.getElementById('drawer-header').innerText = t.drawerHeader;
+            document.getElementById('lbl-choose-avatar').innerText = t.lblChooseAvatar;
+            document.getElementById('lbl-language').innerText = t.lblLanguage;
+            document.getElementById('lbl-theme').innerText = t.lblTheme;
+            document.getElementById('btn-signout').innerText = t.btnSignout;
+            document.getElementById('lessons-header').innerText = t.lessonsHeader;
+            document.getElementById('editor-header').innerText = t.editorHeader;
+            document.getElementById('btn-run').innerText = t.btnRun;
+            document.getElementById('output-header').innerText = t.outputHeader;
+            document.getElementById('admin-header').innerText = t.adminHeader;
+            document.getElementById('th-name').innerText = t.thName;
+            document.getElementById('th-stars').innerText = t.thStars;
+            document.getElementById('th-date').innerText = t.thDate;
+            document.getElementById('profile-role').innerText = t.role;
+            document.getElementById('language-select').value = lang;
+
+            updateThemeUI();
+            updateProgress();
+        }
+
+        function changeLanguage(lang) {
+            applyLanguage(lang);
+        }
+
+        // 1. İLK GİRİŞ YOXLAMASI
+        function checkFirstVisit() {
+            const savedUser = localStorage.getItem('user_name');
+            const savedAvatar = localStorage.getItem('user_avatar') || 'Panda';
+            
+            changeAvatarPreset(savedAvatar);
+
+            if (!savedUser) {
+                document.getElementById('welcome-modal').classList.remove('hidden');
+            } else {
+                document.getElementById('profile-name-text').innerText = savedUser;
+                startTimer();
+            }
+        }
+
+        function setModalRating(stars) {
+            modalSelectedRating = stars;
+            const starElements = document.querySelectorAll('#modal-star-rating .modal-star');
+            starElements.forEach((star, index) => {
+                if (index < stars) {
+                    star.classList.remove('text-slate-300');
+                    star.classList.add('text-yellow-400');
+                } else {
+                    star.classList.remove('text-yellow-400');
+                    star.classList.add('text-slate-300');
+                }
+            });
+        }
+
+        function submitModalAndStart() {
+            const nameInput = document.getElementById('modal-user-name').value.trim();
+            if (!nameInput) {
+                alert(currentLang === 'az' ? "Lütfən adınızı daxil edin!" : "Please enter your name!");
+                return;
+            }
+            if (modalSelectedRating === 0) {
+                alert(currentLang === 'az' ? "Lütfən sayta neçə ulduz verdiyinizi seçin!" : "Please select a rating!");
+                return;
+            }
+
+            localStorage.setItem('user_name', nameInput);
+
+            const existingRatings = JSON.parse(localStorage.getItem('site_ratings') || '[]');
+            existingRatings.push({
+                name: nameInput,
+                stars: modalSelectedRating,
+                date: new Date().toLocaleDateString('az-AZ') + " " + new Date().toLocaleTimeString('az-AZ', {hour: '2-digit', minute:'2-digit'})
+            });
+            localStorage.setItem('site_ratings', JSON.stringify(existingRatings));
+
+            document.getElementById('profile-name-text').innerText = nameInput;
+            document.getElementById('welcome-modal').classList.add('hidden');
+
+            renderAdminRatings();
+            startTimer();
+        }
+
+        function signOut() {
+            if (confirm(currentLang === 'az' ? "Çıxış etmək istədiyinizdən əminsiniz?" : "Are you sure you want to sign out?")) {
+                localStorage.removeItem('user_name');
+                location.reload();
+            }
+        }
+
+        // 2. 1 SAATLIQ VAXT SAYĞACI VƏ FİŞƏNG ŞOUSU 🎆
+        let totalSeconds = 3600;
+        let timerInterval = null;
+
+        function startTimer() {
+            if (timerInterval) return;
+            timerInterval = setInterval(() => {
+                if (totalSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    triggerFireworks();
+                    document.getElementById('finish-modal').classList.remove('hidden');
+                    return;
+                }
+                totalSeconds--;
+                const minutes = Math.floor(totalSeconds / 60);
+                const seconds = totalSeconds % 60;
+                document.getElementById('time-left').innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function triggerFireworks() {
+            const duration = 5 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                const particleCount = 50 * (timeLeft / duration);
+
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+        }
+
+        function closeFinishModal() {
+            document.getElementById('finish-modal').classList.add('hidden');
+        }
+
+        // 3. SETTINGS & PROFILE & AVATARS
+        function toggleSettingsDrawer(open) {
+            const drawer = document.getElementById('settings-drawer');
+            const backdrop = document.getElementById('settings-backdrop');
+            if (open) {
+                backdrop.classList.remove('hidden');
+                setTimeout(() => drawer.classList.remove('translate-x-full'), 10);
+            } else {
+                drawer.classList.add('translate-x-full');
+                setTimeout(() => backdrop.classList.add('hidden'), 300);
+            }
+        }
+
+        function changeAvatarPreset(type) {
+            const avatarImg = document.getElementById('drawer-user-avatar');
+            avatarImg.src = `https://api.dicebear.com/7.x/bottts/svg?seed=${type}`;
+            localStorage.setItem('user_avatar', type);
+        }
+
+        function editName() {
+            const currentName = document.getElementById('profile-name-text').innerText;
+            const newName = prompt(currentLang === 'az' ? "Yeni adınızı daxil edin:" : "Enter your new name:", currentName);
+            if (newName && newName.trim() !== "") {
+                const trimmed = newName.trim();
+                document.getElementById('profile-name-text').innerText = trimmed;
+                localStorage.setItem('user_name', trimmed);
+            }
+        }
+
+        // 4. DƏRSLƏR VƏ QUİZ MƏNTİQİ
+        const lesson1Sentences = [
+            "1. Python dünyada ən çox istifadə olunan və öyrənilməsi ən asan proqramlaşdırma dillərindən biridir.",
+            "2. Bu dil 1991-ci ildə Qvido van Rossum tərəfindən təqdim edilmişdir.",
+            "3. Python sintaksisi insan dilinə, xüsusilə ingilis dilinə çox yaxın olduğu üçün oxunması çox rahatdır.",
+            "4. Proqramlaşdırmaya başlamaq üçün ilk olaraq kompyuterə kodlarımızın nə etməli olduğunu öyrətməliyik.",
+            "5. Python dilində ekrana hər hansı bir məlumat çıxarmaq üçün 'print()' əmrindən istifadə olunur.",
+            "6. Məsələn, print('Salam Dünya!') yazdığınız zaman ekranda 'Salam Dünya!' yazısı görünəcəkdir.",
+            "7. Mətn tipli məlumatlar mütləq dırnaq işarələri (tek və ya cüt dırnaq) içərisində yazılmalıdır.",
+            "8. Əgər rəqəmlərlə riyazi əməliyyat aparmaq istəyirsinizsə, dırnaq işarəsindən istifadə etməyə ehtiyac yoxdur.",
+            "9. Məsələn, print(5 + 3) yazdığınız zaman Python avtomatik olaraq cavabı 8 kimi ekrana çıxaracaq.",
+            "10. Python dilində dəyişənlər məlumatları yaddaşda saxlamaq üçün istifadə olunan qutular kimidir.",
+            "11. Dəyişən yaratmaq üçün ona sadəcə bir ad verib '=' işarəsi ilə qiymət mənimsətmək kifayətdir.",
+            "12. Məsələn, x = 10 yazdığımız zaman 'x' adlı dəyişənin içərisində 10 ədədi saxlanılır.",
+            "13. Dəyişən adlarında boşluq istifadə etmək olmaz, əvəzinə alt xətt (_) istifadə edə bilərsiniz.",
+            "14. Python böyük və kiçik hərflərə qarşı həssasdır, yəni 'ad' və 'Ad' fərqli dəyişənlər sayılır.",
+            "15. Kodlarınıza izah əlavə etmək üçün '#' (heşteq) işarəsindən istifadə edə bilərsiniz.",
+            "16. '#' işarəsindən sonra yazılan şərhləri Python icra etmir və sadəcə proqramçının oxuması üçün nəzərdə tutulur.",
+            "17. Python dili veb saytların hazırlanmasında, süni intellektdə və oyun proqramlaşdırmasında geniş istifadə olunur.",
+            "18. Bu dərsimizdə biz proqramlaşdırmanın ən təməl anlayışlarını və ekrana yazı çıxarmağı öyrəndik.",
+            "19. Aşağıdakı interaktiv simulyatorda öz ilk Python kodunuzu yazaraq 'Kodu İşlət' düyməsini sıxa bilərsiniz.",
+            "20. İndi esa biliklərinizi yoxlamaq üçün aşağıdakı 15 suallıq quizi həll etməyə başlayın!"
+        ];
+
+        const lessons = Array.from({ length: 20 }, (_, i) => {
+            const num = i + 1;
+            let contentText = "";
+
+            if (num === 1) {
+                contentText = `<div class="space-y-2 bg-blue-50/50 dark:bg-slate-900/50 p-4 rounded-xl border border-blue-100 dark:border-slate-700">
+                    <p class="font-semibold text-blue-600 dark:text-blue-400 mb-2">📌 1-ci Dərs: Python Mühitinə Giriş və İlk Kodlar</p>
+                    ${lesson1Sentences.map(sentence => `<p class="text-xs md:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">${sentence}</p>`).join('')}
+                </div>`;
+            } else {
+                contentText = `<p class="text-slate-700 dark:text-slate-300">Bu, Python proqramlaşdırma dilinin ${num}-cü dərs hissəsidir. Bu bölmədə Python haqqında təcrübi misallar həll edəcəksiniz.</p>`;
+            }
+
+            return {
+                id: num,
+                title: `Dərs ${num}: Python Əsasları ${num}`,
+                content: contentText,
+                quizList: Array.from({ length: 15 }, (_, q) => ({
+                    question: `Dərs ${num} - Sual ${q + 1}: Python dilində bu əmr nə işə yarayır?`,
+                    options: ["Doğru sintaksisdir", "Səhv əmr formatıdır", "Məlumatı ekrana çıxarır", "Mötərizə tələb olunmur"],
+                    correct: 2
+                }))
+            };
+        });
+
+        let currentLessonId = 1;
+        let currentQuizIndex = 0;
+        let completedLessons = JSON.parse(localStorage.getItem('completed_lessons') || '[]');
+
+        function renderLessons() {
+            const listEl = document.getElementById('lesson-list');
+            listEl.innerHTML = '';
+            
+            lessons.forEach(lesson => {
+                const isCompleted = completedLessons.includes(lesson.id);
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left p-3 rounded-xl text-sm font-medium transition flex justify-between items-center cursor-pointer ${currentLessonId === lesson.id ? 'bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800' : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700/50'}`;
+                btn.innerHTML = `<span>${lesson.title}</span> ${isCompleted ? '✅' : '📖'}`;
+                btn.onclick = () => { selectLesson(lesson.id); currentQuizIndex = 0; };
+                listEl.appendChild(btn);
+            });
+
+            updateProgress();
+        }
+
+        function selectLesson(id) {
+            currentLessonId = id;
+            const lesson = lessons.find(l => l.id === id);
+            if (!lesson) return;
+            
+            document.getElementById('lesson-title').innerText = lesson.title;
+            document.getElementById('lesson-content').innerHTML = lesson.content;
+            
+            const quizContainer = document.getElementById('quiz-container');
+            quizContainer.classList.remove('hidden');
+            renderQuizQuestion(lesson);
+            renderLessons();
+        }
+
+        function renderQuizQuestion(lesson) {
+            const q = lesson.quizList[currentQuizIndex];
+            document.getElementById('quiz-counter').innerText = `Sual ${currentQuizIndex + 1} / 15`;
+            document.getElementById('quiz-question').innerText = q.question;
+            
+            const optionsEl = document.getElementById('quiz-options');
+            optionsEl.innerHTML = '';
+            q.options.forEach((opt, idx) => {
+                const optBtn = document.createElement('button');
+                optBtn.className = 'w-full text-left px-3 py-2 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 text-sm hover:bg-blue-50 dark:hover:bg-slate-700 cursor-pointer transition';
+                optBtn.innerText = opt;
+                optBtn.onclick = () => checkQuiz(idx, q.correct, lesson);
+                optionsEl.appendChild(optBtn);
+            });
+
+            document.getElementById('quiz-feedback').classList.add('hidden');
+        }
+
+        function checkQuiz(selected, correct, lesson) {
+            const fb = document.getElementById('quiz-feedback');
+            fb.classList.remove('hidden');
+            if (selected === correct) {
+                fb.className = "mt-3 text-sm font-semibold text-emerald-500";
+                fb.innerText = "✔ Düzgün cavab!";
+                setTimeout(() => {
+                    if (currentQuizIndex < lesson.quizList.length - 1) {
+                        currentQuizIndex++;
+                        renderQuizQuestion(lesson);
+                    } else {
+                        fb.innerText = "🎉 Təbriklər! Bütün 15 sualı tamamladınız.";
+                        if (!completedLessons.includes(currentLessonId)) {
+                            completedLessons.push(currentLessonId);
+                            localStorage.setItem('completed_lessons', JSON.stringify(completedLessons));
+                        }
+                        renderLessons();
+                    }
+                }, 800);
+            } else {
+                fb.className = "mt-3 text-sm font-semibold text-rose-500";
+                fb.innerText = "✖ Səhvdir, yenidən cəhd edin.";
+            }
+        }
+
+        function updateProgress() {
+            const percent = Math.round((completedLessons.length / lessons.length) * 100);
+            const prefix = translations[currentLang].progressText;
+            document.getElementById('progress-text').innerText = `${prefix} ${percent}%`;
+        }
+
+        function runJSCode() {
+            const code = document.getElementById('code-editor').value;
+            const output = document.getElementById('output');
+            try {
+                let logs = [];
+                const originalLog = console.log;
+                console.log = function(...args) {
+                    logs.push(args.join(' '));
+                    originalLog.apply(console, args);
+                };
+                eval(code);
+                console.log = originalLog;
+                output.innerText = logs.length > 0 ? logs.join('\n') : "Kod uğurla icra olundu!";
+            } catch (err) {
+                output.innerText = "Xəta: " + err.message;
+            }
+        }
+
+        function renderAdminRatings() {
+            const ratings = JSON.parse(localStorage.getItem('site_ratings') || '[]');
+            const tbody = document.getElementById('ratings-table-body');
+            tbody.innerHTML = '';
+
+            if (ratings.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="3" class="py-3 text-slate-500">Hələ heç kim ulduz verməyib.</td></tr>`;
+                document.getElementById('avg-rating').innerText = `Orta Bal: 0.0 / 5`;
+                return;
+            }
+
+            let totalStars = 0;
+            [...ratings].reverse().forEach(r => {
+                totalStars += r.stars;
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-slate-800/50";
+                tr.innerHTML = `
+                    <td class="py-2 font-medium text-slate-200">${r.name}</td>
+                    <td class="py-2 text-yellow-400">${'★'.repeat(r.stars)}${'☆'.repeat(5 - r.stars)} (${r.stars})</td>
+                    <td class="py-2 text-slate-500">${r.date}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            const avg = (totalStars / ratings.length).toFixed(1);
+            document.getElementById('avg-rating').innerText = `Orta Bal: ${avg} / 5 (${ratings.length} səs)`;
+        }
+
+        // SƏHFƏ YÜKLƏNƏNDƏ
+        document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            applyLanguage(currentLang);
+            checkFirstVisit();
+            renderLessons();
+            selectLesson(1);
+            renderAdminRatings();
+        });
+    </script>
 </body>
 </html>
