@@ -60,7 +60,7 @@
                 </div>
 
                 <!-- Theme Toggle -->
-                <button onclick="toggleTheme()" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-slate-700" title="Rejimi dəyiş">
+                <button id="theme-btn" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-slate-700" title="Rejimi dəyiş">
                     <i id="theme-icon" class="fa-solid fa-sun text-amber-400"></i>
                 </button>
             </div>
@@ -105,4 +105,16 @@
                         <div class="w-3 h-3 rounded-full bg-rose-500"></div>
                         <div class="w-3 h-3 rounded-full bg-amber-500"></div>
                         <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
-                        <span class
+                        <span class="text-xs font-mono text-slate-400 ml-2">main.py</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button id="preset-1-btn" class="text-xs bg-slate-700 hover:bg-slate-600 px-2.5 py-1 rounded text-slate-300 transition">Salam Dünya</button>
+                        <button id="preset-2-btn" class="text-xs bg-slate-700 hover:bg-slate-600 px-2.5 py-1 rounded text-slate-300 transition">Dövr (Loop)</button>
+                        <button id="run-btn" class="bg-green-500 hover:bg-green-600 text-slate-950 px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 shadow-md shadow-green-500/20">
+                            <i class="fa-solid fa-play"></i>
+                            <span>Kodu İcra Et</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-4 flex-grow bg-slate-950/50">
+                    <textarea id="
