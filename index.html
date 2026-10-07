@@ -1098,6 +1098,25 @@
         document.addEventListener('DOMContentLoaded', () => {
             applyLanguage(currentLang);
             checkFirstVisit();
+            <!-- 6-cı dərs və sonrakılar üçün şifrə qutusu (3$) -->
+<div id="locked-section" class="bg-slate-900 p-6 rounded-2xl border border-slate-800 text-center mt-6">
+    <h3 class="text-xl font-bold text-amber-400 mb-2">🔒 Bu dərslər ödənişlidir (3$)</h3>
+    <p class="text-slate-400 text-sm mb-4">6-cı və sonrakı dərsləri açmaq üçün 3$ ödəniş edib şifrəni daxil edin.</p>
+
+    <div class="flex justify-center gap-2">
+        <input type="password" id="access-code" placeholder="Şifrəni daxil et..." class="bg-slate-800 border border-slate-700 px-4 py-2 rounded-xl text-white outline-none focus:border-cyan-500">
+        <button onclick="checkCode()" class="bg-cyan-600 hover:bg-cyan-500 px-6 py-2 rounded-xl font-medium transition">Aç</button>
+    </div>
+</div>
+
+<!-- Şifrə yazılana qədər gizli qalan dərslər -->
+<div id="secret-lessons" class="hidden mt-6">
+    <h2 class="text-2xl font-bold text-green-400">🎉 Təbriklər! Bütün dərslər açıldı:</h2>
+    <ul class="mt-4 space-y-2 text-slate-300">
+        <li>Dərs 6: Funksiyalar</li>
+        <li>Dərs 7: Xətaların idarə olunması</li>
+    </ul>
+</div>
             initLessonTimer(currentLessonId);
 
             const runBtn = document.getElementById('btn-run');
